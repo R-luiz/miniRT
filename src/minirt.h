@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 00:16:49 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 16:06:18 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/23 20:11:54 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ typedef struct s_graphics
 	int			fps;
 	void		*mlx_ptr;
 	void		*win_ptr;
-	t_mlx_image	*front;
-	t_mlx_image	*back;
+	t_mlx_image	*canvas;
 }	t_graphics;
 
 /*	timer

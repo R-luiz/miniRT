@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 14:22:05 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 15:44:56 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/23 20:14:23 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,6 @@ static t_mlx_image	*graphics_create_mlx_image(
 	return (img);
 }
 
-static int	graphics_init_framebuffers(t_graphics *grph, void *arena)
-{
-	grph->front = graphics_create_mlx_image(
-			grph->mlx_ptr, grph->win_width, grph->win_height, arena);
-	if (grph->front == NULL)
-		return (EXIT_FAILURE);
-	grph->back = graphics_create_mlx_image(
-			grph->mlx_ptr, grph->win_width, grph->win_height, arena);
-	if (grph->back == NULL)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
-
 t_graphics	*graphics_create(
 	void *arena, int width, double aspect, int fps)
 {
@@ -86,7 +73,9 @@ t_graphics	*graphics_create(
 		graphics_destroy(grph);
 		return (NULL);
 	}
-	if (graphics_init_framebuffers(grph, arena) == EXIT_FAILURE)
+	grph->canvas = graphics_create_mlx_image(
+			grph->mlx_ptr, grph->win_width, grph->win_height, arena);
+	if (grph->canvas == NULL)
 	{
 		graphics_destroy(grph);
 		return (NULL);
@@ -98,10 +87,8 @@ void	graphics_destroy(t_graphics *grph)
 {
 	if (grph != NULL)
 	{
-		if (grph->front != NULL)
-			mlx_destroy_image(grph->mlx_ptr, grph->front->ptr);
-		if (grph->back != NULL)
-			mlx_destroy_image(grph->mlx_ptr, grph->back->ptr);
+		if (grph->canvas != NULL)
+			mlx_destroy_image(grph->mlx_ptr, grph->canvas->ptr);
 		if (grph->win_ptr != NULL)
 			mlx_destroy_window(grph->mlx_ptr, grph->win_ptr);
 		if (grph->mlx_ptr != NULL)
