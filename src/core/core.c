@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 14:42:40 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 11:31:56 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/23 11:38:12 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ int	main(int argc, char *argv[])
 	ret = run(data, argv[1]);
 	terminate(data);
 	arena_destroy(arena);
+	printf("[INFO] miniRT terminated successfully\n");
 	return (ret);
 }

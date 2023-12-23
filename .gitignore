@@ -4,6 +4,7 @@ build
 lib/minilibx-linux
 
 # files
+*.swp
 *.a
 *.o
 *.out
