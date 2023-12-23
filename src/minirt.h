@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 00:16:49 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 11:27:09 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/23 14:46:06 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@
 */
 typedef uint32_t	t_color;
 
-typedef struct s_mlx_image {
+typedef struct s_mlx_image
+{
 	void	*ptr;
 	t_color	*raster;
 	int		size_line;
@@ -44,7 +45,8 @@ typedef struct s_mlx_image {
 	int		height;
 }	t_mlx_image;
 
-typedef struct s_graphics {
+typedef struct s_graphics
+{
 	int			win_width;
 	int			win_width_half;
 	int			win_height;
@@ -60,8 +62,9 @@ typedef struct s_graphics {
 /*	timer
 ==============
 */
-typedef struct s_timer {
-	long	time_start;
+typedef struct s_timer
+{
+	long long	time_start;
 }	t_timer;
 
 /*	inputs
@@ -72,10 +75,21 @@ typedef struct s_timer {
 # define MOUSE_SCROLL_UP 4
 # define MOUSE_SCROLL_DOWN 5
 
+/*	maths
+==============
+*/
+typedef struct s_vec3
+{
+	double	x;
+	double	y;
+	double	z;
+}	t_vec3;
+
 /*	data
 ==============
 */
-typedef struct s_data {
+typedef struct s_data
+{
 	void		*arena;
 	t_timer		*timer;
 	t_graphics	*grph;
@@ -124,5 +138,19 @@ void		draw_pixel(t_graphics *grph, int x, int y, t_color c);
 */
 // render pipeline
 void		render(t_graphics *grph);
+
+/*	maths
+==============
+*/
+t_vec3		vec3_add(t_vec3 v, t_vec3 w);
+t_vec3		vec3_sub(t_vec3 v, t_vec3 w);
+t_vec3		vec3_scale(t_vec3 v, double scalar);
+double		vec3_magnitude(t_vec3 v);
+// returns normalized copy of v
+t_vec3		vec3_unit(t_vec3 v);
+// dot product = produit scalaire
+double		vec3_dot(t_vec3 v, t_vec3 w);
+// cross product = produit vectoriel
+t_vec3		vec3_cross(t_vec3 v, t_vec3 w);
 
 #endif
