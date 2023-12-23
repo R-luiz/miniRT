@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 00:16:49 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 20:11:54 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/23 21:16:37 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ typedef struct s_vec3
 // another alias for t_vec3
 typedef t_vec3			t_point3;
 /* vec3 color:
-each component is a color channel (r,g,b) is expressed a a fraction [0, 1]*/
+each component is a color channel (r,g,b), expressed as a fraction [0, 1]*/
 typedef t_vec3			t_rgb;
 
 /*	ray
@@ -111,9 +111,7 @@ typedef struct s_data
 	t_graphics	*grph;
 }	t_data;
 
-/*
-================================================================================
-	functions
+/*	functions
 ================================================================================
 */
 
