@@ -1,27 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   graphics_render.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 16:27:24 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 11:33:32 by liguyon          ###   ########.fr       */
+/*   Created: 2023/11/21 14:28:35 by liguyon           #+#    #+#             */
+/*   Updated: 2023/12/23 02:55:28 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minirt.h"
+#include "mlx.h"
 #include "libft.h"
 
-// version with no safety
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+void	graphics_present(t_graphics *grph)
 {
-	size_t	i;
+	void		*tmp;
 
-	i = 0;
-	while (i < n)
-	{
-		((char *)dest)[i] = ((char *)src)[i];
-		++i;
-	}
-	return (dest);
+	tmp = grph->front;
+	grph->front = grph->back;
+	grph->back = tmp;
+	mlx_put_image_to_window(
+		grph->mlx_ptr,
+		grph->win_ptr,
+		grph->front->ptr,
+		0,
+		0);
+}
+
+void	graphics_clear(t_graphics *grph, t_color color)
+{
+	ft_memset(grph->back->raster, (int)color,
+		sizeof(color) * grph->win_width * grph->win_height);
 }

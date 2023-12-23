@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 16:27:24 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 11:33:32 by liguyon          ###   ########.fr       */
+/*   Created: 2023/11/21 14:34:02 by liguyon           #+#    #+#             */
+/*   Updated: 2023/12/23 02:55:02 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minirt.h"
 
-// version with no safety
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+void	render(t_graphics *grph)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < n)
-	{
-		((char *)dest)[i] = ((char *)src)[i];
-		++i;
-	}
-	return (dest);
+	draw_pixel(grph, 0, 0, 0xff0000);
+	draw_pixel(grph, -800, 450, 0xff0000);
+	draw_pixel(grph, -800, -449, 0xff0000);
+	draw_pixel(grph, 799, -449, 0xff0000);
+	draw_pixel(grph, 799, 450, 0xff0000);
 }

@@ -8,7 +8,8 @@ CFLAGS	= -Wall -Wextra -Werror \
 	-I$(INCDIR) \
 	-I$(LIBDIR)/$(LIBMLXDIR) \
 	-I$(LIBDIR)/$(LIBFTDIR) \
-	-O3 \
+	-gdwarf-2 \
+	# -O3 \
 
 CLFLAGS	= -lXext -lX11 -lm
 
@@ -23,7 +24,13 @@ INCDIR	= src
 
 OBJ	= $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 NAME = miniRT
-SRC	= 
+SRC	= core/core.c \
+	  core/graphics.c \
+	  core/graphics_render.c \
+	  draw.c \
+	  inputs.c \
+	  timer.c \
+	  render.c
 
 
 ##############
