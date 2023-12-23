@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   colors.c                                           :+:      :+:    :+:   */
+/*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/23 14:48:07 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 16:03:40 by liguyon          ###   ########.fr       */
+/*   Created: 2023/12/23 15:18:05 by liguyon           #+#    #+#             */
+/*   Updated: 2023/12/23 16:04:37 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_color	color_from_rgb(t_rgb color)
+t_point3	ray_at(t_ray ray, double t)
 {
-	int	r;
-	int	g;
-	int	b;
-
-	r = (int)(color.x * 255.0);
-	g = (int)(color.y * 255.0);
-	b = (int)(color.z * 255.0);
-	return (r << 16 | g << 8 | b);
+	return (vec3_add(ray.origin, vec3_scale(ray.direction, t)));
 }

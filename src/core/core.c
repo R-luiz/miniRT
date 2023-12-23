@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 14:42:40 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 11:38:12 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/23 16:04:16 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	main_loop(t_data *data)
 
 static int	run(t_data *data, const char *filename)
 {
-	data->grph = graphics_create(data->arena, 1600, 900, 60);
+	data->grph = graphics_create(data->arena, 1600, (16.0 / 9.0), 60);
 	if (!data->grph)
 		return (EXIT_FAILURE);
 	data->timer = timer_init(data->arena);

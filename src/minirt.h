@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 00:16:49 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 15:10:04 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/23 16:06:18 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 /*	core
 ==============
 */
-typedef uint32_t	t_color;
+typedef uint32_t		t_color;
 
 typedef struct s_mlx_image
 {
@@ -51,6 +51,7 @@ typedef struct s_graphics
 	int			win_width_half;
 	int			win_height;
 	int			win_height_half;
+	double		aspect_ratio;
 	char		*win_title;
 	int			fps;
 	void		*mlx_ptr;
@@ -78,12 +79,28 @@ typedef struct s_timer
 /*	maths
 ==============
 */
+// 3d vector
 typedef struct s_vec3
 {
 	double	x;
 	double	y;
 	double	z;
 }	t_vec3;
+
+// another alias for t_vec3
+typedef t_vec3			t_point3;
+/* vec3 color:
+each component is a color channel (r,g,b) is expressed a a fraction [0, 1]*/
+typedef t_vec3			t_rgb;
+
+/*	ray
+==============
+*/
+typedef struct s_ray
+{
+	t_point3	origin;
+	t_vec3		direction;
+}	t_ray;
 
 /*	data
 ==============
@@ -115,7 +132,7 @@ t_timer		*timer_init(void *arena);
 ==============
 */
 // Crate mlx window and framebuffers
-t_graphics	*graphics_create(void *arena, int width, int height, int fps);
+t_graphics	*graphics_create(void *arena, int width, double aspect, int fps);
 void		graphics_destroy(t_graphics *grph);
 // Send back buffer to screen
 void		graphics_clear(t_graphics *grph, t_color color);
@@ -156,9 +173,13 @@ t_vec3		vec3_cross(t_vec3 v, t_vec3 w);
 /*	colors
 ==============
 */
-/* get hex color from a vec3 color
-vec3 color:
-each component is a color channel (r,g,b) is expressed a a fraction [0, 1] */
-t_color		color_from_rgb(t_vec3 color);
+// get hex color from a vec3 color
+t_color		color_from_rgb(t_rgb color);
+
+/*	ray
+==============
+*/
+// returns a position along the ray based on parameter t
+t_point3	ray_at(t_ray ray, double t);
 
 #endif

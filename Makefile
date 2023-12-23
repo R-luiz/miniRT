@@ -31,7 +31,10 @@ SRC	= core/core.c \
 	  inputs.c \
 	  timer.c \
 	  render.c \
-	  colors.c
+	  colors.c \
+	  maths/vec3.c \
+	  maths/vec3_1.c \
+	  ray.c \
 
 
 ##############
