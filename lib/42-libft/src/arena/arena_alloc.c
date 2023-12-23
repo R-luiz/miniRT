@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arena_alloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: rluiz <rluiz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 18:22:50 by rluiz             #+#    #+#             */
-/*   Updated: 2023/12/23 10:47:41 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/23 17:06:37 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,19 @@ void	*arena_alloc(t_arena *a, size_t size)
 	a->prev_offset = offset;
 	a->curr_offset = offset + size;
 	arena_memset(ptr, 0, size);
+	return (ptr);
+}
+
+void	*arena_temp_alloc(t_arena *a, size_t size)
+{
+	uintptr_t	curr_temp_ptr;
+	void		*ptr;
+
+	curr_temp_ptr = (uintptr_t)a->buf + (uintptr_t)a->buf_size
+		- (uintptr_t)a->tempo_offset - (uintptr_t)size;
+	if (curr_temp_ptr <= (uintptr_t)a->buf + (uintptr_t)a->curr_offset)
+		return (NULL);
+	ptr = (unsigned char *)curr_temp_ptr;
+	a->tempo_offset = a->tempo_offset + size;
 	return (ptr);
 }

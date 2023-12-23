@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arena.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: rluiz <rluiz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 18:22:08 by rluiz             #+#    #+#             */
-/*   Updated: 2023/12/23 10:47:53 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/23 17:06:24 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,6 @@ void	arena_reset(t_arena *a)
 	a->curr_offset = 0;
 	a->prev_offset = 0;
 	a->tempo_offset = 0;
-}
-
-void	*arena_temp_alloc(t_arena *a, size_t size)
-{
-	uintptr_t	curr_temp_ptr;
-	void		*ptr;
-
-	curr_temp_ptr = (uintptr_t)a->buf + (uintptr_t)a->buf_size
-		- (uintptr_t)a->tempo_offset - (uintptr_t)size;
-	if (curr_temp_ptr <= (uintptr_t)a->buf + (uintptr_t)a->curr_offset)
-		return (NULL);
-	ptr = (unsigned char *)curr_temp_ptr;
-	a->tempo_offset = a->tempo_offset + size;
-	return (ptr);
 }
 
 void	arena_destroy(t_arena *a)
