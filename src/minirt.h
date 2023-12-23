@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 00:16:49 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 14:46:06 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/23 15:10:04 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,5 +152,13 @@ t_vec3		vec3_unit(t_vec3 v);
 double		vec3_dot(t_vec3 v, t_vec3 w);
 // cross product = produit vectoriel
 t_vec3		vec3_cross(t_vec3 v, t_vec3 w);
+
+/*	colors
+==============
+*/
+/* get hex color from a vec3 color
+vec3 color:
+each component is a color channel (r,g,b) is expressed a a fraction [0, 1] */
+t_color		color_from_rgb(t_vec3 color);
 
 #endif

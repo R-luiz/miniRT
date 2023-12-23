@@ -30,7 +30,8 @@ SRC	= core/core.c \
 	  draw.c \
 	  inputs.c \
 	  timer.c \
-	  render.c
+	  render.c \
+	  colors.c
 
 
 ##############
