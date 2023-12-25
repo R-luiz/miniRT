@@ -27,4 +27,6 @@ Shortcut | Action
 :---: | ---
 `Left`, `Right`, `Up`, `Down`| Move camera
 `PgUp`, `PgDown`| Move camera forward/backward
+`Mouse Scroll` | Camera fov +/-
+`r` | Reset camera
 `Esc` | Quit

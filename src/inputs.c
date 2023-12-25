@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 14:44:00 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/25 02:02:39 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/25 02:17:50 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,26 @@ static int	inputs_process_keypress(int keycode, t_data *data)
 	return (EXIT_SUCCESS);
 }
 
+static int	inputs_process_mpress(int keycode, int x, int y, t_data *data)
+{
+	(void)x;
+	(void)y;
+	if (keycode == MOUSE_SCROLL_UP && data->cam->hfov <= 175.0)
+		data->cam->hfov += 5.0;
+	else if (keycode == MOUSE_SCROLL_DOWN && data->cam->hfov >= 5.0)
+		data->cam->hfov -= 5.0;
+	camera_init(data->cam, data->cam->center, data->cam->hfov);
+	return (EXIT_SUCCESS);
+}
+
 void	inputs_bind(t_data *data)
 {
 	mlx_hook(data->grph->win_ptr, DestroyNotify, StructureNotifyMask,
 		inputs_process_structure, data);
 	mlx_hook(data->grph->win_ptr, KeyPress, KeyPressMask,
 		inputs_process_keypress, data);
-	// mlx_hook(data->grph->win_ptr, ButtonPress, ButtonPressMask,
-	// 	inputs_process_mpress, data);
+	mlx_hook(data->grph->win_ptr, ButtonPress, ButtonPressMask,
+		inputs_process_mpress, data);
 	// mlx_hook(data->grph->win_ptr, ButtonRelease, ButtonReleaseMask,
 	// 	inputs_process_mrelease, data);
 }
