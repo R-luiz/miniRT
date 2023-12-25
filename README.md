@@ -20,3 +20,11 @@ A project developed in C as part of the 42 curriculum. This repository serves
 ## Usage
 
 `./miniRT assets/scenes/file.rt`
+
+### Controls
+
+Shortcut | Action
+:---: | ---
+`Left`, `Right`, `Up`, `Down`| Move camera
+`PgUp`, `PgDown`| Move camera forward/backward
+`Esc` | Quit
