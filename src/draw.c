@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 14:52:06 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 20:14:59 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/24 22:44:44 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,7 @@
 
 void	draw_pixel(t_graphics *grph, int x, int y, t_color c)
 {
-	int	sx;
-	int	sy;
-
-	sy = grph->win_height_half - y;
-	sx = grph->win_width_half + x;
-	if (sx >= 0 && sx < grph->win_width
-		&& sy >= 0 && sy < grph->win_height)
-		grph->canvas->raster[sy * grph->win_width + sx] = c;
+	if (x >= 0 && x < grph->win_width
+		&& y >= 0 && y < grph->win_height)
+		grph->canvas->raster[y * grph->win_width + x] = c;
 }

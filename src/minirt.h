@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 00:16:49 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 21:16:37 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/25 01:26:48 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,7 @@ typedef struct s_mlx_image
 typedef struct s_graphics
 {
 	int			win_width;
-	int			win_width_half;
 	int			win_height;
-	int			win_height_half;
 	double		aspect_ratio;
 	char		*win_title;
 	int			fps;
@@ -88,9 +86,6 @@ typedef struct s_vec3
 
 // another alias for t_vec3
 typedef t_vec3			t_point3;
-/* vec3 color:
-each component is a color channel (r,g,b), expressed as a fraction [0, 1]*/
-typedef t_vec3			t_rgb;
 
 /*	ray
 ==============
@@ -101,6 +96,23 @@ typedef struct s_ray
 	t_vec3		direction;
 }	t_ray;
 
+/*	ray
+==============
+*/
+typedef struct s_camera
+{
+	int			image_width;
+	int			image_height;
+	t_point3	center;
+	double		hfov;
+	double		focal_length;
+	double		vp_width;
+	double		vp_height;
+	t_vec3		pixel_delta_u;
+	t_vec3		pixel_delta_v;
+	t_point3	pixel00_loc;
+}	t_camera;
+
 /*	data
 ==============
 */
@@ -109,6 +121,7 @@ typedef struct s_data
 	void		*arena;
 	t_timer		*timer;
 	t_graphics	*grph;
+	t_camera	*cam;
 }	t_data;
 
 /*	functions
@@ -151,15 +164,18 @@ void		draw_pixel(t_graphics *grph, int x, int y, t_color c);
 ==============
 */
 // render pipeline
-void		render(t_graphics *grph);
+void		render(t_graphics *grph, t_camera *view);
 
 /*	maths
 ==============
 */
+double		deg_to_rad(double deg);
 t_vec3		vec3_add(t_vec3 v, t_vec3 w);
 t_vec3		vec3_sub(t_vec3 v, t_vec3 w);
-t_vec3		vec3_scale(t_vec3 v, double scalar);
-double		vec3_magnitude(t_vec3 v);
+t_vec3		vec3_mul(t_vec3 v, double scalar);
+t_vec3		vec3_div(t_vec3 v, double scalar);
+double		vec3_length_squared(t_vec3 v);
+double		vec3_length(t_vec3 v);
 // returns normalized copy of v
 t_vec3		vec3_unit(t_vec3 v);
 // dot product = produit scalaire
@@ -171,12 +187,18 @@ t_vec3		vec3_cross(t_vec3 v, t_vec3 w);
 ==============
 */
 // get hex color from a vec3 color
-t_color		color_from_rgb(t_rgb color);
+t_color		color_from_rgb(double r, double g, double b);
 
 /*	ray
 ==============
 */
 // returns a position along the ray based on parameter t
 t_point3	ray_at(t_ray ray, double t);
+
+/*	view
+==============
+*/
+t_camera	*camera_create(void *arena, int win_width, int win_height);
+void		camera_init(t_camera *cam, t_point3 center, double hfov);
 
 #endif

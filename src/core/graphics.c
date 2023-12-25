@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 14:22:05 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 20:14:23 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/24 22:43:38 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,8 @@ t_graphics	*graphics_create(
 
 	grph = arena_alloc(arena, sizeof(*grph));
 	grph->win_width = width;
-	grph->win_width_half = width / 2;
 	grph->aspect_ratio = aspect;
 	grph->win_height = (int)((double)width / aspect);
-	grph->win_height_half = grph->win_height / 2;
 	grph->win_title = WINDOW_TITLE;
 	grph->fps = fps;
 	if (graphics_init_mlx(grph) == EXIT_FAILURE)
