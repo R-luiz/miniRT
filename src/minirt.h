@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 00:16:49 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/25 01:26:48 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/25 01:59:52 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,18 +99,22 @@ typedef struct s_ray
 /*	ray
 ==============
 */
+// convention: right-handed coordinate system
 typedef struct s_camera
 {
 	int			image_width;
 	int			image_height;
 	t_point3	center;
+	t_point3	center_default;
 	double		hfov;
+	double		hfov_default;
 	double		focal_length;
 	double		vp_width;
 	double		vp_height;
 	t_vec3		pixel_delta_u;
 	t_vec3		pixel_delta_v;
 	t_point3	pixel00_loc;
+	bool		set;
 }	t_camera;
 
 /*	data

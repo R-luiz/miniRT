@@ -36,7 +36,7 @@ SRC	= core/core.c \
 	  maths/vec3.c \
 	  maths/vec3_1.c \
 	  ray.c \
-	  view.c \
+	  camera.c \
 
 
 ##############
