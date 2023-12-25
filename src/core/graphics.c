@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 14:22:05 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/24 22:43:38 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/25 05:48:45 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static t_mlx_image	*graphics_create_mlx_image(
 	}
 	img->raster = (t_color *)mlx_get_data_addr(
 			img->ptr, &img->bpp, &img->size_line, &img->endian);
+	pthread_mutex_init(&img->mutex, NULL);
 	return (img);
 }
 
@@ -86,7 +87,10 @@ void	graphics_destroy(t_graphics *grph)
 	if (grph != NULL)
 	{
 		if (grph->canvas != NULL)
+		{
+			pthread_mutex_destroy(&grph->canvas->mutex);
 			mlx_destroy_image(grph->mlx_ptr, grph->canvas->ptr);
+		}
 		if (grph->win_ptr != NULL)
 			mlx_destroy_window(grph->mlx_ptr, grph->win_ptr);
 		if (grph->mlx_ptr != NULL)

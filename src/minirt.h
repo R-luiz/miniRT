@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 00:16:49 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/25 05:20:05 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/25 05:46:55 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <stdio.h>
+# include <pthread.h>
 
 /*	typedefs, defines, enums
 ================================================================================
@@ -36,13 +37,14 @@ typedef uint32_t		t_color;
 
 typedef struct s_mlx_image
 {
-	void	*ptr;
-	t_color	*raster;
-	int		size_line;
-	int		bpp;
-	int		endian;
-	int		width;
-	int		height;
+	void			*ptr;
+	t_color			*raster;
+	int				size_line;
+	int				bpp;
+	int				endian;
+	int				width;
+	int				height;
+	pthread_mutex_t	mutex;
 }	t_mlx_image;
 
 typedef struct s_graphics

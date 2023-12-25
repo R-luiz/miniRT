@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 14:42:40 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/25 05:27:54 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/25 06:02:36 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,11 @@ static int	main_loop(t_data *data)
 			iter = 0;
 		}
 	#else
-		#define TARGET_ITER 25
+		#define TARGET_ITER 50
 		// for profiling the program with a fixed number of iterations
 		if (iter > TARGET_ITER)
 			mlx_loop_end(data->grph->mlx_ptr);
+		(void)last_time;
 	#endif
 
 	++iter;
