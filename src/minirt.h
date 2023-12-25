@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 00:16:49 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/25 01:59:52 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/25 05:20:05 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 */
 # define SIZE_ARENA 1e8
 # define WINDOW_TITLE "miniRT"
-# define COLOR_BG 0x1A1A1A
+# define COLOR_BG 0x000000
 
 /*	core
 ==============

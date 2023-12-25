@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 14:42:40 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/25 03:00:59 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/25 05:27:54 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ static int	run(t_data *data, const char *filename)
 	data->timer = timer_init(data->arena);
 	data->cam = camera_create(
 		data->arena, data->grph->win_width, data->grph->win_height);
-	// initialize camera width data parsed from file.rt
+	// when parsing is implemented
+	// initialize camera with data parsed from file.rt
 	camera_init(data->cam, (t_point3){0, 0, 1}, 60);
 	inputs_bind(data);
 	(void)filename;
