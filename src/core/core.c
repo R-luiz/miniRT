@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 14:42:40 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/25 02:07:10 by liguyon          ###   ########.fr       */
+/*   Updated: 2023/12/25 03:00:59 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,37 @@
 static int	main_loop(t_data *data)
 {
 	static int	last_time = 0;
+#ifndef PROFILE
 	int			time_to_wait;
 
 	time_to_wait = 1e3 / data->grph->fps
 		- (timer_get_ticks(data->timer) - last_time);
 	if (time_to_wait > 0 && time_to_wait <= 1e3 / data->grph->fps)
 		timer_delay(time_to_wait);
-	last_time = timer_get_ticks(data->timer);
 
+#else
+	static int iter = 0;
+	
+	#ifdef PROFILE_FPS
+		// measure max achievable fps
+		static int elapsed = 0;
+		elapsed += timer_get_ticks(data->timer) - last_time;
+		if (elapsed >= 1000)
+		{
+			printf("fps: %d\n", iter);
+			elapsed -= 1000;
+			iter = 0;
+		}
+	#else
+		#define TARGET_ITER 25
+		// for profiling the program with a fixed number of iterations
+		if (iter > TARGET_ITER)
+			mlx_loop_end(data->grph->mlx_ptr);
+	#endif
+
+	++iter;
+#endif
+	last_time = timer_get_ticks(data->timer);
 	// update(data);
 
 	graphics_clear(data->grph, COLOR_BG);
