@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   colors.c                                           :+:      :+:    :+:   */
+/*   options.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/23 14:48:07 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/25 00:22:17 by liguyon          ###   ########.fr       */
+/*   Created: 2024/01/19 15:51:11 by liguyon           #+#    #+#             */
+/*   Updated: 2024/01/19 15:51:45 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#ifndef OPTIONS_H
+# define OPTIONS_H
 
-t_color	color_from_rgb(double r, double g, double b)
+typedef struct s_options
 {
-	return ((int)(r * 255.0) << 16 | (int)(g * 255.0) << 8 | (int)(b * 255.0));
-}
+	int		window_width;
+	float	window_aspect;
+	float	fps;
+}	t_options;
+
+#endif

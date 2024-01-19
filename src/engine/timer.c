@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/21 14:38:25 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 14:44:02 by liguyon          ###   ########.fr       */
+/*   Created: 2024/01/19 15:54:30 by liguyon           #+#    #+#             */
+/*   Updated: 2024/01/19 17:59:49 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "./timer.h"
 #include "libft.h"
 #include <time.h>
 
@@ -36,7 +36,7 @@ int	timer_get_ticks(t_timer *timer)
 	return (now_ms - timer->time_start);
 }
 
-t_timer	*timer_init(void *arena)
+t_timer	*rt_timer_create(void *arena)
 {
 	t_timer			*timer;
 	struct timespec	now;

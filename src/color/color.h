@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
+/*   color.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/21 14:52:06 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/24 22:44:44 by liguyon          ###   ########.fr       */
+/*   Created: 2024/01/19 14:50:33 by liguyon           #+#    #+#             */
+/*   Updated: 2024/01/19 15:17:42 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-#include "libft.h"
-#include "mlx.h"
+#ifndef COLOR_H
+# define COLOR_H
 
-void	draw_pixel(t_graphics *grph, int x, int y, t_color c)
-{
-	if (x >= 0 && x < grph->win_width
-		&& y >= 0 && y < grph->win_height)
-		grph->canvas->raster[y * grph->win_width + x] = c;
-}
+# include "maths/maths.h"
+# include <stdint.h>
+
+typedef uint32_t	t_color;
+
+// create color from vec3
+t_color	color_vec3(t_vec3 v);
+// create color from integer rgb values
+t_color	color_int(uint8_t r, uint8_t g, uint8_t b);
+
+#endif

@@ -1,18 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.c                                              :+:      :+:    :+:   */
+/*   graphics_render.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/23 15:18:05 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/24 23:46:25 by liguyon          ###   ########.fr       */
+/*   Created: 2024/01/19 15:20:56 by liguyon           #+#    #+#             */
+/*   Updated: 2024/01/19 15:53:27 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "./graphics.h"
+#include "mlx.h"
 
-t_point3	ray_at(t_ray ray, double t)
+void	graphics_present(t_graphics *grph)
 {
-	return (vec3_add(ray.origin, vec3_mul(ray.direction, t)));
+	mlx_put_image_to_window(
+		grph->mlx_ptr,
+		grph->win_ptr,
+		grph->framebuffer->ptr,
+		0,
+		0);
+}
+
+void	graphics_clear(t_graphics *grph, t_color color)
+{
+	int	i;
+
+	i = -1;
+	while (++i < grph->win_height * grph->win_width)
+		grph->framebuffer->raster[i] = color;
 }

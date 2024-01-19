@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   graphics_render.c                                  :+:      :+:    :+:   */
+/*   engine.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/21 14:28:35 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 22:58:25 by liguyon          ###   ########.fr       */
+/*   Created: 2024/01/19 15:48:21 by liguyon           #+#    #+#             */
+/*   Updated: 2024/01/19 20:55:14 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-#include "mlx.h"
-#include "libft.h"
+#ifndef ENGINE_H
+# define ENGINE_H
 
-void	graphics_present(t_graphics *grph)
+# include "./graphics.h"
+# include "./timer.h"
+# include "main/options.h"
+# include <stdbool.h>
+
+typedef struct s_engine
 {
-	mlx_put_image_to_window(
-		grph->mlx_ptr,
-		grph->win_ptr,
-		grph->canvas->ptr,
-		0,
-		0);
-}
+	t_graphics	*grph;
+	t_timer		*timer;
+	float		timestep;
+}	t_engine;
 
-void	graphics_clear(t_graphics *grph, t_color color)
-{
-	int	i;
+int		engine_init(t_engine *eng, t_options *opt, void *arena);
+void	engine_run(t_engine *eng);
+void	engine_terminate(t_engine *eng);
 
-	i = -1;
-	while (++i < grph->win_height * grph->win_width)
-		grph->canvas->raster[i] = color;
-}
+#endif

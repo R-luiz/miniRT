@@ -5,31 +5,32 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/21 14:22:05 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/25 05:48:45 by liguyon          ###   ########.fr       */
+/*   Created: 2024/01/19 15:18:21 by liguyon           #+#    #+#             */
+/*   Updated: 2024/01/19 17:58:16 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-#include "mlx.h"
+#include "./graphics.h"
 #include "libft.h"
+#include "mlx.h"
+#include <stdio.h>
 
 static int	graphics_init_mlx(t_graphics *grph)
 {
 	grph->mlx_ptr = mlx_init();
 	if (grph->mlx_ptr == NULL)
 	{
-		printf("[CRITICAL] failed to initialize mlx instance\n");
+		printf("Error: failed to initialize mlx instance\n");
 		return (EXIT_FAILURE);
 	}
 	grph->win_ptr = mlx_new_window(
 			grph->mlx_ptr,
 			grph->win_width,
 			grph->win_height,
-			grph->win_title);
+			"miniRT");
 	if (grph->win_ptr == NULL)
 	{
-		printf("[CRITICAL] failed to create mlx window\n");
+		printf("Error: failed to create mlx window\n");
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -47,34 +48,29 @@ static t_mlx_image	*graphics_create_mlx_image(
 			height);
 	if (img->ptr == NULL)
 	{
-		printf("[CRITICAL] failed to create mlx image\n");
+		printf("Error: failed to create mlx image\n");
 		return (NULL);
 	}
 	img->raster = (t_color *)mlx_get_data_addr(
 			img->ptr, &img->bpp, &img->size_line, &img->endian);
-	pthread_mutex_init(&img->mutex, NULL);
 	return (img);
 }
 
-t_graphics	*graphics_create(
-	void *arena, int width, double aspect, int fps)
+t_graphics	*graphics_create(int width, float aspect, void *arena)
 {
 	t_graphics	*grph;
 
 	grph = arena_alloc(arena, sizeof(*grph));
 	grph->win_width = width;
-	grph->aspect_ratio = aspect;
-	grph->win_height = (int)((double)width / aspect);
-	grph->win_title = WINDOW_TITLE;
-	grph->fps = fps;
+	grph->win_height = (int)((float)width / aspect);
 	if (graphics_init_mlx(grph) == EXIT_FAILURE)
 	{
 		graphics_destroy(grph);
 		return (NULL);
 	}
-	grph->canvas = graphics_create_mlx_image(
+	grph->framebuffer = graphics_create_mlx_image(
 			grph->mlx_ptr, grph->win_width, grph->win_height, arena);
-	if (grph->canvas == NULL)
+	if (grph->framebuffer == NULL)
 	{
 		graphics_destroy(grph);
 		return (NULL);
@@ -86,11 +82,8 @@ void	graphics_destroy(t_graphics *grph)
 {
 	if (grph != NULL)
 	{
-		if (grph->canvas != NULL)
-		{
-			pthread_mutex_destroy(&grph->canvas->mutex);
-			mlx_destroy_image(grph->mlx_ptr, grph->canvas->ptr);
-		}
+		if (grph->framebuffer != NULL)
+			mlx_destroy_image(grph->mlx_ptr, grph->framebuffer->ptr);
 		if (grph->win_ptr != NULL)
 			mlx_destroy_window(grph->mlx_ptr, grph->win_ptr);
 		if (grph->mlx_ptr != NULL)
