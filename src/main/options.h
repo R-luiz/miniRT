@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   graphics_render.c                                  :+:      :+:    :+:   */
+/*   options.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/21 14:28:35 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 22:58:25 by liguyon          ###   ########.fr       */
+/*   Created: 2024/01/19 15:51:11 by liguyon           #+#    #+#             */
+/*   Updated: 2024/01/20 00:28:55 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-#include "mlx.h"
-#include "libft.h"
+#ifndef OPTIONS_H
+# define OPTIONS_H
 
-void	graphics_present(t_graphics *grph)
+# define WIN_WIDTH	1600
+# define WIN_ASPECT	16.f / 9
+# define FPS 10
+
+typedef struct s_options
 {
-	mlx_put_image_to_window(
-		grph->mlx_ptr,
-		grph->win_ptr,
-		grph->canvas->ptr,
-		0,
-		0);
-}
+	int		window_width;
+	float	window_aspect;
+	float	fps;
+}	t_options;
 
-void	graphics_clear(t_graphics *grph, t_color color)
-{
-	int	i;
-
-	i = -1;
-	while (++i < grph->win_height * grph->win_width)
-		grph->canvas->raster[i] = color;
-}
+#endif

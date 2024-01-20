@@ -7,26 +7,10 @@ A project developed in C as part of the 42 curriculum. This repository serves
 
 ## Build
 
-### Dependencies
-
-- [MinilibX](https://github.com/42Paris/minilibx-linux)  
-`git clone https://github.com/42Paris/minilibx-linux.git lib/minilibx-linux`
-
-### Compile
-
-- `make`
+- `git clone --recurse-submodules https://github.com/liguyon/42-miniRT.git`
+- `cd 42-miniRT && make`
 
 
 ## Usage
 
 `./miniRT assets/scenes/file.rt`
-
-### Controls
-
-Shortcut | Action
-:---: | ---
-`Left`, `Right`, `Up`, `Down`| Move camera
-`PgUp`, `PgDown`| Move camera forward/backward
-`Mouse Scroll` | Camera fov +/-
-`r` | Reset camera
-`Esc` | Quit

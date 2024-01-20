@@ -6,16 +6,22 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:39:00 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/25 05:11:07 by liguyon          ###   ########.fr       */
+/*   Updated: 2024/01/19 22:34:01 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "./maths.h"
+#include <math.h>
 
-t_vec3	vec3_unit(t_vec3 v)
+float	vec3_length(t_vec3 v)
+{
+	return ((float)sqrt(vec3_length_squared(v)));
+}
+
+t_vec3	vec3_normalize(t_vec3 v)
 {
 	t_vec3	ret;
-	double	m;
+	float	m;
 
 	m = vec3_length(v);
 	ret = (t_vec3){
@@ -39,18 +45,6 @@ t_vec3	vec3_cross(t_vec3 v, t_vec3 w)
 		.x = v.y * w.z - v.z * w.y,
 		.y = v.z * w.x - v.x * w.z,
 		.z = v.x * w.y - v.y * w.x
-	};
-	return (ret);
-}
-
-t_vec3	vec3_div(t_vec3 v, double scalar)
-{
-	t_vec3	ret;
-
-	ret = (t_vec3){
-		.x = v.x / scalar,
-		.y = v.y / scalar,
-		.z = v.z / scalar
 	};
 	return (ret);
 }

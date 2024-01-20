@@ -8,11 +8,9 @@ CFLAGS	= -Wall -Wextra -Werror \
 	-I$(INCDIR) \
 	-I$(LIBDIR)/$(LIBMLXDIR) \
 	-I$(LIBDIR)/$(LIBFTDIR) \
-	-O2 \
-	-DPROFILE \
-	-DPROFILE_FPS \
+	-g3 -fsanitize=thread
 
-CLFLAGS	= -lXext -lX11 -lm
+CLFLAGS	= -lXext -lX11 -lm -lpthread
 
 ##############
 #
@@ -25,20 +23,17 @@ INCDIR	= src
 
 OBJ	= $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 NAME = miniRT
-SRC	= core/core.c \
-	  core/graphics.c \
-	  core/graphics_render.c \
-	  draw.c \
-	  inputs.c \
-	  timer.c \
-	  render.c \
-	  colors.c \
-	  maths/maths.c \
-	  maths/vec3.c \
-	  maths/vec3_1.c \
-	  ray.c \
-	  camera.c \
-
+SRC	= color/color.c \
+	maths/vec3.c \
+	maths/vec3_1.c \
+	maths/maths.c \
+	engine/graphics.c \
+	engine/graphics_render.c \
+	engine/timer.c \
+	engine/inputs.c \
+	engine/engine.c \
+	main/main.c \
+	canvas/canvas.c \
 
 ##############
 #

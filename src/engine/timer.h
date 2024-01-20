@@ -1,18 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   colors.c                                           :+:      :+:    :+:   */
+/*   timer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/23 14:48:07 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/25 00:22:17 by liguyon          ###   ########.fr       */
+/*   Created: 2024/01/19 15:25:30 by liguyon           #+#    #+#             */
+/*   Updated: 2024/01/19 17:59:49 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#ifndef TIMER_H
+# define TIMER_H
 
-t_color	color_from_rgb(double r, double g, double b)
+typedef struct s_timer
 {
-	return ((int)(r * 255.0) << 16 | (int)(g * 255.0) << 8 | (int)(b * 255.0));
-}
+	long long	time_start;
+}	t_timer;
+
+// Timer is initialized with time at creation
+t_timer	*rt_timer_create(void *arena);
+
+// Sleep for the specified number of milliseconds
+void	timer_delay(int ms);
+
+// get time (in ms) elapsed since creation of timer
+int		timer_get_ticks(t_timer *timer);
+
+#endif
