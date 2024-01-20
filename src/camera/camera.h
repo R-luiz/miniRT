@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:07:00 by liguyon           #+#    #+#             */
-/*   Updated: 2024/01/19 22:54:59 by liguyon          ###   ########.fr       */
+/*   Updated: 2024/01/20 02:19:43 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,10 @@
 
 # include "maths/maths.h"
 
-typedef struct s_vp_helper
-{
-	float		width;
-	float		height;
-	t_vec3		u;
-	t_vec3		v;
-	t_point3	upper_left;
-}	t_vp_helper;
-
+/* Basic camera with a viewport fixed to it.
+The viewport is orthogonal to the camera direction, its center is placed where
+the camera is looking at.
+*/
 typedef struct s_camera
 {
 	t_point3		center;
@@ -39,7 +34,23 @@ typedef struct s_camera
 
 t_camera	*camera_create(
 	t_point3 center, t_vec3 direction, float hfov, void *arena);
+
 void		camera_init_viewport(
 	t_camera *cam, int canvas_width, int canvas_height, void *arena);
+
+
+/* INTERNAL
+================================================================================
+*/
+
+// Because we are limited to 5 var declarations / function
+typedef struct s_vp_helper
+{
+	float		width;
+	float		height;
+	t_vec3		u;
+	t_vec3		v;
+	t_point3	upper_left;
+}	t_vp_helper;
 
 #endif

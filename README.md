@@ -7,8 +7,11 @@ A project developed in C as part of the 42 curriculum. This repository serves
 
 ## Build
 
-- `git clone --recurse-submodules https://github.com/liguyon/42-miniRT.git`
-- `cd 42-miniRT && make`
+- Clone the repo with its dependencies:  
+`git clone --recurse-submodules https://github.com/liguyon/42-miniRT.git`
+
+- Compile:  
+`make`
 
 
 ## Usage
