@@ -8,7 +8,8 @@ CFLAGS	= -Wall -Wextra -Werror \
 	-I$(INCDIR) \
 	-I$(LIBDIR)/$(LIBMLXDIR) \
 	-I$(LIBDIR)/$(LIBFTDIR) \
-	-g3 -fsanitize=thread
+	-g3 -fsanitize=thread \
+	-O2
 
 CLFLAGS	= -lXext -lX11 -lm -lpthread
 
@@ -34,6 +35,7 @@ SRC	= color/color.c \
 	engine/engine.c \
 	main/main.c \
 	canvas/canvas.c \
+	camera/camera.c \
 
 ##############
 #

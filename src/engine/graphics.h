@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:48:18 by liguyon           #+#    #+#             */
-/*   Updated: 2024/01/20 01:09:04 by liguyon          ###   ########.fr       */
+/*   Updated: 2024/01/20 02:46:25 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,7 @@
 # include "color/color.h"
 # include "canvas/canvas.h"
 
-typedef struct s_mlx_image
-{
-	void			*ptr;
-	t_color			*raster;
-	int				size_line;
-	int				bpp;
-	int				endian;
-	int				width;
-	int				height;
-}	t_mlx_image;
+typedef struct s_mlx_image	t_mlx_image;
 
 /* Graphics subsystem. It is basically a wrapper around mlx.
 - mlx_ptr: display
@@ -55,5 +46,20 @@ void		graphics_update_framebuffer(t_graphics *grph, t_canvas *canvas);
 
 // Push the framebuffer to screen.
 void		graphics_present(t_graphics *grph);
+
+/* INTERNAL
+================================================================================
+*/
+
+struct s_mlx_image
+{
+	void			*ptr;
+	t_color			*raster;
+	int				size_line;
+	int				bpp;
+	int				endian;
+	int				width;
+	int				height;
+};
 
 #endif

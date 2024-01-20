@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 14:44:00 by liguyon           #+#    #+#             */
-/*   Updated: 2024/01/19 17:50:11 by liguyon          ###   ########.fr       */
+/*   Updated: 2024/01/20 03:20:37 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,24 @@
 #include <X11/X.h>
 #include <X11/keysym.h>
 
+static void	loop_end(t_engine *eng)
+{
+	pthread_mutex_lock(&eng->mut);
+	eng->is_running = false;
+	mlx_loop_end(eng->grph->mlx_ptr);
+	pthread_mutex_unlock(&eng->mut);
+}
+
 static int	inputs_process_structure(t_engine *eng)
 {
-	mlx_loop_end(eng->grph->mlx_ptr);
+	loop_end(eng);
 	return (0);
 }
 
 static int	inputs_process_keypress(int keycode, t_engine *eng)
 {
 	if (keycode == XK_Escape)
-		mlx_loop_end(eng->grph->mlx_ptr);
+		loop_end(eng);
 	return (0);
 }
 

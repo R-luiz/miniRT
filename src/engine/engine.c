@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:29:10 by liguyon           #+#    #+#             */
-/*   Updated: 2024/01/20 01:22:44 by liguyon          ###   ########.fr       */
+/*   Updated: 2024/01/20 03:20:54 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	engine_init(t_engine *eng, t_options *opt, void *arena)
 	eng->timer = rt_timer_create(arena);
 	eng->timestep = 1e3f / opt->fps;
 	inputs_bind(eng);
+	pthread_mutex_init(&eng->mut, NULL);
+	eng->is_running = true;
 	return (EXIT_SUCCESS);
 }
 
@@ -61,4 +63,15 @@ void	engine_run(t_engine *eng, t_canvas *canvas)
 void	engine_terminate(t_engine *eng)
 {
 	graphics_destroy(eng->grph);
+	pthread_mutex_destroy(&eng->mut);
+}
+
+bool	engine_is_running(t_engine *eng)
+{
+	bool	ret;
+
+	pthread_mutex_lock(&eng->mut);
+	ret = eng->is_running;
+	pthread_mutex_unlock(&eng->mut);
+	return (ret);
 }

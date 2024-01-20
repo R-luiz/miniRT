@@ -6,7 +6,7 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:07:00 by liguyon           #+#    #+#             */
-/*   Updated: 2024/01/20 02:19:43 by liguyon          ###   ########.fr       */
+/*   Updated: 2024/01/20 03:24:36 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_camera	*camera_create(
 void		camera_init_viewport(
 	t_camera *cam, int canvas_width, int canvas_height, void *arena);
 
+void		*camera_render(void *vargp);
 
 /* INTERNAL
 ================================================================================
@@ -52,5 +53,14 @@ typedef struct s_vp_helper
 	t_vec3		v;
 	t_point3	upper_left;
 }	t_vp_helper;
+
+typedef struct s_engine	t_engine;
+typedef struct s_canvas	t_canvas;
+typedef struct s_render
+{
+	t_camera	*camera;
+	t_canvas	*canvas;
+	t_engine	*engine;
+}	t_render;
 
 #endif

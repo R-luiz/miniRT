@@ -6,13 +6,16 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/01/19 23:43:13 by liguyon          ###   ########.fr       */
+/*   Updated: 2024/01/20 03:28:00 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./camera.h"
+#include "canvas/canvas.h"
+#include "engine/engine.h"
 #include "libft.h"
 #include <math.h>
+#include <stddef.h>
 
 void		camera_init_viewport(
 	t_camera *cam, int canvas_width, int canvas_height, void *arena)
@@ -52,4 +55,32 @@ t_camera	*camera_create(
 	cam->look_at = vec3_add(center, direction);
 	cam->hfov = hfov;
 	return (cam);
+}
+
+void		*camera_render(void *vargp)
+{
+	t_render	*rd;
+	// t_camera	*camera;
+	t_canvas	*canvas;
+	int			i;
+	int			j;
+	t_color		c;
+
+	rd = (t_render *)vargp;
+	// camera = render->camera;
+	canvas = rd->canvas;
+	j = -1;
+	while (++j < canvas->height)
+	{
+		i = -1;
+		while (++i < canvas->width)
+		{
+			if (!engine_is_running(rd->engine))
+				return (NULL);
+			// trace rays
+			c = 0xff0000;
+			canvas_draw(canvas, i, j, c);
+		}
+	}
+	return (NULL);
 }
