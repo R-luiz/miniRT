@@ -6,16 +6,18 @@
 /*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/01/20 03:28:00 by liguyon          ###   ########.fr       */
+/*   Updated: 2024/01/20 04:09:35 by liguyon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./camera.h"
 #include "canvas/canvas.h"
 #include "engine/engine.h"
+#include "ray.h"
 #include "libft.h"
 #include <math.h>
 #include <stddef.h>
+#include <stdio.h>
 
 void		camera_init_viewport(
 	t_camera *cam, int canvas_width, int canvas_height, void *arena)
@@ -57,17 +59,27 @@ t_camera	*camera_create(
 	return (cam);
 }
 
-void		*camera_render(void *vargp)
+bool	hit_sphere(t_point3 center, float radius, t_ray *ray)
+{
+	t_vec3	oc = vec3_sub(ray->origin, center);
+	float a = vec3_dot(ray->direction, ray->direction);
+	float b = 2 * vec3_dot(oc, ray->direction);
+	float c = vec3_dot(oc, oc) - radius * radius;
+	float discriminant = b * b - 4 * a * c;
+	return (discriminant >= 0);
+}
+
+void	*camera_render(void *vargp)
 {
 	t_render	*rd;
-	// t_camera	*camera;
+	t_camera	*camera;
 	t_canvas	*canvas;
 	int			i;
 	int			j;
 	t_color		c;
 
 	rd = (t_render *)vargp;
-	// camera = render->camera;
+	camera = rd->camera;
 	canvas = rd->canvas;
 	j = -1;
 	while (++j < canvas->height)
@@ -77,10 +89,17 @@ void		*camera_render(void *vargp)
 		{
 			if (!engine_is_running(rd->engine))
 				return (NULL);
-			// trace rays
-			c = 0xff0000;
+			t_point3 pixel_center = vec3_add(camera->vp->pixel_00, vec3_mul(camera->vp->pixel_du, i));
+			pixel_center = vec3_add(pixel_center, vec3_mul(camera->vp->pixel_dv, j));
+			t_vec3 ray_dir = vec3_sub(pixel_center, camera->center);
+			t_ray ray = (t_ray){.origin = camera->center, .direction = ray_dir};
+			if (hit_sphere((t_point3){0, 0, 2}, 0.2, &ray))
+				c = 0xff0000;
+			else
+				c = 0;
 			canvas_draw(canvas, i, j, c);
 		}
 	}
+	printf("finished rendering scene\n");
 	return (NULL);
 }
