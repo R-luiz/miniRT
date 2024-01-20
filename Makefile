@@ -8,9 +8,9 @@ CFLAGS	= -Wall -Wextra -Werror \
 	-I$(INCDIR) \
 	-I$(LIBDIR)/$(LIBMLXDIR) \
 	-I$(LIBDIR)/$(LIBFTDIR) \
-	-g3
+	-g3 -fsanitize=thread
 
-CLFLAGS	= -lXext -lX11 -lm
+CLFLAGS	= -lXext -lX11 -lm -lpthread
 
 ##############
 #
@@ -33,6 +33,7 @@ SRC	= color/color.c \
 	engine/inputs.c \
 	engine/engine.c \
 	main/main.c \
+	canvas/canvas.c \
 
 ##############
 #
