@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:47:05 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/01 16:42:48 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/01 17:17:35 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,21 @@ float ft_atof(char *str)
 t_camera *find_camera(t_arena *arena, t_list *list)
 {
 	t_list *tmp;
+	t_list *tmp2;
 	t_camera *camera;
 	char *str;
 	char *delimiter;
 
-	tmp = list;
+	tmp = list->next;
 	while (tmp)
 	{
+		tmp2 = tmp->data;
+		tmp2 = tmp2->data;
+
 		if (ft_strcmp(((t_list *)tmp->data)->data, "C") == 0)
 		{
 			tmp = tmp->data;
+			break ;
 		}
 		tmp = tmp->next;
 	}

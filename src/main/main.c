@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:35:54 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/01 16:45:09 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/01 17:18:41 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	main(int argc, char *argv[])
 		
 	canvas = canvas_create(options.window_width, options.window_aspect, arena);
 	camera = find_camera(arena, params);
+	printf("camera: %f %f %f\n", camera->center.x, camera->center.y, camera->center.z);
 	//camera = camera_create((t_point3){0, 0, 0}, (t_vec3){0, 0, 1}, 30, arena);
 	camera_init_viewport(camera, canvas->width, canvas->height, arena);
 	t_render rd = (t_render){.camera = camera, .canvas = canvas, .engine = eng};

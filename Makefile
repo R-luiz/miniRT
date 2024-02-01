@@ -39,6 +39,7 @@ SRC	= color/color.c \
 	parsing/parsing.c \
 	parsing/list.c \
 	parsing/get_next_line.c \
+	parsing/find_params.c \
 
 ##############
 #

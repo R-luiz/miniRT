@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/01 16:45:26 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/01 16:46:41 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "camera/camera.h"
 # include "libft.h"
-# include "maths.h"
+# include "maths/maths.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
