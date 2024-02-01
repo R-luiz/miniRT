@@ -6,14 +6,16 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/01 15:34:19 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/01 16:45:26 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
+# include "camera/camera.h"
 # include "libft.h"
+# include "maths.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -45,5 +47,5 @@ void				ft_lstadd_back(t_list **alst, t_list *new);
 /* PARSING FUNCTIONS */
 t_list				*parsing_to_list(t_arena *arena, char *file);
 t_list				*token_to_list(t_arena *arena, char *line);
-
+t_camera			*find_camera(t_arena *arena, t_list *list);
 #endif // !PARSING_H
