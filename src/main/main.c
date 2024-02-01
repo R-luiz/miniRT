@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:35:54 by liguyon           #+#    #+#             */
-/*   Updated: 2024/01/20 03:25:17 by liguyon          ###   ########.fr       */
+/*   Updated: 2024/02/01 15:26:27 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "camera/camera.h"
 #include "./options.h"
 #include "libft.h"
+#include "parsing/parsing.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -33,6 +34,7 @@ int	main(int argc, char *argv[])
 	t_canvas	*canvas;
 	t_camera	*camera;
 	t_options	options;
+	t_list		*list;
 
 	if (argc != 2)
 	{
@@ -48,6 +50,7 @@ int	main(int argc, char *argv[])
 		return (EXIT_FAILURE);
 	}
 	
+	list = parsing_to_list(arena, argv[1]);
 	eng = arena_alloc(arena, sizeof(*eng));
 	options_init(&options);
 	if (engine_init(eng, &options, arena) != EXIT_SUCCESS)

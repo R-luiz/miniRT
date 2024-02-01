@@ -36,6 +36,9 @@ SRC	= color/color.c \
 	main/main.c \
 	canvas/canvas.c \
 	camera/camera.c \
+	parsing/parsing.c \
+	parsing/list.c \
+	parsing/get_next_line.c \
 
 ##############
 #

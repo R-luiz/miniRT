@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:42:56 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/01 15:23:24 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/01 15:41:57 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ t_list	*token_to_list(t_arena *arena, char *line)
 	list = (t_list *)arena_alloc(arena, sizeof(t_list));
 	tmp = list;
 	token = ft_strtok(line, delimiter);
-	tmp->data = ft_strdup(token);
+	tmp->data = ft_strdup(arena, token);
 	while (token)
 	{
 		token = ft_strtok(NULL, delimiter);
-		tmp->next = ft_lstnew(arena, ft_strdup(token));
+		if (!token)
+			break ;
+		tmp->next = ft_lstnew(arena, ft_strdup(arena, token));
 		tmp = tmp->next;
 	}
 	return (list);
@@ -46,7 +48,7 @@ t_list	*parsing_to_list(t_arena *arena, char *file)
 		return (NULL);
 	while ((line = get_next_line(fd)))
 	{
-		tmp->next =	ft_lstnew(arena, token_to_list(arena, line));
+		tmp->next = ft_lstnew(arena, token_to_list(arena, line));
 		tmp = tmp->next;
 	}
 	close(fd);

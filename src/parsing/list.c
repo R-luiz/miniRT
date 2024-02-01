@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:56:00 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/01 15:03:40 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/01 15:33:35 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_list	*ft_lstnew(t_arena *arena, void *data)
 	return (new);
 }
 
-void	ft_lstadd_back(t_arena *arena, t_list **alst, t_list *new)
+void	ft_lstadd_back(t_list **alst, t_list *new)
 {
 	t_list *tmp;
 

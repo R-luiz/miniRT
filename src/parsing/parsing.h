@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/01 15:19:55 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/01 15:34:19 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 # define BUFFER_SIZE 32
 
-typedef struct		s_list;
+struct s_list;
 
 typedef struct s_list
 {
@@ -40,6 +40,10 @@ char				*get_next_line(int fd);
 
 /* LIST FUNCTIONS */
 t_list				*ft_lstnew(t_arena *arena, void *data);
-void				ft_lstadd_back(t_arena *arena, t_list **alst, t_list *new);
+void				ft_lstadd_back(t_list **alst, t_list *new);
+
+/* PARSING FUNCTIONS */
+t_list				*parsing_to_list(t_arena *arena, char *file);
+t_list				*token_to_list(t_arena *arena, char *line);
 
 #endif // !PARSING_H
