@@ -1,31 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/13 00:45:28 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/01 15:35:31 by rluiz            ###   ########.fr       */
+/*   Created: 2024/02/01 14:56:00 by rluiz             #+#    #+#             */
+/*   Updated: 2024/02/01 15:33:35 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "parsing.h"
 
-char	*ft_strdup(t_arena *arena, const char *s)
+t_list	*ft_lstnew(t_arena *arena, void *data)
 {
-	char	*res;
-	size_t	i;
+	t_list *new;
 
-	res = arena_alloc(arena, sizeof(char) * (1 + ft_strlen(s)));
-	if (res == NULL)
+	if (!(new = (t_list *)arena_alloc(arena, sizeof(t_list))))
 		return (NULL);
-	i = 0;
-	while (i < ft_strlen(s))
-	{
-		res[i] = s[i];
-		i++;
-	}
-	res[i] = '\0';
-	return (res);
+	new->data = data;
+	new->next = NULL;
+	return (new);
 }
+
+void	ft_lstadd_back(t_list **alst, t_list *new)
+{
+	t_list *tmp;
+
+	if (!alst || !new)
+		return ;
+	if (!(*alst))
+	{
+		*alst = new;
+		return ;
+	}
+	tmp = *alst;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+}
+
