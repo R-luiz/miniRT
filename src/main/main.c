@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:35:54 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/01 15:26:27 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/01 15:44:52 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int argc, char *argv[])
 	t_canvas	*canvas;
 	t_camera	*camera;
 	t_options	options;
-	t_list		*list;
+	t_list		*params;
 
 	if (argc != 2)
 	{
@@ -50,7 +50,7 @@ int	main(int argc, char *argv[])
 		return (EXIT_FAILURE);
 	}
 	
-	list = parsing_to_list(arena, argv[1]);
+	params = parsing_to_list(arena, argv[1]);
 	eng = arena_alloc(arena, sizeof(*eng));
 	options_init(&options);
 	if (engine_init(eng, &options, arena) != EXIT_SUCCESS)
