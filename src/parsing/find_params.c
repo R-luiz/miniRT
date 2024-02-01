@@ -6,58 +6,57 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:47:05 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/01 17:17:35 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/01 18:02:36 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-float ft_atof(char *str)
+float	ft_atof(char *str)
 {
-	float res;
-	float sign;
-	float power;
+	float	res;
+	float	sign;
+	float	power;
 
-	res = 0;
-	sign = 1;
-	power = 1;
+	res = 0.0f;
+	sign = 1.0f;
+	power = 1.0f;
 	if (*str == '-')
 	{
-		sign = -1;
+		sign = -1.0f;
 		str++;
 	}
-	while (*str && *str != ',')
+	while (*str && *str != '.' && *str >= '0' && *str <= '9')
 	{
-		res = res * 10 + (*str - '0');
+		res = res * 10.0f + (*str - '0');
 		str++;
 	}
 	if (*str == '.')
 	{
 		str++;
-		while (*str && *str != ',')
+		while (*str && *str >= '0' && *str <= '9')
 		{
-			res = res * 10 + (*str - '0');
-			power *= 10;
+			res = res * 10.0f + (*str - '0');
+			power *= 10.0f;
 			str++;
 		}
 	}
 	return (sign * res / power);
 }
 
-t_camera *find_camera(t_arena *arena, t_list *list)
+t_camera	*find_camera(t_arena *arena, t_list *list)
 {
-	t_list *tmp;
-	t_list *tmp2;
-	t_camera *camera;
-	char *str;
-	char *delimiter;
+	t_list		*tmp;
+	t_list		*tmp2;
+	t_camera	*camera;
+	char		*str;
+	char		*delimiter;
 
 	tmp = list->next;
 	while (tmp)
 	{
 		tmp2 = tmp->data;
 		tmp2 = tmp2->data;
-
 		if (ft_strcmp(((t_list *)tmp->data)->data, "C") == 0)
 		{
 			tmp = tmp->data;
@@ -71,9 +70,83 @@ t_camera *find_camera(t_arena *arena, t_list *list)
 	tmp = tmp->next;
 	str = (char *)tmp->data;
 	delimiter = ",";
-	camera->center = (t_vec3){ft_atof(strtok(str, delimiter)), ft_atof(strtok(NULL, delimiter)), ft_atof(strtok(NULL, delimiter))};
+	camera->center = (t_vec3){ft_atof(strtok(str, delimiter)),
+		ft_atof(strtok(NULL, delimiter)), ft_atof(strtok(NULL, delimiter))};
 	str = (char *)tmp->next->data;
-	camera->look_at = (t_vec3){ft_atof(strtok(str, delimiter)), ft_atof(strtok(NULL, delimiter)), ft_atof(strtok(NULL, delimiter))};
+	camera->look_at = (t_vec3){ft_atof(strtok(str, delimiter)),
+		ft_atof(strtok(NULL, delimiter)), ft_atof(strtok(NULL, delimiter))};
 	camera->hfov = ft_atof((char *)tmp->next->next->data);
 	return (camera);
+}
+
+t_ambient	*find_ambient(t_arena *arena, t_list *list)
+{
+	t_list		*tmp;
+	t_list		*tmp2;
+	t_vec3		vec;
+	t_ambient	*ambient;
+	char		*str;
+	char		*delimiter;
+
+	tmp = list->next;
+	while (tmp)
+	{
+		tmp2 = tmp->data;
+		tmp2 = tmp2->data;
+		if (ft_strcmp(((t_list *)tmp->data)->data, "A") == 0)
+		{
+			tmp = tmp->data;
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	if (!tmp)
+		return (NULL);
+	ambient = (t_ambient *)arena_alloc(arena, sizeof(t_ambient));
+	tmp = tmp->next;
+	str = (char *)tmp->data;
+	ambient->ratio = ft_atof(str);
+	str = (char *)tmp->next->data;
+	delimiter = ",";
+	vec = (t_vec3){ft_atof(strtok(str, delimiter)), ft_atof(strtok(NULL,
+				delimiter)), ft_atof(strtok(NULL, delimiter))};
+	ambient->color = color_vec3(vec);
+	return (ambient);
+}
+
+t_light	*find_light(t_arena *arena, t_list *list)
+{
+	t_list	*tmp;
+	t_list	*tmp2;
+	t_vec3	vec;
+	t_light	*light;
+	char	*str;
+	char	*delimiter;
+
+	tmp = list->next;
+	while (tmp)
+	{
+		tmp2 = tmp->data;
+		tmp2 = tmp2->data;
+		if (ft_strcmp(((t_list *)tmp->data)->data, "L") == 0)
+		{
+			tmp = tmp->data;
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	if (!tmp)
+		return (NULL);
+	light = (t_light *)arena_alloc(arena, sizeof(t_light));
+	tmp = tmp->next;
+	str = (char *)tmp->data;
+	delimiter = ",";
+	light->origin = (t_vec3){ft_atof(strtok(str, delimiter)),
+		ft_atof(strtok(NULL, delimiter)), ft_atof(strtok(NULL, delimiter))};
+	light->ratio = ft_atof((char *)tmp->next->data);
+	str = (char *)tmp->next->next->data;
+	vec = (t_vec3){ft_atof(strtok(str, delimiter)), ft_atof(strtok(NULL,
+				delimiter)), ft_atof(strtok(NULL, delimiter))};
+	light->color = color_vec3(vec);
+	return (light);
 }
