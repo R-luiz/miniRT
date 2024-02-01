@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:35:54 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/01 15:26:27 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/01 17:48:01 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ int	main(int argc, char *argv[])
 	t_engine	*eng;
 	t_canvas	*canvas;
 	t_camera	*camera;
+	t_ambient	*ambient;
+	t_light		*light;
 	t_options	options;
-	t_list		*list;
+	t_list		*params;
 
 	if (argc != 2)
 	{
@@ -50,15 +52,18 @@ int	main(int argc, char *argv[])
 		return (EXIT_FAILURE);
 	}
 	
-	list = parsing_to_list(arena, argv[1]);
+	params = parsing_to_list(arena, argv[1]);
 	eng = arena_alloc(arena, sizeof(*eng));
 	options_init(&options);
 	if (engine_init(eng, &options, arena) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
-		
 	canvas = canvas_create(options.window_width, options.window_aspect, arena);
-	
-	camera = camera_create((t_point3){0, 0, 0}, (t_vec3){0, 0, 1}, 30, arena);
+	camera = find_camera(arena, params);
+	ambient = find_ambient(arena, params);
+	light = find_light(arena, params);
+	printf("camera: %f %f %f\n", camera->look_at.x, camera->look_at.y, camera->look_at.z);
+	printf("ambient: %f\n", ambient->ratio);
+	printf("light: %f %f %f\n", light->origin.x, light->origin.y, light->origin.z);
 	camera_init_viewport(camera, canvas->width, canvas->height, arena);
 	t_render rd = (t_render){.camera = camera, .canvas = canvas, .engine = eng};
 	pthread_t tid;
