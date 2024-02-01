@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/01 14:59:56 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/01 15:19:55 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,9 @@ int					ft_strlen_line(char *dest);
 char				*ft_join_line(char *src, char *buff);
 void				ft_cute_line(char *dest);
 char				*get_next_line(int fd);
+
+/* LIST FUNCTIONS */
+t_list				*ft_lstnew(t_arena *arena, void *data);
+void				ft_lstadd_back(t_arena *arena, t_list **alst, t_list *new);
 
 #endif // !PARSING_H

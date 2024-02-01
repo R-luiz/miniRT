@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:36:48 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/01 14:59:51 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/01 15:12:12 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char		*ft_strdup(const char *s);
 char		*ft_itoa(int n);
 void		*ft_realloc(void *ptr, size_t size);
 char		*ft_strrev(char *str);
+char		*ft_strtok(char *str, const char *delim);
 
 /*	arena allocator
 ==============
