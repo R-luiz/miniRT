@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:42:56 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/01 15:19:21 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/01 15:23:24 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_list	*parsing_to_list(t_arena *arena, char *file)
 		return (NULL);
 	while ((line = get_next_line(fd)))
 	{
-		tmp->next =	token_to_list(arena, line);
+		tmp->next =	ft_lstnew(arena, token_to_list(arena, line));
 		tmp = tmp->next;
 	}
 	close(fd);
