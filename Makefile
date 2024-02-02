@@ -42,6 +42,7 @@ SRC	= color/color.c \
 	parsing/get_next_line.c \
 	parsing/find_params.c \
 	parsing/find_spheres.c \
+	parsing/find_planes.c \
 
 ##############
 #

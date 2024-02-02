@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:35:54 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/02 17:43:33 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/02 17:48:40 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	main(int argc, char *argv[])
 	t_ambient	*ambient;
 	t_light		*light;
 	t_list		*spheres;
+	t_list		*planes;
 	t_options	options;
 	t_list		*params;
 
@@ -62,11 +63,14 @@ int	main(int argc, char *argv[])
 	ambient = find_ambient(arena, params);
 	light = find_light(arena, params);
 	spheres = find_spheres(arena, params);
+	planes = find_planes(arena, params);
 	printf("camera: %f %f %f\n", camera->look_at.x, camera->look_at.y, camera->look_at.z);
 	printf("ambient: %f\n", ambient->ratio);
 	printf("light: %f %f %f\n", light->origin.x, light->origin.y, light->origin.z);
 	printf("sphere1: %f %f %f\n", ((t_sphere *)spheres->data)->center.x, ((t_sphere *)spheres->data)->center.y, ((t_sphere *)spheres->data)->center.z);
 	printf("sphere2: %f %f %f\n", ((t_sphere *)spheres->next->data)->center.x, ((t_sphere *)spheres->next->data)->center.y, ((t_sphere *)spheres->next->data)->center.z);
+	printf("plane1: %f %f %f\n", ((t_plane *)planes->data)->apoint.x, ((t_plane *)planes->data)->apoint.y, ((t_plane *)planes->data)->apoint.z);
+	printf("plane1 normal: %f %f %f\n", ((t_plane *)planes->data)->normal.x, ((t_plane *)planes->data)->normal.y, ((t_plane *)planes->data)->normal.z);
 	camera_init_viewport(camera, canvas->width, canvas->height, arena);
 	t_render rd = (t_render){.camera = camera, .canvas = canvas, .engine = eng};
 	pthread_t tid;

@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/02 17:00:08 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/02 17:47:00 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,13 @@ typedef struct s_sphere
 	t_color			color;
 }					t_sphere;
 
+typedef struct s_plane
+{
+	t_point3		apoint;
+	t_vec3			normal;
+	t_color			color;
+}					t_plane;
+
 /* GET NEXT LINE FUNCTIONS */
 int					ft_check_line(char *dest);
 int					ft_strlen_line(char *dest);
@@ -72,4 +79,5 @@ t_camera			*find_camera(t_arena *arena, t_list *list);
 t_ambient			*find_ambient(t_arena *arena, t_list *list);
 t_light				*find_light(t_arena *arena, t_list *list);
 t_list				*find_spheres(t_arena *arena, t_list *list_params);
+t_list				*find_planes(t_arena *arena, t_list *list_params);
 #endif // !PARSING_H
