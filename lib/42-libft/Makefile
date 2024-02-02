@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+         #
+#    By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 11:03:52 by liguyon           #+#    #+#              #
-#    Updated: 2023/12/23 11:04:14 by liguyon          ###   ########.fr        #
+#    Updated: 2024/02/02 17:03:35 by rluiz            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC_DIR	= src
 SRC_	= stdlib/ft_realloc.c \
 		   stdlib/ft_atoi.c \
 		   stdlib/ft_atol.c \
+		   stdlib/ft_atof.c \
 		   stdlib/ft_itoa.c \
 		   string/ft_bzero.c \
 		   string/ft_memcpy.c \
