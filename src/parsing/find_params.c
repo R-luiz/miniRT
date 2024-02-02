@@ -6,43 +6,11 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:47:05 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/01 18:02:36 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/02 17:39:34 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-float	ft_atof(char *str)
-{
-	float	res;
-	float	sign;
-	float	power;
-
-	res = 0.0f;
-	sign = 1.0f;
-	power = 1.0f;
-	if (*str == '-')
-	{
-		sign = -1.0f;
-		str++;
-	}
-	while (*str && *str != '.' && *str >= '0' && *str <= '9')
-	{
-		res = res * 10.0f + (*str - '0');
-		str++;
-	}
-	if (*str == '.')
-	{
-		str++;
-		while (*str && *str >= '0' && *str <= '9')
-		{
-			res = res * 10.0f + (*str - '0');
-			power *= 10.0f;
-			str++;
-		}
-	}
-	return (sign * res / power);
-}
 
 t_camera	*find_camera(t_arena *arena, t_list *list)
 {

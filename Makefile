@@ -8,8 +8,9 @@ CFLAGS	= -Wall -Wextra -Werror \
 	-I$(INCDIR) \
 	-I$(LIBDIR)/$(LIBMLXDIR) \
 	-I$(LIBDIR)/$(LIBFTDIR) \
-	-g3 -fsanitize=thread \
+	-g3 \
 	-O2
+#-fsanitize=address
 
 CLFLAGS	= -lXext -lX11 -lm -lpthread
 
@@ -40,6 +41,9 @@ SRC	= color/color.c \
 	parsing/list.c \
 	parsing/get_next_line.c \
 	parsing/find_params.c \
+	parsing/find_spheres.c \
+	parsing/find_planes.c \
+	parsing/find_cylinders.c \
 
 ##############
 #
