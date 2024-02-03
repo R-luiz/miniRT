@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/03 13:40:52 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/03 13:45:36 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,18 @@ bool	hit_sphere(t_point3 center, float radius, t_ray *ray)
 	return (discriminant >= 0);
 }
 
+float	hit_sphere_distance(t_point3 center, float radius, t_ray *ray)
+{
+	t_vec3	oc = vec3_sub(ray->origin, center);
+	float a = vec3_dot(ray->direction, ray->direction);
+	float b = 2 * vec3_dot(oc, ray->direction);
+	float c = vec3_dot(oc, oc) - radius * radius;
+	float discriminant = b * b - 4 * a * c;
+	if (discriminant < 0)
+		return (-1);
+	return (-b - sqrtf(discriminant)) / (2 * a);
+}
+
 void	*camera_render(void *vargp)
 {
 	t_render	*rd;
@@ -76,6 +88,7 @@ void	*camera_render(void *vargp)
 	t_canvas	*canvas;
 	t_objects	*objects;
 	t_sphere	sphere;
+	float		distance;
 	int			i;
 	int			j;
 	t_color		c;
@@ -97,8 +110,9 @@ void	*camera_render(void *vargp)
 			t_vec3 ray_dir = vec3_sub(pixel_center, camera->center);
 			t_ray ray = (t_ray){.origin = camera->center, .direction = ray_dir};
 			sphere = *(t_sphere *)objects->spheres->data;
-			if (hit_sphere(sphere.center, sphere.diameter/2, &ray))
-				c = sphere.color;
+			distance = hit_sphere_distance(sphere.center, sphere.diameter/2, &ray);
+			if (distance >= 0)
+				c = sphere.color * distance;
 			else
 				c = 0;
 			canvas_draw(canvas, i, j, c);
