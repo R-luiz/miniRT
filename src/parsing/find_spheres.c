@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:27:36 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/03 13:40:35 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/03 15:48:51 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_list  *find_spheres(t_arena *arena, t_list *list_params)
 		str = (char *)tmp2->data;
 		if (ft_strcmp(str, "sp") == 0)
 		{
+			
 			sphere = (t_sphere *)arena_alloc(arena, sizeof(t_sphere));
 			tmp2 = tmp2->next;
 			str = (char *)tmp2->data;

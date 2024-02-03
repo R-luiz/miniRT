@@ -3,29 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   engine.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:29:10 by liguyon           #+#    #+#             */
-/*   Updated: 2024/01/20 03:20:54 by liguyon          ###   ########.fr       */
+/*   Updated: 2024/02/03 17:19:50 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "camera/camera.h"
 #include "engine.h"
 #include "maths/maths.h"
 #include "mlx.h"
+#include <X11/X.h>
+#include <X11/Xlib.h>
+#include <X11/keysym.h>
+#include <fcntl.h>
 #include <stdlib.h>
 
-void	inputs_bind(t_engine *eng);
+#define KEY_ESCAPE 65307
+#define KEY_PRESS 2
+#define KEY_RELEASE 3
+#define KEY_EXIT 17
+#define KEY_ESC 65307
+#define KEY_W 119
+#define KEY_A 97
+#define KEY_S 115
+#define KEY_D 100
+#define KEY_SPACE 32
 
-int	engine_init(t_engine *eng, t_options *opt, void *arena)
+void		inputs_bind(t_render *rd);
+
+int	engine_init(t_render *rd, t_options *opt, void *arena)
 {
-	eng->grph = graphics_create(
-		opt->window_width, opt->window_aspect, arena);
+	t_engine *eng = rd->engine;
+	eng->grph = graphics_create(opt->window_width, opt->window_aspect, arena);
 	if (!eng->grph)
 		return (EXIT_FAILURE);
 	eng->timer = rt_timer_create(arena);
 	eng->timestep = 1e3f / opt->fps;
-	inputs_bind(eng);
+	inputs_bind(rd);
 	pthread_mutex_init(&eng->mut, NULL);
 	eng->is_running = true;
 	return (EXIT_SUCCESS);
@@ -50,12 +66,15 @@ static int	main_loop(t_loop_args *args)
 	return (EXIT_SUCCESS);
 }
 
-void	engine_run(t_engine *eng, t_canvas *canvas)
+void	engine_run(t_render *rd, t_canvas *canvas, t_camera *cam)
 {
 	t_loop_args	args;
+	t_engine	*eng;
 
-	args.eng = eng;
+	args.eng = rd->engine;
 	args.canvas = canvas;
+	args.camera = cam;
+	eng = rd->engine;
 	mlx_loop_hook(eng->grph->mlx_ptr, main_loop, &args);
 	mlx_loop(eng->grph->mlx_ptr);
 }

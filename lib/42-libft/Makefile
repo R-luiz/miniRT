@@ -6,7 +6,7 @@
 #    By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/11 11:03:52 by liguyon           #+#    #+#              #
-#    Updated: 2024/02/02 17:03:35 by rluiz            ###   ########.fr        #
+#    Updated: 2024/02/03 15:53:29 by rluiz            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ SRC_	= stdlib/ft_realloc.c \
 		   ctype/ft_isdigit.c \
 		   ctype/ft_isspace.c \
 		   arena/arena.c \
-		   arena/arena_alloc.c
+		   arena/arena_alloc.c \
+		   list/ft_lstsize.c \
 
 SRC			= $(addprefix $(SRC_DIR)/, $(SRC_))
 

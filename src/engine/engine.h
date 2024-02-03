@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   engine.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:48:21 by liguyon           #+#    #+#             */
-/*   Updated: 2024/01/20 03:22:00 by liguyon          ###   ########.fr       */
+/*   Updated: 2024/02/03 17:14:13 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "./timer.h"
 # include "main/options.h"
 # include "canvas/canvas.h"
+# include "camera/camera.h"
 # include <stdbool.h>
 # include <pthread.h>
 
@@ -36,11 +37,11 @@ typedef struct s_engine
 }	t_engine;
 
 // Initialize the engine's subsystems with the specified options.
-int		engine_init(t_engine *eng, t_options *opt, void *arena);
+int		engine_init(t_render *rd, t_options *opt, void *arena);
 
 /* Loop the engine until the user terminates. The content of the window is
 updated with the canvas every frame.*/
-void	engine_run(t_engine *eng, t_canvas *canvas);
+void	engine_run(t_render *rd, t_canvas *canvas, t_camera *camera);
 
 /* To be called on termination. This function performs the cleanups for all
 resources that won't be released by simply destroying the arena. */
@@ -57,6 +58,7 @@ typedef struct s_loop_args
 {
 	t_engine	*eng;
 	t_canvas	*canvas;
+	t_camera	*camera;
 }	t_loop_args;
 
 #endif

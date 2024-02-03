@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:36:48 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/02 17:03:23 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/03 15:53:21 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,20 @@
 # include "src/arena/arena_internal.h"
 # include <stdint.h>
 # include <stdlib.h>
+
+/*	list
+==============
+*/
+struct s_list;
+
+typedef struct s_list
+{
+	void			*data;
+	struct s_list	*next;
+
+}					t_list;
+
+int	ft_lstsize(t_list *lst);
 
 /*	c lib
 ==============

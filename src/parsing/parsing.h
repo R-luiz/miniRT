@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/03 13:31:37 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/03 15:51:14 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,6 @@
 # include <unistd.h>
 
 # define BUFFER_SIZE 32
-
-struct s_list;
-
-typedef struct s_list
-{
-	void			*data;
-	struct s_list	*next;
-
-}					t_list;
 
 typedef struct s_ambient
 {
@@ -76,6 +67,9 @@ typedef struct t_objects
 	t_list		*cylinders;
 	t_list		*lights;
 	t_ambient	*ambient;
+	int			sp_count;
+	int			pl_count;
+	int			cy_count;
 }	t_objects;
 
 /* GET NEXT LINE FUNCTIONS */
