@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:07:00 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/01 16:39:39 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/03 13:31:21 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 # define CAMERA_H
 
 # include "maths/maths.h"
+# include "parsing/parsing.h"
 
 /* Basic camera with a viewport fixed to it.
 The viewport is orthogonal to the camera direction, its center is placed where
 the camera is looking at.
 */
+
 typedef struct s_camera
 {
 	t_point3		center;
@@ -40,6 +42,7 @@ void		camera_init_viewport(
 
 void		*camera_render(void *vargp);
 
+t_camera			*find_camera(t_arena *arena, t_list *list);
 /* INTERNAL
 ================================================================================
 */
@@ -61,6 +64,7 @@ typedef struct s_render
 	t_camera	*camera;
 	t_canvas	*canvas;
 	t_engine	*engine;
+	t_objects	*objects;
 }	t_render;
 
 #endif

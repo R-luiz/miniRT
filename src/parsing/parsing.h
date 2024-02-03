@@ -6,14 +6,13 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/02 17:51:23 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/03 13:31:37 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-# include "camera/camera.h"
 # include "color/color.h"
 # include "libft.h"
 # include "maths/maths.h"
@@ -70,6 +69,15 @@ typedef struct s_cylinder
 	t_color			color;
 }					t_cylinder;
 
+typedef struct t_objects
+{
+	t_list		*spheres;
+	t_list		*planes;
+	t_list		*cylinders;
+	t_list		*lights;
+	t_ambient	*ambient;
+}	t_objects;
+
 /* GET NEXT LINE FUNCTIONS */
 int					ft_check_line(char *dest);
 int					ft_strlen_line(char *dest);
@@ -84,7 +92,6 @@ void				ft_lstadd_back(t_list **alst, t_list *new);
 /* PARSING FUNCTIONS */
 t_list				*parsing_to_list(t_arena *arena, char *file);
 t_list				*token_to_list(t_arena *arena, char *line);
-t_camera			*find_camera(t_arena *arena, t_list *list);
 t_ambient			*find_ambient(t_arena *arena, t_list *list);
 t_light				*find_light(t_arena *arena, t_list *list);
 t_list				*find_spheres(t_arena *arena, t_list *list_params);

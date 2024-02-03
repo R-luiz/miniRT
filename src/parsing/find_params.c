@@ -6,11 +6,12 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:47:05 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/02 17:39:34 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/03 13:32:11 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include "camera/camera.h"
 
 t_camera	*find_camera(t_arena *arena, t_list *list)
 {

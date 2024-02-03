@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:35:54 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/02 17:52:23 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/03 13:07:02 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	main(int argc, char *argv[])
 	t_list		*spheres;
 	t_list		*planes;
 	t_list		*cylinders;
+	t_objects	*objects;
 	t_options	options;
 	t_list		*params;
 
@@ -80,8 +81,10 @@ int	main(int argc, char *argv[])
 	printf("cylinder2: %f %f %f\n", ((t_cylinder *)cylinders->next->data)->center.x, ((t_cylinder *)cylinders->next->data)->center.y, ((t_cylinder *)cylinders->next->data)->center.z);
 	printf("cylinder2 normal: %f %f %f\n", ((t_cylinder *)cylinders->next->data)->normal.x, ((t_cylinder *)cylinders->next->data)->normal.y, ((t_cylinder *)cylinders->next->data)->normal.z);
 	printf("cylinder2 diameter: %f\n", ((t_cylinder *)cylinders->next->data)->diameter);
+	objects = (t_objects *)arena_alloc(arena, sizeof(*objects));
+	objects->spheres = spheres;
 	camera_init_viewport(camera, canvas->width, canvas->height, arena);
-	t_render rd = (t_render){.camera = camera, .canvas = canvas, .engine = eng};
+	t_render rd = (t_render){.camera = camera, .canvas = canvas, .engine = eng, .objects = objects};
 	pthread_t tid;
 	pthread_create(&tid, NULL, camera_render, &rd);
 	pthread_detach(tid);

@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:27:36 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/02 17:42:30 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/03 13:40:35 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ t_list  *find_spheres(t_arena *arena, t_list *list_params)
 			str = (char *)tmp2->next->data;
 			sphere->diameter = ft_atof(str);
 			str = (char *)tmp2->next->next->data;
-			sphere->color = color_vec3((t_vec3){ft_atof(ft_strtok(str, delimiter)),
-				ft_atof(ft_strtok(NULL, delimiter)),
-				ft_atof(ft_strtok(NULL, delimiter))});
+			sphere->color = color_int(ft_atoi(ft_strtok(str, delimiter)),
+				ft_atoi(ft_strtok(NULL, delimiter)),
+				ft_atoi(ft_strtok(NULL, delimiter)));
 			if (!spheres)
 				spheres = ft_lstnew(arena, sphere);
 			else

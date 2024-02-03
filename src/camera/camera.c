@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/01 16:39:32 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/03 13:40:52 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	*camera_render(void *vargp)
 	t_render	*rd;
 	t_camera	*camera;
 	t_canvas	*canvas;
+	t_objects	*objects;
+	t_sphere	sphere;
 	int			i;
 	int			j;
 	t_color		c;
@@ -81,6 +83,7 @@ void	*camera_render(void *vargp)
 	rd = (t_render *)vargp;
 	camera = rd->camera;
 	canvas = rd->canvas;
+	objects = (t_objects *)rd->objects;
 	j = -1;
 	while (++j < canvas->height)
 	{
@@ -93,8 +96,9 @@ void	*camera_render(void *vargp)
 			pixel_center = vec3_add(pixel_center, vec3_mul(camera->vp->pixel_dv, j));
 			t_vec3 ray_dir = vec3_sub(pixel_center, camera->center);
 			t_ray ray = (t_ray){.origin = camera->center, .direction = ray_dir};
-			if (hit_sphere((t_point3){0, 0, 2}, 0.2, &ray))
-				c = 0xff0000;
+			sphere = *(t_sphere *)objects->spheres->data;
+			if (hit_sphere(sphere.center, sphere.diameter/2, &ray))
+				c = sphere.color;
 			else
 				c = 0;
 			canvas_draw(canvas, i, j, c);
