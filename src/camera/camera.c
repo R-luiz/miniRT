@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/03 17:51:55 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/03 18:11:37 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,6 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 	}
 	if (min_distance == INFINITY)
 	{
-		// Background gradient
 		t = 0.5f * (ray_direction.y + 1.0f);
 		final_color = vec3_add(vec3_mul((t_vec3){1.0f, 1.0f, 1.0f}, (1.0f - t)),
 				vec3_mul((t_vec3){0.5f, 0.7f, 1.0f}, t));
