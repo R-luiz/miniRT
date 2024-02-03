@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:50:15 by liguyon           #+#    #+#             */
-/*   Updated: 2024/01/19 17:57:44 by liguyon          ###   ########.fr       */
+/*   Updated: 2024/02/03 13:50:51 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,14 @@ t_color	color_vec3(t_vec3 v)
 t_color	color_int(uint8_t r, uint8_t g, uint8_t b)
 {
 	return (r << 16 | g << 8 | b);
+}
+
+t_vec3 color_to_vec3(t_color c)
+{
+	t_vec3	v;
+
+	v.x = (float)((c & 0xFF0000) >> 16) / 255.f;
+	v.y = (float)((c & 0xFF00) >> 8) / 255.f;
+	v.z = (float)(c & 0xFF) / 255.f;
+	return (v);
 }

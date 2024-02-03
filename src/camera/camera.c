@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/03 13:45:36 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/03 14:25:40 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	*camera_render(void *vargp)
 	t_canvas	*canvas;
 	t_objects	*objects;
 	t_sphere	sphere;
+	t_vec3		color;
 	float		distance;
 	int			i;
 	int			j;
@@ -110,9 +111,12 @@ void	*camera_render(void *vargp)
 			t_vec3 ray_dir = vec3_sub(pixel_center, camera->center);
 			t_ray ray = (t_ray){.origin = camera->center, .direction = ray_dir};
 			sphere = *(t_sphere *)objects->spheres->data;
+			color = color_to_vec3(sphere.color);
 			distance = hit_sphere_distance(sphere.center, sphere.diameter/2, &ray);
+			t_vec3 unit_direction = vec3_normalize(vec3_sub(vec3_mul(ray.direction, distance), (t_vec3){0, 0, -1}));
+			color = vec3_mul((t_vec3){unit_direction.x + 1, unit_direction.y + 1, unit_direction.z + 1}, 0.5);
 			if (distance >= 0)
-				c = sphere.color * distance;
+				c = color_int(color.x * 255, color.y * 255, color.z * 255);
 			else
 				c = 0;
 			canvas_draw(canvas, i, j, c);
