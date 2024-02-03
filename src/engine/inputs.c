@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 14:44:00 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/03 17:27:40 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/03 17:38:24 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,13 @@ static int	inputs_process_keypress(int keycode, t_render *rd)
 	if (keycode == XK_Escape)
 		loop_end(eng);
 	if (keycode == XK_w)
-		camera->center.y += 0.1;
+		camera->center.y += 0.05;
 	if (keycode == XK_a)
-		camera->center.x -= 0.1;
+		camera->center.x -= 0.05;
 	if (keycode == XK_s)
-		camera->center.y -= 0.1;
+		camera->center.y -= 0.05;
 	if (keycode == XK_d)
-		camera->center.x += 0.1;
-	camera_render(rd);
-	graphics_clear(eng->grph);
-	graphics_update_framebuffer(eng->grph, rd->canvas);
-	graphics_present(eng->grph);
+		camera->center.x += 0.05;
 	return (0);
 }
 

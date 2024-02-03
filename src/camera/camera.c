@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/03 16:37:34 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/03 17:37:59 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,54 +89,54 @@ void	*camera_render(void *vargp)
 	t_objects	*objects = rd->objects;
 	int			i, j;
 	t_color		color;
-
-	printf("camera center: %f %f %f\n", camera->center.x, camera->center.y, camera->center.z);
-	for (j = 0; j < canvas->height; j++) {
-		for (i = 0; i < canvas->width; i++) {
-			if (!engine_is_running(rd->engine)) {
-				return NULL;
-			}
-
-			t_point3 pixel_center = vec3_add(
-				camera->vp->pixel_00, 
-				vec3_add(
-					vec3_mul(camera->vp->pixel_du, (float)i), 
-					vec3_mul(camera->vp->pixel_dv, (float)j)
-				)
-			);
-
-			t_vec3 ray_direction = vec3_normalize(vec3_sub(pixel_center, camera->center));
-			t_ray ray = { .origin = camera->center, .direction = ray_direction };
-
-			float min_distance = INFINITY;
-			t_vec3 final_color = {0, 0, 0};
-
-			for (int s = 0; s < objects->sp_count; s++) {
-				t_sphere sphere = *(t_sphere *)objects->spheres->data;
-				float distance = hit_sphere_distance(sphere.center, sphere.diameter/2, &ray);
-				if (distance > 0.0f && distance < min_distance) {
-					min_distance = distance;
-					t_vec3 hit_point = vec3_add(ray.origin, vec3_mul(ray.direction, distance));
-					t_vec3 normal = vec3_normalize(vec3_sub(hit_point, sphere.center));
-					final_color = vec3_mul(vec3_add(vec3_mul(normal, 0.5f), (t_vec3){0.5f, 0.5f, 0.5f}), 255.0f);
+	
+	while (rd->engine->is_running)
+	{
+		for (j = 0; j < canvas->height; j++) {
+			for (i = 0; i < canvas->width; i++) {
+				if (!engine_is_running(rd->engine)) {
+					return NULL;
 				}
-			}
 
-			if (min_distance == INFINITY) {
-				// Background gradient
-				float t = 0.5f * (ray_direction.y + 1.0f);
-				final_color = vec3_add(
-					vec3_mul((t_vec3){1.0f, 1.0f, 1.0f}, (1.0f - t)),
-					vec3_mul((t_vec3){0.5f, 0.7f, 1.0f}, t)
+				t_point3 pixel_center = vec3_add(
+					camera->vp->pixel_00, 
+					vec3_add(
+						vec3_mul(camera->vp->pixel_du, (float)i), 
+						vec3_mul(camera->vp->pixel_dv, (float)j)
+					)
 				);
-				final_color = vec3_mul(final_color, 255.0f);
-			}
 
-			color = ((int)final_color.x << 16) | ((int)final_color.y << 8) | (int)final_color.z;
-			canvas_draw(canvas, i, j, color);
+				t_vec3 ray_direction = vec3_normalize(vec3_sub(pixel_center, camera->center));
+				t_ray ray = { .origin = camera->center, .direction = ray_direction };
+
+				float min_distance = INFINITY;
+				t_vec3 final_color = {0, 0, 0};
+
+				for (int s = 0; s < objects->sp_count; s++) {
+					t_sphere sphere = *(t_sphere *)objects->spheres->data;
+					float distance = hit_sphere_distance(sphere.center, sphere.diameter/2, &ray);
+					if (distance > 0.0f && distance < min_distance) {
+						min_distance = distance;
+						t_vec3 hit_point = vec3_add(ray.origin, vec3_mul(ray.direction, distance));
+						t_vec3 normal = vec3_normalize(vec3_sub(hit_point, sphere.center));
+						final_color = vec3_mul(vec3_add(vec3_mul(normal, 0.5f), (t_vec3){0.5f, 0.5f, 0.5f}), 255.0f);
+					}
+				}
+
+				if (min_distance == INFINITY) {
+					// Background gradient
+					float t = 0.5f * (ray_direction.y + 1.0f);
+					final_color = vec3_add(
+						vec3_mul((t_vec3){1.0f, 1.0f, 1.0f}, (1.0f - t)),
+						vec3_mul((t_vec3){0.5f, 0.7f, 1.0f}, t)
+					);
+					final_color = vec3_mul(final_color, 255.0f);
+				}
+
+				color = ((int)final_color.x << 16) | ((int)final_color.y << 8) | (int)final_color.z;
+				canvas_draw(canvas, i, j, color);
+			}
 		}
 	}
-
-	printf("finished rendering scene\n");
 	return NULL;
 }
