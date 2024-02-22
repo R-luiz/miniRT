@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:29:10 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/03 17:19:50 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/16 16:23:27 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	engine_init(t_render *rd, t_options *opt, void *arena)
 	return (EXIT_SUCCESS);
 }
 
-static int	main_loop(t_loop_args *args)
+static int	main_img(t_loop_args *args)
 {
 	t_engine	*eng;
 	t_canvas	*canvas;
@@ -75,7 +75,7 @@ void	engine_run(t_render *rd, t_canvas *canvas, t_camera *cam)
 	args.canvas = canvas;
 	args.camera = cam;
 	eng = rd->engine;
-	mlx_loop_hook(eng->grph->mlx_ptr, main_loop, &args);
+	main_img(&args);
 	mlx_loop(eng->grph->mlx_ptr);
 }
 

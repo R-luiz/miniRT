@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/03 18:11:37 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/22 19:32:29 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 	float		distance;
 	t_vec3		hit_point;
 	t_vec3		normal;
-	float		t;
+	float		distance_to_light;
+	t_vec3		light_color;
 
 	camera = rd->camera;
 	canvas = rd->canvas;
@@ -130,19 +131,57 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 			min_distance = distance;
 			hit_point = vec3_add(ray.origin, vec3_mul(ray.direction, distance));
 			normal = vec3_normalize(vec3_sub(hit_point, sphere.center));
-			final_color = vec3_mul(vec3_add(vec3_mul(normal, 0.5f),
-						(t_vec3){0.5f, 0.5f, 0.5f}), 255.0f);
+			final_color = color_to_vec3(sphere.color);
+			distance_to_light = vec3_length(vec3_sub(hit_point,
+						objects->light->origin));
+			light_color = vec3_mul(color_to_vec3(objects->light->color),
+					objects->light->ratio / powf(distance_to_light, 2));
+			final_color = vec3_coloradddue(final_color, light_color);
 		}
 		object = object->next;
 	}
 	if (min_distance == INFINITY)
 	{
-		t = 0.5f * (ray_direction.y + 1.0f);
-		final_color = vec3_add(vec3_mul((t_vec3){1.0f, 1.0f, 1.0f}, (1.0f - t)),
-				vec3_mul((t_vec3){0.5f, 0.7f, 1.0f}, t));
-		final_color = vec3_mul(final_color, 255.0f);
+		final_color = vec3_mul(color_to_vec3(objects->ambient->color),
+				objects->ambient->ratio);
 	}
 	return (final_color);
+}
+
+void	travelling_ray(t_render *rd, t_list *objects_hit, t_ray *ray)
+{
+	float		ray_length;
+	t_point3	hit_point;
+	t_list		*object;
+	t_objects	*objects;
+	t_sphere	sphere;
+	float		min_distance;
+	t_vec3		normal;
+
+	ray_length = 0;
+	objects = rd->objects;
+	object = rd->objects->spheres;
+	while (ray_length > 0)
+	{
+		for (int s = 0; s < objects->sp_count; s++)
+		{
+			sphere = *(t_sphere *)object->data;
+			ray_length = hit_sphere_distance(sphere.center, sphere.diameter / 2,
+					ray);
+			if (ray_length > 0.0f && ray_length < min_distance)
+			{
+				min_distance = ray_length;
+				hit_point = vec3_add(ray->origin, vec3_mul(ray->direction, ray_length));
+				normal = vec3_normalize(vec3_sub(hit_point, sphere.center));
+						ray_length = hit_sphere_distance((t_point3){0, 0, 0}, 1, ray);
+				objects_hit->next = ft_lstnew(rd->arena, object->data);
+			}
+			object = object->next;
+		}
+		ray->origin = hit_point;
+		ray->direction = vec3_reflect(ray->direction, normal);
+		objects_hit = objects_hit->next;
+	}
 }
 
 void	*camera_render(void *vargp)
@@ -153,6 +192,9 @@ void	*camera_render(void *vargp)
 	t_objects	*objects;
 	t_color		color;
 	t_vec3		final_color;
+	t_list		*objects_hit;
+	t_ray		*ray;
+	t_point3	pixel_center;
 
 	rd = (t_render *)vargp;
 	camera = rd->camera;
@@ -160,20 +202,24 @@ void	*camera_render(void *vargp)
 	objects = rd->objects;
 	int i, j;
 	final_color = (t_vec3){0, 0, 0};
-	while (rd->engine->is_running)
+	for (j = 0; j < canvas->height; j++)
 	{
-		for (j = 0; j < canvas->height; j++)
+		for (i = 0; i < canvas->width; i++)
 		{
-			for (i = 0; i < canvas->width; i++)
-			{
-				if (!engine_is_running(rd->engine))
-				{
-					return (NULL);
-				}
-				final_color = calc_spheres(rd, i, j);
-				color = ((int)final_color.x << 16) | ((int)final_color.y << 8) | (int)final_color.z;
-				canvas_draw(canvas, i, j, color);
-			}
+			ray = arena_temp_alloc(rd->arena, sizeof(*ray));
+			objects_hit = ft_lstnew(rd->arena, NULL);
+			ray->origin = camera->center;
+			pixel_center = vec3_add(camera->vp->pixel_00,
+					vec3_add(vec3_mul(camera->vp->pixel_du, (float)i),
+						vec3_mul(camera->vp->pixel_dv, (float)j)));
+			ray->direction = vec3_normalize(vec3_sub(pixel_center,
+						camera->center));
+			travelling_ray(rd, objects_hit, ray);
+			if (ft_lstsize(objects_hit) > 1)
+				printf("%d,", ft_lstsize(objects_hit));
+			final_color = vec3_mul(calc_spheres(rd, i, j), 255);
+			color = ((int)final_color.x << 16) | ((int)final_color.y << 8) | (int)final_color.z;
+			canvas_draw(canvas, i, j, color);
 		}
 	}
 	return (NULL);
