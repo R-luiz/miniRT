@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/23 16:30:00 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/23 16:53:18 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,22 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 		}
 		object = object->next;
 	}
+	//check if the light is blocked by checking if the ray from the hit point to the light intersects any object
+	ray.origin = hit_point;
+	ray.direction = light_direction;
+	object = objects->spheres;
+	for (int s = 0; s < objects->sp_count; s++)
+	{
+		sphere = *(t_sphere *)object->data;
+		distance = hit_sphere_distance(sphere.center, sphere.diameter / 2,
+				&ray);
+		if (distance > 0.0f && distance < distance_to_light)
+		{
+			final_color = ambient_color;
+			break ;
+		}
+		object = object->next;
+	}
 	final_color = vec3_coloradddue(final_color, ambient_color);
 	return (final_color);
 }
@@ -182,7 +198,8 @@ void	travelling_ray(t_render *rd, t_list *objects_hit, t_ray *ray)
 				hit_point = vec3_add(ray->origin, vec3_mul(ray->direction,
 							ray_length));
 				normal = vec3_normalize(vec3_sub(hit_point, sphere.center));
-				ray_length = hit_sphere_distance((t_point3){0, 0, 0}, 1, ray);
+				ray_length = hit_sphere_distance(sphere.center, sphere.diameter / 2,
+						ray);
 				objects_hit->next = ft_lstnew(rd->arena, object->data);
 			}
 			object = object->next;
