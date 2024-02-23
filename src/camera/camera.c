@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/23 19:50:32 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/23 20:00:50 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,11 @@ float	hit_sphere_distance(t_point3 center, float radius, t_ray *ray)
 		return (-1);
 	return (-b - sqrtf(discriminant)) / (2 * a);
 }
+
 static int solve_quadratic(float A, float B, float C, float *t0, float *t1) {
     float discriminant = B * B - 4 * A * C;
     if (discriminant < 0) return 0; // No real roots
-    float sqrtDiscriminant = sqrt(discriminant);
+    float sqrtDiscriminant = sqrtf(discriminant);
     *t0 = (-B - sqrtDiscriminant) / (2 * A);
     *t1 = (-B + sqrtDiscriminant) / (2 * A);
     if (*t0 > *t1) {
@@ -107,6 +108,7 @@ static int solve_quadratic(float A, float B, float C, float *t0, float *t1) {
     return discriminant == 0 ? 1 : 2; // 1 or 2 real roots
 }
 
+// Calculates the distance from the ray origin to the cylinder intersection point
 float hit_cylinder_distance(t_point3 center, t_vec3 axis, float radius, t_ray *ray) {
     t_vec3 CO = vec3_sub(ray->origin, center); // Vector from cylinder center to ray origin
     t_vec3 D = ray->direction; // Ray direction
@@ -122,10 +124,9 @@ float hit_cylinder_distance(t_point3 center, t_vec3 axis, float radius, t_ray *r
     float t0, t1;
     if (solve_quadratic(a, b, c, &t0, &t1) == 0) return -1; // No intersection
 
-    // TODO: Additional checks can be added here to limit the cylinder's height
-    // and to ignore intersections behind the ray's origin.
+    // Check for cylinder's height limit here if necessary
 
-    return t0 >= 0 ? t0 : -1; // Return the nearest intersection distance
+    return t0 >= 0 ? t0 : -1;
 }
 
 t_vec3 calc_cylinder(t_render *rd, int i, int j)
