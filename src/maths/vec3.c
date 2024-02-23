@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 19:24:18 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/22 19:02:47 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/23 16:12:40 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,22 @@ t_vec3	vec3_mean(t_vec3 v, t_vec3 w)
 	return (ret);
 }
 
+t_vec3	vec3_clamp_to_one(t_vec3 v)
+{
+	t_vec3	clamped;
+
+	clamped.x = fminf(0.9999999999f, fmaxf(0.0f, v.x));
+	clamped.y = fminf(0.9999999999f, fmaxf(0.0f, v.y));
+	clamped.z = fminf(0.9999999999f, fmaxf(0.0f, v.z));
+	return (clamped);
+}
+
 t_vec3	vec3_coloradddue(t_vec3 color1, t_vec3 color2)
 {
 	t_vec3	result;
-	float	maxComponentValue;
 
 	result = vec3_add(color1, color2);
-	maxComponentValue = fmax(result.x, fmax(result.y, result.z));
-	if (maxComponentValue > 1.0f)
-	{
-		result.x /= maxComponentValue;
-		result.y /= maxComponentValue;
-		result.z /= maxComponentValue;
-	}
+	result = vec3_clamp_to_one(result);
 	return (result);
 }
 
@@ -79,12 +82,11 @@ t_vec3	vec3_coloraddmax(t_vec3 color1, t_vec3 color2)
 	t_vec3	result;
 
 	result = vec3_add(color1, color2);
-	if (result.x > 1.0f)
-		result.x = 1.0f;
-	if (result.y > 1.0f)
-		result.y = 1.0f;
-	if (result.z > 1.0f)
-		result.z = 1.0f;
+	if (result.x > 0.99999999f)
+		result.x = 0.99999999f;
+	if (result.y > 0.99999999f)
+		result.y = 0.99999999f;
+	if (result.z > 0.99999999f)
+		result.z = 0.99999999f;
 	return (result);
 }
-

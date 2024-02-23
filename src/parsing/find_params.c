@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:47:05 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/03 13:32:11 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/02/23 15:24:22 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ t_ambient	*find_ambient(t_arena *arena, t_list *list)
 	delimiter = ",";
 	vec = (t_vec3){ft_atof(strtok(str, delimiter)), ft_atof(strtok(NULL,
 				delimiter)), ft_atof(strtok(NULL, delimiter))};
+	printf("vec: %f %f %f\n", vec.x, vec.y, vec.z);
 	ambient->color = color_vec3(vec);
 	return (ambient);
 }
@@ -116,6 +117,7 @@ t_light	*find_light(t_arena *arena, t_list *list)
 	str = (char *)tmp->next->next->data;
 	vec = (t_vec3){ft_atof(strtok(str, delimiter)), ft_atof(strtok(NULL,
 				delimiter)), ft_atof(strtok(NULL, delimiter))};
+	printf("vec2: %f %f %f\n", vec.x, vec.y, vec.z);
 	light->color = color_vec3(vec);
 	return (light);
 }
