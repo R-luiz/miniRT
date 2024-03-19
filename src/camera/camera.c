@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/23 20:00:50 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/05 16:00:48 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,7 +287,7 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 		}
 		object = object->next;
 	}
-	final_color = vec3_coloraddmax(final_color, ambient_color);
+	final_color = vec3_coloradddue(final_color, ambient_color);
 	return (final_color);
 }
 
@@ -372,8 +372,8 @@ void	*camera_render(void *vargp)
 			// travelling_ray(rd, objects_hit, ray);
 			if (ft_lstsize(objects_hit2) > 1)
 				printf("%d,", ft_lstsize(objects_hit));
-			// final_color = vec3_mul(calc_spheres(rd, i, j), 255);
-			final_color = vec3_mul(calc_cylinder(rd, i, j), 255);
+			final_color = vec3_mul(calc_spheres(rd, i, j), 255);
+			// final_color = vec3_mul(calc_cylinder(rd, i, j), 255);
 			color = ((int)final_color.x << 16) | ((int)final_color.y << 8) | (int)final_color.z;
 			canvas_draw(canvas, i, j, color);
 		}
