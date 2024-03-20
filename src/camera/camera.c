@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/05 16:00:48 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/19 15:53:41 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,9 +340,6 @@ void	travelling_ray(t_render *rd, t_list *objects_hit, t_ray *ray)
 void	*camera_render(void *vargp)
 {
 	t_render	*rd;
-	t_camera	*camera;
-	t_canvas	*canvas;
-	t_objects	*objects;
 	t_color		color;
 	t_vec3		final_color;
 	t_list		*objects_hit;
@@ -351,31 +348,26 @@ void	*camera_render(void *vargp)
 	t_point3	pixel_center;
 
 	rd = (t_render *)vargp;
-	camera = rd->camera;
-	canvas = rd->canvas;
-	objects = rd->objects;
 	int i, j;
 	final_color = (t_vec3){0, 0, 0};
-	for (j = 0; j < canvas->height; j++)
+	for (j = 0; j < rd->canvas->height; j++)
 	{
-		for (i = 0; i < canvas->width; i++)
+		for (i = 0; i < rd->canvas->width; i++)
 		{
 			ray = arena_temp_alloc(rd->arena, sizeof(*ray));
 			objects_hit = ft_lstnew(rd->arena, NULL);
 			objects_hit2 = objects_hit;
-			ray->origin = camera->center;
-			pixel_center = vec3_add(camera->vp->pixel_00,
-					vec3_add(vec3_mul(camera->vp->pixel_du, (float)i),
-						vec3_mul(camera->vp->pixel_dv, (float)j)));
+			ray->origin = rd->camera->center;
+			pixel_center = vec3_add(rd->camera->vp->pixel_00,
+					vec3_add(vec3_mul(rd->camera->vp->pixel_du, (float)i),
+						vec3_mul(rd->camera->vp->pixel_dv, (float)j)));
 			ray->direction = vec3_normalize(vec3_sub(pixel_center,
-						camera->center));
-			// travelling_ray(rd, objects_hit, ray);
+						rd->camera->center));
 			if (ft_lstsize(objects_hit2) > 1)
 				printf("%d,", ft_lstsize(objects_hit));
 			final_color = vec3_mul(calc_spheres(rd, i, j), 255);
-			// final_color = vec3_mul(calc_cylinder(rd, i, j), 255);
 			color = ((int)final_color.x << 16) | ((int)final_color.y << 8) | (int)final_color.z;
-			canvas_draw(canvas, i, j, color);
+			canvas_draw(rd->canvas, i, j, color);
 		}
 	}
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/16 16:06:47 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/20 17:24:49 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@
 # include <unistd.h>
 
 # define BUFFER_SIZE 32
+
+typedef struct s_lightray
+{
+	t_point3	origin;
+	t_vec3		direction;
+	t_color		color;
+}				t_lightray;
 
 typedef struct s_ambient
 {
@@ -42,6 +49,7 @@ typedef struct s_sphere
 	t_point3	center;
 	float		diameter;
 	t_color		color;
+	t_lightray	(*bounce)(void *obj, t_lightray ray);
 }				t_sphere;
 
 typedef struct s_plane
@@ -49,6 +57,7 @@ typedef struct s_plane
 	t_point3	apoint;
 	t_vec3		normal;
 	t_color		color;
+	t_lightray	(*bounce)(void *obj, t_lightray ray);
 }				t_plane;
 
 typedef struct s_cylinder
@@ -58,6 +67,7 @@ typedef struct s_cylinder
 	float		diameter;
 	float		height;
 	t_color		color;
+	t_lightray	(*bounce)(void *obj, t_lightray ray);
 }				t_cylinder;
 
 /* GET NEXT LINE FUNCTIONS */
