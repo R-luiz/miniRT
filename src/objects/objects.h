@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:05:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/21 17:05:27 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/21 17:13:08 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+
+typedef struct s_lightray
+{
+	t_point3	origin;
+	t_vec3		direction;
+	t_color		color;
+}				t_lightray;
 
 typedef struct s_sphere
 {

@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/21 16:36:52 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/21 17:10:11 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -372,7 +372,6 @@ void	*camera_render(void *vargp)
 			if (ft_lstsize(objects_hit2) > 1)
 				printf("%d,", ft_lstsize(objects_hit));
 			final_color = vec3_mul(calc_spheres(rd, i, j), 255);
-			// final_color = vec3_mul(calc_cylinder(rd, i, j), 255);
 			color = ((int)final_color.x << 16) | ((int)final_color.y << 8) | (int)final_color.z;
 			canvas_draw(rd->canvas, i, j, color);
 		}

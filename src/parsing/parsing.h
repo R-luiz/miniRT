@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/21 17:03:27 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/21 17:13:02 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,6 @@
 # include <unistd.h>
 
 # define BUFFER_SIZE 32
-
-typedef struct s_lightray
-{
-	t_point3	origin;
-	t_vec3		direction;
-	t_color		color;
-}				t_lightray;
 
 typedef struct s_ambient
 {
