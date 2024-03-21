@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:07:00 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/22 18:39:41 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/21 17:30:36 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "maths/maths.h"
 # include "parsing/parsing.h"
 # include "libft.h"
+# include "objects/objects.h"
 
 /* Basic camera with a viewport fixed to it.
 The viewport is orthogonal to the camera direction, its center is placed where

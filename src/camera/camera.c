@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/21 17:10:11 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/21 19:09:08 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,55 +293,90 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 		}
 		object = object->next;
 	}
-	final_color = vec3_coloradddue(final_color, ambient_color);
+	final_color = vec3_mean(final_color, ambient_color);
 	return (final_color);
 }
 
-void	travelling_ray(t_render *rd, t_list *objects_hit, t_ray *ray)
+float	hit_plane_distance(t_plane *plane, t_ray *ray)
 {
-	float		ray_length;
-	t_point3	hit_point;
-	t_list		*object;
-	t_list		*object0;
-	t_sphere	sphere;
-	float		min_distance;
-	t_vec3		normal;
-	int s;
+	float	denom;
+	float	t;
 
-	ray_length = 1;
-	object0 = objects_hit;
-	while (ray_length > 0)
+	denom = vec3_dot(plane->normal, ray->direction);
+	if (fabs(denom) > 0.0001)
 	{
-		object = rd->objects->spheres;
-		s = 0;
-		while (s < rd->objects->sp_count)
-		{
-			sphere = *(t_sphere *)object->data;
-			ray_length = hit_sphere_distance(sphere.center, sphere.diameter / 2,
-					ray);
-			if (ray_length > 0.0f && ray_length < min_distance)
-			{
-				min_distance = ray_length;
-				hit_point = vec3_add(ray->origin, vec3_mul(ray->direction,
-							ray_length));
-				normal = vec3_normalize(vec3_sub(hit_point, sphere.center));
-				objects_hit->next = ft_lstnew(rd->arena, object->data);
-			}
-			s++;
-
-			object = object->next;
-		}
-		if (objects_hit)
-		{
-			ray->origin = hit_point;
-			ray->direction = vec3_reflect(ray->direction, normal);
-			objects_hit = objects_hit->next;
-		}
-		printf("hit: %d\n", ft_lstsize(object0));
-		printf("ray_length: %f\n", ray_length);
-		printf("s %d\n", s);
+		t = vec3_dot(vec3_sub(ray->origin, plane->apoint), plane->normal) / denom;
+		if (t >= 0)
+			return (t);
 	}
+	return (-1);
 }
+
+t_vec3	calc_plane(t_render *rd, int i, int j)
+{
+	t_camera	*camera;
+	t_canvas	*canvas;
+	t_objects	*objects;
+	t_point3	pixel_center;
+	t_vec3		ray_direction;
+	t_ray		ray;
+	t_list		*object;
+	float		min_distance;
+	t_vec3		final_color;
+	t_plane		plane;
+	float		distance;
+	t_vec3		hit_point;
+	t_vec3		normal;
+	float		distance_to_light;
+	t_vec3		light_color;
+	t_vec3		ambient_color;
+	float		light_power;
+	t_vec3		light_direction;
+	float		diff;
+	t_list		*objects_hitf;
+
+	camera = rd->camera;
+	canvas = rd->canvas;
+	objects = rd->objects;
+	pixel_center = vec3_add(camera->vp->pixel_00,
+			vec3_add(vec3_mul(camera->vp->pixel_du, (float)i),
+				vec3_mul(camera->vp->pixel_dv, (float)j)));
+	ray_direction = vec3_normalize(vec3_sub(pixel_center, camera->center));
+	ray = (t_ray){.origin = camera->center, .direction = ray_direction};
+	min_distance = INFINITY;
+	final_color = (t_vec3){0, 0, 0};
+	ambient_color = color_to_vec3(objects->ambient->color);
+	ambient_color = vec3_mul(ambient_color, objects->ambient->ratio);
+	object = objects->planes;
+	for (int s = 0; s < objects->pl_count; s++)
+	{
+		plane = *(t_plane *)object->data;
+		distance = hit_plane_distance(&plane, &ray);
+		if (distance > 0.0f && distance < min_distance)
+		{
+			min_distance = distance;
+			hit_point = vec3_add(ray.origin, vec3_mul(ray.direction, distance));
+			normal = plane.normal;
+			final_color = color_to_vec3(plane.color);
+			distance_to_light = vec3_length(vec3_sub(hit_point,
+						objects->light->origin));
+			light_power = objects->light->ratio / (4.0f * M_PI
+					* distance_to_light * distance_to_light);
+			light_color = vec3_mul(color_to_vec3(objects->light->color),
+					light_power);
+			light_direction = vec3_normalize(vec3_sub(objects->light->origin,
+						hit_point));
+			diff = fmax(vec3_dot(normal, light_direction), 0.0);
+			final_color = vec3_mul(final_color, diff);
+			final_color = vec3_coloradddue(final_color, light_color);
+			objects_hitf = object->data;
+		}
+		object = object->next;
+	}
+	final_color = vec3_mean(final_color, ambient_color);
+	return (final_color);
+}
+
 
 void	*camera_render(void *vargp)
 {
@@ -371,7 +406,8 @@ void	*camera_render(void *vargp)
 						rd->camera->center));
 			if (ft_lstsize(objects_hit2) > 1)
 				printf("%d,", ft_lstsize(objects_hit));
-			final_color = vec3_mul(calc_spheres(rd, i, j), 255);
+			final_color = vec3_mul(calc_plane(rd, i, j), 255);
+			// final_color = vec3_mul(calc_spheres(rd, i, j), 255);
 			color = ((int)final_color.x << 16) | ((int)final_color.y << 8) | (int)final_color.z;
 			canvas_draw(rd->canvas, i, j, color);
 		}

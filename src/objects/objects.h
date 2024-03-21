@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:05:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/21 17:13:08 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/21 18:04:26 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,7 @@ typedef struct s_cylinder
 	t_lightray	(*bounce)(void *obj, t_lightray ray);
 	float		(*intersect)(void *obj, t_lightray ray);
 }				t_cylinder;
+
+// float	hit_sphere_distance(t_point3 center, float radius, t_lightray *ray);
+
 #endif // !OBJECTS_H
