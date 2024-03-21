@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/20 17:24:49 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/21 17:03:27 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "color/color.h"
 # include "libft.h"
 # include "maths/maths.h"
+# include "objects/objects.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -43,32 +44,6 @@ typedef struct s_light
 	float		ratio;
 	t_color		color;
 }				t_light;
-
-typedef struct s_sphere
-{
-	t_point3	center;
-	float		diameter;
-	t_color		color;
-	t_lightray	(*bounce)(void *obj, t_lightray ray);
-}				t_sphere;
-
-typedef struct s_plane
-{
-	t_point3	apoint;
-	t_vec3		normal;
-	t_color		color;
-	t_lightray	(*bounce)(void *obj, t_lightray ray);
-}				t_plane;
-
-typedef struct s_cylinder
-{
-	t_point3	center;
-	t_vec3		normal;
-	float		diameter;
-	float		height;
-	t_color		color;
-	t_lightray	(*bounce)(void *obj, t_lightray ray);
-}				t_cylinder;
 
 /* GET NEXT LINE FUNCTIONS */
 int				ft_check_line(char *dest);

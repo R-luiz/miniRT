@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/19 15:53:41 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/21 16:36:52 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,25 +108,31 @@ static int solve_quadratic(float A, float B, float C, float *t0, float *t1) {
     return discriminant == 0 ? 1 : 2; // 1 or 2 real roots
 }
 
-// Calculates the distance from the ray origin to the cylinder intersection point
-float hit_cylinder_distance(t_point3 center, t_vec3 axis, float radius, t_ray *ray) {
-    t_vec3 CO = vec3_sub(ray->origin, center); // Vector from cylinder center to ray origin
-    t_vec3 D = ray->direction; // Ray direction
-    t_vec3 A = vec3_sub(D, vec3_mul(axis, vec3_dot(D, axis))); // Component of D perpendicular to axis
-    t_vec3 B = vec3_sub(CO, vec3_mul(axis, vec3_dot(CO, axis))); // Component of CO perpendicular to axis
+float hit_cylinder_distance(t_point3 center, t_vec3 axis, float radius, t_ray *ray, float cylinderHeight) {
+    // Ensure axis is normalized
+    axis = vec3_normalize(axis);
 
-    // Quadratic coefficients
+    t_vec3 CO = vec3_sub(ray->origin, center); 
+    t_vec3 D = ray->direction;
+    t_vec3 A = vec3_sub(D, vec3_mul(axis, vec3_dot(D, axis)));
+    t_vec3 B = vec3_sub(CO, vec3_mul(axis, vec3_dot(CO, axis)));
+
     float a = vec3_dot(A, A);
     float b = 2 * vec3_dot(A, B);
     float c = vec3_dot(B, B) - radius * radius;
-
-    // Solving the quadratic equation for t
     float t0, t1;
-    if (solve_quadratic(a, b, c, &t0, &t1) == 0) return -1; // No intersection
+    if (solve_quadratic(a, b, c, &t0, &t1) == 0) return -1;
 
-    // Check for cylinder's height limit here if necessary
+    // Determine the nearest hit point
+    float t_hit = (t0 < 0 && t1 > 0) ? t1 : t0;
+    if (t_hit < 0) return -1;  // No intersection or intersection behind the ray origin
 
-    return t0 >= 0 ? t0 : -1;
+    // Check if the intersection is within the height bounds of the cylinder
+    t_vec3 hitPoint = vec3_add(ray->origin, vec3_mul(ray->direction, t_hit));
+    float hitPointHeight = vec3_dot(vec3_sub(hitPoint, center), axis);
+    bool within_cylinder_bounds = (hitPointHeight >= 0) && (hitPointHeight <= cylinderHeight);
+
+    return within_cylinder_bounds ? t_hit : -1;
 }
 
 t_vec3 calc_cylinder(t_render *rd, int i, int j)
@@ -169,7 +175,7 @@ t_vec3 calc_cylinder(t_render *rd, int i, int j)
 	{
 		cylinder = *(t_cylinder *)object->data;
 		distance = hit_cylinder_distance(cylinder.center, cylinder.normal, cylinder.diameter / 2,
-				&ray);
+				&ray, cylinder.height);
 		if (distance > 0.0f && distance < min_distance)
 		{
 			min_distance = distance;
@@ -198,7 +204,7 @@ t_vec3 calc_cylinder(t_render *rd, int i, int j)
 	{
 		cylinder = *(t_cylinder *)object->data;
 		distance = hit_cylinder_distance(cylinder.center, cylinder.normal, cylinder.diameter / 2,
-				&ray);
+				&ray, cylinder.height);
 		if (distance > 0.0f && distance < distance_to_light && object->data != objects_hitf)
 		{
 			final_color = vec3_mul(final_color, 0.05);
@@ -366,6 +372,7 @@ void	*camera_render(void *vargp)
 			if (ft_lstsize(objects_hit2) > 1)
 				printf("%d,", ft_lstsize(objects_hit));
 			final_color = vec3_mul(calc_spheres(rd, i, j), 255);
+			// final_color = vec3_mul(calc_cylinder(rd, i, j), 255);
 			color = ((int)final_color.x << 16) | ((int)final_color.y << 8) | (int)final_color.z;
 			canvas_draw(rd->canvas, i, j, color);
 		}
