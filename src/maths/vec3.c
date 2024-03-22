@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 19:24:18 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/23 16:12:40 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/22 17:38:15 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,41 @@ t_vec3	vec3_mean(t_vec3 v, t_vec3 w)
 	return (ret);
 }
 
-t_vec3	vec3_clamp_to_one(t_vec3 v)
-{
-	t_vec3	clamped;
-
-	clamped.x = fminf(0.9999999999f, fmaxf(0.0f, v.x));
-	clamped.y = fminf(0.9999999999f, fmaxf(0.0f, v.y));
-	clamped.z = fminf(0.9999999999f, fmaxf(0.0f, v.z));
-	return (clamped);
-}
-
 t_vec3	vec3_coloradddue(t_vec3 color1, t_vec3 color2)
 {
 	t_vec3	result;
 
-	result = vec3_add(color1, color2);
-	result = vec3_clamp_to_one(result);
+	if (color1.x == 0 || color2.x == 0)
+		result.x = 0;
+	else
+		result.x = fmaxf(color1.x, color2.x);
+	if (color1.y == 0 || color2.y == 0)
+		result.y = 0;
+	else
+		result.y = fmaxf(color1.y, color2.y);
+	if (color1.z == 0 || color2.z == 0)
+		result.z = 0;
+	else
+		result.z = fmaxf(color1.z, color2.z);
+	return (result);
+}
+
+t_vec3	vec3_coloradddueamb(t_vec3 color1, t_vec3 color2)
+{
+	t_vec3	result;
+
+	if (color1.x == 0 || color2.x == 0)
+		result.x = 0;
+	else
+		result.x = fmin(color1.x + color2.x, 0.9999999999f);
+	if (color1.y == 0 || color2.y == 0)
+		result.y = 0;
+	else
+		result.y = fmin(color1.y + color2.y, 0.9999999999f);
+	if (color1.z == 0 || color2.z == 0)
+		result.z = 0;
+	else
+		result.z = fmin(color1.z + color2.z, 0.9999999999f);
 	return (result);
 }
 

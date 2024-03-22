@@ -6,15 +6,15 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:00:27 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/19 15:17:16 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/22 17:34:35 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MATHS_H
 # define MATHS_H
 
-# include <math.h>
 # include <float.h>
+# include <math.h>
 /* Vec3
 ================================================================================
 */
@@ -40,6 +40,7 @@ t_vec3			vec3_cross(t_vec3 v, t_vec3 w);
 t_vec3			vec3_mean(t_vec3 v, t_vec3 w);
 t_vec3			vec3_coloradddue(t_vec3 color1, t_vec3 color2);
 t_vec3			vec3_coloraddmax(t_vec3 color1, t_vec3 color2);
+t_vec3			vec3_coloradddueamb(t_vec3 color1, t_vec3 color2);
 t_vec3			vec3_reflect(t_vec3 v, t_vec3 n);
 /* Misc
 ================================================================================

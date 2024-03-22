@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:05:14 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/21 17:54:42 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/22 14:45:36 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,13 @@ float	hit_plane_distance(t_plane *plane, t_lightray *ray)
 	float	denom;
 	float	t;
 
-	denom = vec3_dot(plane->normal, ray->direction);
+	denom = vec3_dot(ray->direction, plane->normal);
 	if (fabs(denom) > 0.0001)
 	{
-		t = vec3_dot(vec3_sub(plane->apoint, ray->origin), plane->normal) / denom;
+		t = vec3_dot(vec3_sub(plane->apoint, ray->origin), plane->normal)
+			/ denom;
+		ray->color = color_vec3(vec3_coloradddue(color_to_vec3(ray->color),
+					color_to_vec3(plane->color)));
 		if (t >= 0)
 			return (t);
 	}
