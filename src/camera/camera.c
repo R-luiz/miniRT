@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/22 18:05:42 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/25 15:48:09 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,13 +202,16 @@ t_vec3	calc_plane(t_render *rd, int i, int j)
 			hit_point = vec3_add(ray.origin, vec3_mul(ray.direction, distance));
 			normal = vec3_normalize(plane.normal);
 			final_color = color_to_vec3(plane.color);
+			final_color = vec3_mul(final_color, 255);
 			distance_to_light = vec3_length(vec3_sub(hit_point,
 						objects->light->origin));
-			light_power = objects->light->ratio / (4.0f * M_PI * distance_to_light * distance_to_light);
+			light_power = objects->light->ratio / (4.0f * M_PI
+					* distance_to_light * distance_to_light);
 			light_color = vec3_mul(color_to_vec3(objects->light->color), light_power);
 			light_direction = vec3_normalize(vec3_sub(objects->light->origin, hit_point));
 			diff = fmax(vec3_dot(normal, light_direction), 0.0);
-			// final_color = vec3_mul(final_color, diff);
+			printf(" %f", diff);
+			final_color = vec3_mul(final_color, diff);
 			final_color = vec3_coloradddue(final_color, light_color);
 			objects_hitf = object->data;
 		}
@@ -246,8 +249,8 @@ void	*camera_render(void *vargp)
 						rd->camera->center));
 			if (ft_lstsize(objects_hit2) > 1)
 				printf("%d,", ft_lstsize(objects_hit));
-			final_color = calc_plane(rd, i, j);
-			// final_color = calc_spheres(rd, i, j);
+			// final_color = calc_plane(rd, i, j);
+			final_color = calc_spheres(rd, i, j);
 			color = color_vec3(final_color);
 			canvas_draw(rd->canvas, i, j, color);
 		}

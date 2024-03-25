@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:50:15 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/03 13:50:51 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/25 15:47:54 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ t_color	color_vec3(t_vec3 v)
 	uint8_t	g;
 	uint8_t	b;
 
-	r = (uint8_t)(clamp_f(v.x, 0, 255) * 255.f);
-	g = (uint8_t)(clamp_f(v.y, 0, 255) * 255.f);
-	b = (uint8_t)(clamp_f(v.z, 0, 255) * 255.f);
+	r = (uint8_t)(clamp_f(v.x * 255, 0, 255));
+	g = (uint8_t)(clamp_f(v.y * 255, 0, 255));
+	b = (uint8_t)(clamp_f(v.z * 255, 0, 255));
 	return (r << 16 | g << 8 | b);
 }
 

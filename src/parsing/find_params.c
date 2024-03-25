@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:47:05 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/23 15:24:22 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/25 15:57:36 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,8 @@ t_ambient	*find_ambient(t_arena *arena, t_list *list)
 	ambient->ratio = ft_atof(str);
 	str = (char *)tmp->next->data;
 	delimiter = ",";
-	vec = (t_vec3){ft_atof(strtok(str, delimiter)), ft_atof(strtok(NULL,
-				delimiter)), ft_atof(strtok(NULL, delimiter))};
-	printf("vec: %f %f %f\n", vec.x, vec.y, vec.z);
+	vec = (t_vec3){ft_atof(strtok(str, delimiter))/255, ft_atof(strtok(NULL,
+				delimiter))/255, ft_atof(strtok(NULL, delimiter))/255};
 	ambient->color = color_vec3(vec);
 	return (ambient);
 }
@@ -88,7 +87,6 @@ t_light	*find_light(t_arena *arena, t_list *list)
 {
 	t_list	*tmp;
 	t_list	*tmp2;
-	t_vec3	vec;
 	t_light	*light;
 	char	*str;
 	char	*delimiter;
@@ -115,9 +113,8 @@ t_light	*find_light(t_arena *arena, t_list *list)
 		ft_atof(strtok(NULL, delimiter)), ft_atof(strtok(NULL, delimiter))};
 	light->ratio = ft_atof((char *)tmp->next->data);
 	str = (char *)tmp->next->next->data;
-	vec = (t_vec3){ft_atof(strtok(str, delimiter)), ft_atof(strtok(NULL,
-				delimiter)), ft_atof(strtok(NULL, delimiter))};
-	printf("vec2: %f %f %f\n", vec.x, vec.y, vec.z);
-	light->color = color_vec3(vec);
+	light->color = color_int(ft_atoi(ft_strtok(str, delimiter)),
+				ft_atoi(ft_strtok(NULL, delimiter)),
+				ft_atoi(ft_strtok(NULL, delimiter)));
 	return (light);
 }

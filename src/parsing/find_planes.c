@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 17:44:55 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/02 17:46:50 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/25 15:56:43 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ t_list	*find_planes(t_arena *arena, t_list *list_params)
 				ft_atof(ft_strtok(NULL, delimiter)),
 				ft_atof(ft_strtok(NULL, delimiter))};
 			str = (char *)tmp2->next->next->data;
-			plane->color = color_vec3((t_vec3){ft_atof(ft_strtok(str, delimiter)),
-				ft_atof(ft_strtok(NULL, delimiter)),
-				ft_atof(ft_strtok(NULL, delimiter))});
+			plane->color = color_int(ft_atoi(ft_strtok(str, delimiter)),
+				ft_atoi(ft_strtok(NULL, delimiter)),
+				ft_atoi(ft_strtok(NULL, delimiter)));
 			if (!planes)
 				planes = ft_lstnew(arena, plane);
 			else
