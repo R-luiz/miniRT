@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/25 16:43:47 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/25 18:35:33 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 					light_power);
 			light_direction = vec3_normalize(vec3_sub(objects->light->origin,
 						hit_point));
-			diff = fmax(vec3_dot(normal, light_direction), 0.0);
+			diff = fmax(pow(vec3_dot(normal, light_direction),5), objects->ambient->ratio);
 			final_color = vec3_mul(final_color, diff);
 			final_color = vec3_coloradddue(final_color, light_color);
 			objects_hitf = object->data;
@@ -141,18 +141,33 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 	ray.origin = hit_point;
 	ray.direction = light_direction;
 	object = objects->spheres;
+	float reflection = 0.1;
 	for (int s = 0; s < objects->sp_count; s++)
 	{
 		sphere = *(t_sphere *)object->data;
 		distance = hit_sphere_distance(&sphere, &ray);
 		if (distance > 0.0f && distance < distance_to_light && object->data != objects_hitf)
 		{
-			final_color = vec3_mul(final_color, 0.05);
+			light_color = final_color;
+			min_distance = distance;
+			hit_point = vec3_add(ray.origin, vec3_mul(ray.direction, distance));
+			normal = vec3_normalize(vec3_sub(hit_point, sphere.center));
+			final_color = color_to_vec3(sphere.color);
+			distance_to_light = vec3_length(vec3_sub(hit_point,
+						objects->light->origin));
+			light_power = reflection * objects->light->ratio / (4.0f * M_PI
+					* distance_to_light * distance_to_light);
+			light_color = vec3_mul(color_to_vec3(objects->light->color),
+					light_power);
+			light_direction = vec3_normalize(vec3_sub(objects->light->origin,
+						hit_point));
+			diff = fmax(pow(vec3_dot(normal, light_direction),2), objects->ambient->ratio);
+			final_color = vec3_mul(final_color, diff);
+			final_color = vec3_coloradddue(final_color, light_color);
 			break;
 		}
 		object = object->next;
 	}
-	final_color = vec3_coloradddueamb(final_color, ambient_color);
 	return (final_color);
 }
 
@@ -208,7 +223,7 @@ t_vec3	calc_plane(t_render *rd, int i, int j)
 					* distance_to_light * distance_to_light);
 			light_color = vec3_mul(color_to_vec3(objects->light->color), light_power);
 			light_direction = vec3_normalize(vec3_sub(hit_point, objects->light->origin));
-			diff = fabs(vec3_dot(normal, light_direction));
+			diff = fmax(pow(vec3_dot(normal, light_direction), 100), objects->ambient->ratio);
 			final_color = vec3_mul(final_color, diff);
 			final_color = vec3_coloradddue(final_color, light_color);
 			objects_hitf = object->data;
@@ -224,10 +239,6 @@ void	*camera_render(void *vargp)
 	t_render	*rd;
 	t_color		color;
 	t_vec3		final_color;
-	t_list		*objects_hit;
-	t_list		*objects_hit2;
-	t_ray		*ray;
-	t_point3	pixel_center;
 
 	rd = (t_render *)vargp;
 	int i, j;
@@ -236,19 +247,8 @@ void	*camera_render(void *vargp)
 	{
 		for (i = 0; i < rd->canvas->width; i++)
 		{
-			ray = arena_temp_alloc(rd->arena, sizeof(*ray));
-			objects_hit = ft_lstnew(rd->arena, NULL);
-			objects_hit2 = objects_hit;
-			ray->origin = rd->camera->center;
-			pixel_center = vec3_add(rd->camera->vp->pixel_00,
-					vec3_add(vec3_mul(rd->camera->vp->pixel_du, (float)i),
-						vec3_mul(rd->camera->vp->pixel_dv, (float)j)));
-			ray->direction = vec3_normalize(vec3_sub(pixel_center,
-						rd->camera->center));
-			if (ft_lstsize(objects_hit2) > 1)
-				printf("%d,", ft_lstsize(objects_hit));
-			final_color = calc_plane(rd, i, j);
-			// final_color = calc_spheres(rd, i, j);
+			// final_color = calc_plane(rd, i, j);
+			final_color = calc_spheres(rd, i, j);
 			color = color_vec3(final_color);
 			canvas_draw(rd->canvas, i, j, color);
 		}

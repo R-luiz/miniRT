@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 19:24:18 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/22 17:38:15 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/25 17:56:58 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,15 @@ t_vec3	vec3_coloradddueamb(t_vec3 color1, t_vec3 color2)
 	if (color1.x == 0 || color2.x == 0)
 		result.x = 0;
 	else
-		result.x = fmin(color1.x + color2.x, 0.9999999999f);
+		result.x = fmax(color1.x/2 + color2.x/2, 0.99999f);
 	if (color1.y == 0 || color2.y == 0)
 		result.y = 0;
 	else
-		result.y = fmin(color1.y + color2.y, 0.9999999999f);
+		result.y = fmax(color1.y /2+ color2.y/2, 0.99999f);
 	if (color1.z == 0 || color2.z == 0)
 		result.z = 0;
 	else
-		result.z = fmin(color1.z + color2.z, 0.9999999999f);
+		result.z = fmax(color1.z /2+ color2.z/2, 0.99999f);
 	return (result);
 }
 
