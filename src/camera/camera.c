@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/26 15:40:38 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/26 16:51:51 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 	float		light_power;
 	t_vec3		light_direction;
 	float		diff;
-	t_list		*objects_hitf;
 
 	camera = rd->camera;
 	canvas = rd->canvas;
@@ -115,25 +114,25 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 					light_power);
 			light_direction = vec3_normalize(vec3_sub(objects->light->origin,
 						hit_point));
-			diff = fmax(pow(vec3_dot(normal, light_direction),5), objects->ambient->ratio);
+			diff = fmax(pow(vec3_dot(normal, light_direction),1), objects->ambient->ratio);
 			final_color = vec3_mul(final_color, diff);
 			final_color = vec3_coloradddue(final_color, light_color);
-			objects_hitf = object->data;
 		}
 		object = object->next;
 	}
 	ray.origin = hit_point;
-	ray.direction = light_direction;
+	ray.direction = vec3_reflect(ray.direction, normal);
+	ray.color = color_vec3(final_color);
 	object = objects->spheres;
 	for (int s = 0; s < objects->sp_count; s++)
 	{
 		sphere = *(t_sphere *)object->data;
 		distance = hit_sphere_distance(&sphere, ray);
-		if (distance > 0.0f && distance < distance_to_light && object->data != objects_hitf)
+		if (distance > 0.0f && distance < min_distance)
 		{
-			final_color = vec3_coloradddue(final_color, ambient_color);
+			min_distance = distance;
+			final_color = vec3_coloradddue(color_to_vec3(ray.color), color_to_vec3(sphere.color));
 			final_color = vec3_mul(final_color, objects->ambient->ratio / (diff));
-			break;
 		}
 		object = object->next;
 	}
