@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/26 14:53:00 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/26 15:40:38 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,22 +61,6 @@ t_camera	*camera_create(t_point3 center, t_vec3 direction, float hfov,
 	return (cam);
 }
 
-bool	hit_sphere(t_point3 center, float radius, t_ray *ray)
-{
-	t_vec3	oc;
-	float	a;
-	float	b;
-	float	c;
-	float	discriminant;
-
-	oc = vec3_sub(ray->origin, center);
-	a = vec3_dot(ray->direction, ray->direction);
-	b = 2 * vec3_dot(oc, ray->direction);
-	c = vec3_dot(oc, oc) - radius * radius;
-	discriminant = b * b - 4 * a * c;
-	return (discriminant >= 0);
-}
-
 t_vec3	calc_spheres(t_render *rd, int i, int j)
 {
 	t_camera	*camera;
@@ -116,7 +100,7 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 	for (int s = 0; s < objects->sp_count; s++)
 	{
 		sphere = *(t_sphere *)object->data;
-		distance = hit_sphere_distance(&sphere, &ray);
+		distance = hit_sphere_distance(&sphere, ray);
 		if (distance > 0.0f && distance < min_distance)
 		{
 			min_distance = distance;
@@ -144,7 +128,7 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 	for (int s = 0; s < objects->sp_count; s++)
 	{
 		sphere = *(t_sphere *)object->data;
-		distance = hit_sphere_distance(&sphere, &ray);
+		distance = hit_sphere_distance(&sphere, ray);
 		if (distance > 0.0f && distance < distance_to_light && object->data != objects_hitf)
 		{
 			final_color = vec3_coloradddue(final_color, ambient_color);
@@ -195,7 +179,7 @@ t_vec3	calc_plane(t_render *rd, int i, int j)
 	for (int s = 0; s < objects->pl_count; s++)
 	{
 		plane = *(t_plane *)object->data;
-		distance = hit_plane_distance(&plane, &ray);
+		distance = hit_plane_distance(&plane, ray);
 		if (distance > 0.0f && distance < min_distance)
 		{
 			min_distance = distance;
@@ -231,8 +215,8 @@ void	*camera_render(void *vargp)
 	{
 		for (i = 0; i < rd->canvas->width; i++)
 		{
-			final_color = calc_plane(rd, i, j);
-			// final_color = calc_spheres(rd, i, j);
+			// final_color = calc_plane(rd, i, j);
+			final_color = calc_spheres(rd, i, j);
 			color = color_vec3(final_color);
 			canvas_draw(rd->canvas, i, j, color);
 		}

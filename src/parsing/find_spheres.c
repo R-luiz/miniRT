@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_spheres.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:27:36 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/26 10:41:53 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/26 15:33:49 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ t_sphere	*create_sphere(t_arena *arena, char **params)
 			ft_atoi(ft_strtok(NULL, delimiter)),
 			ft_atoi(ft_strtok(NULL, delimiter))
 			);
+	sphere->bounce = NULL;
+	sphere->hit_dist = &hit_sphere_distance;
 	return (sphere);
 }
 
-// Function to find spheres from a list of parameters
 t_list	*find_spheres(t_arena *arena, t_list *list_params)
 {
 	t_list		*tmp;
