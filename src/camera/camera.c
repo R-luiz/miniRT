@@ -141,29 +141,14 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 	ray.origin = hit_point;
 	ray.direction = light_direction;
 	object = objects->spheres;
-	float reflection = 0.1;
 	for (int s = 0; s < objects->sp_count; s++)
 	{
 		sphere = *(t_sphere *)object->data;
 		distance = hit_sphere_distance(&sphere, &ray);
 		if (distance > 0.0f && distance < distance_to_light && object->data != objects_hitf)
 		{
-			light_color = final_color;
-			min_distance = distance;
-			hit_point = vec3_add(ray.origin, vec3_mul(ray.direction, distance));
-			normal = vec3_normalize(vec3_sub(hit_point, sphere.center));
-			final_color = color_to_vec3(sphere.color);
-			distance_to_light = vec3_length(vec3_sub(hit_point,
-						objects->light->origin));
-			light_power = reflection * objects->light->ratio / (4.0f * M_PI
-					* distance_to_light * distance_to_light);
-			light_color = vec3_mul(color_to_vec3(objects->light->color),
-					light_power);
-			light_direction = vec3_normalize(vec3_sub(objects->light->origin,
-						hit_point));
-			diff = fmax(pow(vec3_dot(normal, light_direction),2), objects->ambient->ratio);
-			final_color = vec3_mul(final_color, diff);
-			final_color = vec3_coloradddue(final_color, light_color);
+			final_color = vec3_coloradddue(final_color, ambient_color);
+			final_color = vec3_mul(final_color, objects->ambient->ratio / (diff));
 			break;
 		}
 		object = object->next;
@@ -223,7 +208,7 @@ t_vec3	calc_plane(t_render *rd, int i, int j)
 					* distance_to_light * distance_to_light);
 			light_color = vec3_mul(color_to_vec3(objects->light->color), light_power);
 			light_direction = vec3_normalize(vec3_sub(hit_point, objects->light->origin));
-			diff = fmax(pow(vec3_dot(normal, light_direction), 100), objects->ambient->ratio);
+			diff = fmax(pow(vec3_dot(normal, light_direction), 10), objects->ambient->ratio);
 			final_color = vec3_mul(final_color, diff);
 			final_color = vec3_coloradddue(final_color, light_color);
 			objects_hitf = object->data;
