@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/26 15:40:38 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/26 16:29:28 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,8 +215,8 @@ void	*camera_render(void *vargp)
 	{
 		for (i = 0; i < rd->canvas->width; i++)
 		{
-			// final_color = calc_plane(rd, i, j);
-			final_color = calc_spheres(rd, i, j);
+			final_color = calc_plane(rd, i, j);
+			// final_color = calc_spheres(rd, i, j);
 			color = color_vec3(final_color);
 			canvas_draw(rd->canvas, i, j, color);
 		}
