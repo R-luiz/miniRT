@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   engine.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:48:21 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/03 17:14:13 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/26 08:37:11 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include "canvas/canvas.h"
 # include "camera/camera.h"
 # include <stdbool.h>
-# include <pthread.h>
 
 /*
 The engine handles:
@@ -33,7 +32,6 @@ typedef struct s_engine
 	t_timer			*timer;
 	float			timestep;
 	bool			is_running;
-	pthread_mutex_t	mut;
 }	t_engine;
 
 // Initialize the engine's subsystems with the specified options.

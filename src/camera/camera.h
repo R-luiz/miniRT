@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:07:00 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/21 17:30:36 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/26 08:37:48 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_camera
 		t_point3		pixel_00;
 		t_vec3			pixel_du;
 		t_vec3			pixel_dv;
-	} * vp;
+	} *vp;
 }						t_camera;
 
 t_camera				*camera_create(t_point3 center, t_vec3 direction,
@@ -44,7 +44,7 @@ void					camera_init_viewport(t_camera *cam, int canvas_width,
 
 void					*camera_render(void *vargp);
 
-t_camera				*find_camera(t_arena *arena, t_list *list);
+t_camera				*find_camera(t_arena *arena, t_list *list, char *str);
 /* INTERNAL
 ================================================================================
 */

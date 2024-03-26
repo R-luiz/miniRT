@@ -12,7 +12,7 @@ CFLAGS	= -Wall -Wextra -Werror \
 	-O2
 #-fsanitize=address
 
-CLFLAGS	= -lXext -lX11 -lm -lpthread
+CLFLAGS	= -lXext -lX11 -lm
 
 ##############
 #
@@ -28,6 +28,7 @@ NAME = miniRT
 SRC	= color/color.c \
 	maths/vec3.c \
 	maths/vec3_1.c \
+	maths/vec3_2.c \
 	maths/maths.c \
 	engine/graphics.c \
 	engine/graphics_render.c \
@@ -40,6 +41,7 @@ SRC	= color/color.c \
 	parsing/parsing.c \
 	parsing/list.c \
 	parsing/get_next_line.c \
+	parsing/get_next_line_utils.c \
 	parsing/find_params.c \
 	parsing/find_spheres.c \
 	parsing/find_planes.c \
@@ -54,7 +56,7 @@ SRC	= color/color.c \
 LIBDIR	= lib
 LIBMLXDIR	= minilibx-linux
 LIBMLX	= $(LIBDIR)/$(LIBMLXDIR)/libmlx.a
-LIBFTDIR	= 42-libft
+LIBFTDIR	= libft
 LIBFT	= $(LIBDIR)/$(LIBFTDIR)/libft.a
 
 ##############

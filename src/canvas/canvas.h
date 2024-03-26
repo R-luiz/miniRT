@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   canvas.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 00:14:51 by liguyon           #+#    #+#             */
-/*   Updated: 2024/01/20 01:49:52 by liguyon          ###   ########.fr       */
+/*   Updated: 2024/03/26 08:37:12 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "color/color.h"
 # include "main/options.h"
-# include <pthread.h>
 
 /* The canvas on which all drawing is done.
 Read and write operations are performed asynchronously: the main thread reads
@@ -26,7 +25,6 @@ typedef struct s_canvas
 	int				width;
 	int				height;
 	t_color			*raster;
-	pthread_mutex_t	mut;
 }	t_canvas;
 
 // Create a canvas with the specified dimensions.

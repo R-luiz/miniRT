@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   canvas.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 01:33:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/01/20 01:49:59 by liguyon          ###   ########.fr       */
+/*   Updated: 2024/03/26 08:39:26 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,19 @@ t_canvas	*canvas_create(int width, float aspect, void *arena)
 	c->width = width;
 	c->height = (int)((float)width / aspect);
 	c->raster = arena_alloc(arena, sizeof(*c->raster) * c->width * c->height);
-	pthread_mutex_init(&c->mut, NULL);
 	return (c);
 }
 
+//pthread_mutex_destroy(&canvas->mut);
 void	canvas_destroy(t_canvas *canvas)
 {
-	pthread_mutex_destroy(&canvas->mut);
+	(void) canvas;
 }
 
-void		canvas_draw(t_canvas *canvas, int x, int y, t_color c)
+void	canvas_draw(t_canvas *canvas, int x, int y, t_color c)
 {
 	if (x >= 0 && x < canvas->width && y >= 0 && y <= canvas->height)
 	{
-		pthread_mutex_lock(&canvas->mut);
 		canvas->raster[y * canvas->width + x] = c;
-		pthread_mutex_unlock(&canvas->mut);
 	}
 }

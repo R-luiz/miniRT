@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:42:56 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/21 17:30:46 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/26 09:30:32 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,15 @@ t_list	*parsing_to_list(t_arena *arena, char *file)
 
 	list = (t_list *)arena_alloc(arena, sizeof(t_list));
 	tmp = list;
-	if ((fd = open(file, O_RDONLY)) < 0)
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
 		return (NULL);
-	while ((line = get_next_line(fd)))
+	line = get_next_line(arena, fd);
+	while (line)
 	{
 		tmp->next = ft_lstnew(arena, token_to_list(arena, line));
 		tmp = tmp->next;
+		line = get_next_line(arena, fd);
 	}
 	close(fd);
 	return (list);
@@ -59,13 +62,13 @@ t_list	*parsing_to_list(t_arena *arena, char *file)
 t_objects	*init_objects(t_arena *arena, char *argv[])
 {
 	t_objects	*objects;
-	t_list *params;
+	t_list		*params;
 
 	params = parsing_to_list(arena, argv[1]);
 	objects = arena_alloc(arena, sizeof(*objects));
-	objects->camera = find_camera(arena, params);
-	objects->ambient = find_ambient(arena, params);
-	objects->light = find_light(arena, params);
+	objects->camera = find_camera(arena, params, NULL);
+	objects->ambient = find_ambient(arena, params, NULL);
+	objects->light = find_light(arena, params, NULL);
 	objects->spheres = find_spheres(arena, params);
 	objects->planes = find_planes(arena, params);
 	objects->cylinders = find_cylinders(arena, params);

@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   graphics_render.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:20:56 by liguyon           #+#    #+#             */
-/*   Updated: 2024/01/20 01:06:55 by liguyon          ###   ########.fr       */
+/*   Updated: 2024/03/26 08:37:10 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./graphics.h"
 #include "mlx.h"
-#include <pthread.h>
 
 void	graphics_present(t_graphics *grph)
 {
@@ -29,10 +28,8 @@ void	graphics_update_framebuffer(t_graphics *grph, t_canvas *canvas)
 	int	i;
 
 	i = -1;
-	pthread_mutex_lock(&canvas->mut);
 	while (++i < grph->win_height * grph->win_width)
 		grph->framebuffer->raster[i] = canvas->raster[i];
-	pthread_mutex_unlock(&canvas->mut);
 }
 
 void	graphics_clear(t_graphics *grph)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 17:03:08 by rluiz             #+#    #+#             */
-/*   Updated: 2024/02/02 17:03:13 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/26 08:18:36 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ float	ft_atof(char *str)
 		str++;
 	}
 	while (*str && *str != '.' && *str >= '0' && *str <= '9')
-	{
-		res = res * 10.0f + (*str - '0');
-		str++;
-	}
+		res = res * 10.0f + (*str++ - '0');
 	if (*str == '.')
 	{
 		str++;
