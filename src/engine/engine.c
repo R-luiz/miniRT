@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   engine.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:29:10 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/16 16:23:27 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/26 08:42:11 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,15 @@ void		inputs_bind(t_render *rd);
 
 int	engine_init(t_render *rd, t_options *opt, void *arena)
 {
-	t_engine *eng = rd->engine;
+	t_engine	*eng;
+
+	eng = rd->engine;
 	eng->grph = graphics_create(opt->window_width, opt->window_aspect, arena);
 	if (!eng->grph)
 		return (EXIT_FAILURE);
 	eng->timer = rt_timer_create(arena);
 	eng->timestep = 1e3f / opt->fps;
 	inputs_bind(rd);
-	pthread_mutex_init(&eng->mut, NULL);
 	eng->is_running = true;
 	return (EXIT_SUCCESS);
 }
@@ -82,15 +83,12 @@ void	engine_run(t_render *rd, t_canvas *canvas, t_camera *cam)
 void	engine_terminate(t_engine *eng)
 {
 	graphics_destroy(eng->grph);
-	pthread_mutex_destroy(&eng->mut);
 }
 
 bool	engine_is_running(t_engine *eng)
 {
 	bool	ret;
 
-	pthread_mutex_lock(&eng->mut);
 	ret = eng->is_running;
-	pthread_mutex_unlock(&eng->mut);
 	return (ret);
 }

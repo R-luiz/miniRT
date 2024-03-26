@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/21 17:13:02 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/26 06:16:21 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ typedef struct s_light
 /* GET NEXT LINE FUNCTIONS */
 int				ft_check_line(char *dest);
 int				ft_strlen_line(char *dest);
-char			*ft_join_line(char *src, char *buff);
+char			*ft_join_line(t_arena *arena, char *src, char *buff);
 void			ft_cute_line(char *dest);
-char			*get_next_line(int fd);
+char			*get_next_line(t_arena *arena, int fd);
 
 /* LIST FUNCTIONS */
 t_list			*ft_lstnew(t_arena *arena, void *data);
@@ -52,8 +52,8 @@ void			ft_lstadd_back(t_list **alst, t_list *new);
 /* PARSING FUNCTIONS */
 t_list			*parsing_to_list(t_arena *arena, char *file);
 t_list			*token_to_list(t_arena *arena, char *line);
-t_ambient		*find_ambient(t_arena *arena, t_list *list);
-t_light			*find_light(t_arena *arena, t_list *list);
+t_ambient		*find_ambient(t_arena *arena, t_list *list, char *str);
+t_light			*find_light(t_arena *arena, t_list *list, char *str);
 t_list			*find_spheres(t_arena *arena, t_list *list_params);
 t_list			*find_planes(t_arena *arena, t_list *list_params);
 t_list			*find_cylinders(t_arena *arena, t_list *list_params);

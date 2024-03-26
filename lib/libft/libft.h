@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:36:48 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/03 15:53:21 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/26 08:20:34 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 /*	list
 ==============
 */
-struct s_list;
+struct	s_list;
 
 typedef struct s_list
 {
@@ -29,29 +29,29 @@ typedef struct s_list
 
 }					t_list;
 
-int	ft_lstsize(t_list *lst);
+int		ft_lstsize(t_list *lst);
 
 /*	c lib
 ==============
 */
+size_t	ft_strlen(const char *s);
+float	ft_atof(char *str);
+long	ft_atol(const char *nptr);
+void	*ft_memset(void *b, int c, size_t len);
+void	ft_bzero(void *s, size_t n);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
+void	*ft_realloc(void *ptr, size_t size);
+char	*ft_strdup(t_arena *arena, const char *s);
+char	*ft_itoa(int n);
+char	*ft_strrev(char *str);
+char	*ft_strtok(char *str, const char *delim);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_atoi(const char *nptr);
-long	ft_atol(const char *nptr);
-float	ft_atof(char *str);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_isspace(int c);
-size_t	ft_strlen(const char *s);
-void	*ft_memset(void *b, int c, size_t len);
-void	ft_bzero(void *s, size_t n);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
-char	*ft_strdup(t_arena *arena, const char *s);
-char	*ft_itoa(int n);
-void	*ft_realloc(void *ptr, size_t size);
-char	*ft_strrev(char *str);
-char	*ft_strtok(char *str, const char *delim);
 
 /*	arena allocator
 ==============

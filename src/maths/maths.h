@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   maths.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:00:27 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/22 17:34:35 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/26 08:44:41 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MATHS_H
 # define MATHS_H
 
-# include <float.h>
 # include <math.h>
 /* Vec3
 ================================================================================

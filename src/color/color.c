@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:50:15 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/25 16:10:48 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/26 08:39:54 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "color.h"
 
-static float clamp_f(float x, float min, float max)
+static float	clamp_f(float x, float min, float max)
 {
 	if (x < min)
 		return (min);
@@ -39,7 +39,7 @@ t_color	color_int(uint8_t r, uint8_t g, uint8_t b)
 	return (r << 16 | g << 8 | b);
 }
 
-t_vec3 color_to_vec3(t_color c)
+t_vec3	color_to_vec3(t_color c)
 {
 	t_vec3	v;
 
