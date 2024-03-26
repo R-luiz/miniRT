@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/26 17:36:25 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/26 17:36:52 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 			diff = fmax(pow(vec3_dot(normal, light_direction),2), objects->ambient->ratio);
 			final_color = vec3_mul(final_color, diff);
 			final_color = vec3_coloradddue(final_color, light_color);
-			light_color = final_color;
 		}
 		object = object->next;
 	}
