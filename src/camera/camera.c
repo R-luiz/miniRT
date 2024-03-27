@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/26 17:36:52 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/27 13:34:54 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,15 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 	t_point3	pixel_center;
 	t_vec3		ray_direction;
 	t_lightray		ray;
+	t_lightray		ray2;
 	t_list		*object;
+	t_list		*object2;
 	float		min_distance;
 	t_vec3		final_color;
 	t_sphere	sphere;
+	t_sphere	sphere2;
 	float		distance;
+	float		distance2;
 	t_vec3		hit_point;
 	t_vec3		normal;
 	float		distance_to_light;
@@ -118,23 +122,25 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 			diff = fmax(pow(vec3_dot(normal, light_direction),2), objects->ambient->ratio);
 			final_color = vec3_mul(final_color, diff);
 			final_color = vec3_coloradddue(final_color, light_color);
+			// shadow
+			ray2.origin = hit_point;
+			ray2.direction = light_direction;
+			object2 = objects->spheres;
+			for (int k = 0; k < objects->sp_count; k++)
+			{
+				sphere2 = *(t_sphere *)object2->data;
+				distance2 = hit_sphere_distance(&sphere2, ray2);
+				if (distance2 > 0.0f && distance2 < distance_to_light)
+				{
+					final_color = vec3_mul(final_color, objects->ambient->ratio / (diff));
+					break;
+				}
+				object2 = object2->next;
+			}
 		}
 		object = object->next;
 	}
-	ray.origin = hit_point;
-	ray.direction = light_direction;
-	object = objects->spheres;
-	for (int s = 0; s < objects->sp_count; s++)
-	{
-		sphere = *(t_sphere *)object->data;
-		distance = hit_sphere_distance(&sphere, ray);
-		if (distance > 0.0f && distance < distance_to_light)
-		{
-			final_color = vec3_mul(final_color, objects->ambient->ratio / (diff));
-			break;
-		}
-		object = object->next;
-	}
+	
 	return (final_color);
 }
 
