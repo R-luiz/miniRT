@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 17:49:50 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/27 17:05:32 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/27 17:22:23 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ t_list	*find_cylinders(t_arena *arena, t_list *list_params)
 			else
 				ft_lstadd_back(&cylinders, ft_lstnew(arena, cylinder));
 			cylinder->bounce = NULL;
+			cylinder->hit_dist = &hit_cylinder_distance;
 		}
 		tmp = tmp->next;
 	}
