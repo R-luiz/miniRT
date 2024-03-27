@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/27 13:34:54 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/27 19:05:10 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 		}
 		object = object->next;
 	}
-	
 	return (final_color);
 }
 

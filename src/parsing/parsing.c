@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:42:56 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/26 09:30:32 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:02:05 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ t_objects	*init_objects(t_arena *arena, char *argv[])
 	t_list		*params;
 
 	params = parsing_to_list(arena, argv[1]);
+	check_duplicated_capitals(arena, params);
 	objects = arena_alloc(arena, sizeof(*objects));
 	objects->camera = find_camera(arena, params, NULL);
 	objects->ambient = find_ambient(arena, params, NULL);
