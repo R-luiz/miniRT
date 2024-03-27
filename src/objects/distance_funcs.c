@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:05:14 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/26 17:38:50 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/27 17:12:38 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,3 +48,26 @@ float	hit_plane_distance(void *plane, t_lightray ray)
 	}
 	return (-1);
 }
+
+// float	hit_cylinder_distance(void *cylinder, t_lightray ray)
+// {
+// 	t_vec3	oc;
+// 	float	a;
+// 	float	b;
+// 	float	c;
+// 	float	discriminant;
+
+// 	oc = vec3_sub(ray.origin, ((t_cylinder *)cylinder)->center);
+// 	a = vec3_dot(ray.direction, ray.direction)
+// 		- pow(vec3_dot(ray.direction, ((t_cylinder *)cylinder)->normal), 2);
+// 	b = 2 * (vec3_dot(oc, ray.direction)
+// 			- vec3_dot(ray.direction, ((t_cylinder *)cylinder)->normal)
+// 			* vec3_dot(oc, ((t_cylinder *)cylinder)->normal));
+// 	c = vec3_dot(oc, oc)
+// 		- pow(vec3_dot(oc, ((t_cylinder *)cylinder)->normal), 2)
+// 		- pow(((t_cylinder *)cylinder)->diameter / 2, 2);
+// 	discriminant = pow(b, 2) - 4 * a * c;
+// 	if (discriminant <= 0 || a == 0)
+// 		return (-1);
+// 	return ((-b - sqrtf(discriminant)) / (2 * a));
+// }

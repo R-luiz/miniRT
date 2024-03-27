@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/27 17:10:29 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/27 17:18:13 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 	for (int s = 0; s < objects->sp_count; s++)
 	{
 		sphere = *(t_sphere *)object->data;
-		distance = hit_sphere_distance(&sphere, ray);
+		distance = sphere.hit_dist(&sphere, ray);
 		if (distance > 0.0f && distance < min_distance)
 		{
 			min_distance = distance;
@@ -129,7 +129,7 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 	for (int s = 0; s < objects->sp_count; s++)
 	{
 		sphere = *(t_sphere *)object->data;
-		distance = hit_sphere_distance(&sphere, ray);
+		distance = sphere.hit_dist(&sphere, ray);
 		if (distance > 0.0f && distance < distance_to_light)
 		{
 			final_color = vec3_mul(final_color, objects->ambient->ratio / (diff));
@@ -179,7 +179,7 @@ t_vec3	calc_plane(t_render *rd, int i, int j)
 	for (int s = 0; s < objects->pl_count; s++)
 	{
 		plane = *(t_plane *)object->data;
-		distance = hit_plane_distance(&plane, ray);
+		distance = plane.hit_dist(&plane, ray);
 		if (distance > 0.0f && distance < min_distance)
 		{
 			min_distance = distance;
