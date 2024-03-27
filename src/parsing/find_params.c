@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:47:05 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/27 19:18:27 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/27 20:32:48 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,20 @@ t_camera	*find_camera(t_arena *arena, t_list *list, char *str)
 		free_and_exit_error(arena, "No camera found");
 	camera = (t_camera *)arena_alloc(arena, sizeof(t_camera));
 	tmp = tmp->next;
+	if (!tmp)
+		free_and_exit_error(arena, "Invalid camera parameters");
 	str = (char *)tmp->data;
 	if(!is_coordinates(str))
 		free_and_exit_error(arena, "Invalid camera coordinates");
 	camera->center = (t_vec3){ft_atof(strtok(str, ",")),
 		ft_atof(strtok(NULL, ",")), ft_atof(strtok(NULL, ","))};
+	if (!tmp->next)
+		free_and_exit_error(arena, "Invalid camera parameters");
 	str = (char *)tmp->next->data;
 	camera->look_at = (t_vec3){ft_atof(strtok(str, ",")),
 		ft_atof(strtok(NULL, ",")), ft_atof(strtok(NULL, ","))};
+	if (!tmp->next || !tmp->next->next)
+		free_and_exit_error(arena, "Invalid camera parameters");
 	str = str_is_float(arena, (char *)tmp->next->next->data, "Invalid camera FOV");
 	camera->hfov = ft_atof(str);
 	return (camera);
@@ -64,6 +70,8 @@ t_ambient	*find_ambient(t_arena *arena, t_list *list, char *str)
 		free_and_exit_error(arena, "No ambient light found");
 	ambient = (t_ambient *)arena_alloc(arena, sizeof(t_ambient));
 	tmp = tmp->next;
+	if (!tmp)
+		free_and_exit_error(arena, "Invalid ambient parameters");
 	str = str_is_float(arena, (char *)tmp->data, "Invalid ambient ratio");
 	ambient->ratio = ft_atof(str);
 	if (!float_in_range(ambient->ratio, 0, 1))
@@ -86,12 +94,26 @@ t_light	*find_light(t_arena *arena, t_list *list, char *str)
 		free_and_exit_error(arena, "No light found");
 	light = (t_light *)arena_alloc(arena, sizeof(t_light));
 	tmp = tmp->next;
+	if (!tmp)
+		free_and_exit_error(arena, "Invalid light parameters");
 	str = (char *)tmp->data;
+	if(!is_coordinates(str))
+		free_and_exit_error(arena, "Invalid light coordinates");
 	light->origin = (t_vec3){ft_atof(strtok(str, ",")),
 		ft_atof(strtok(NULL, ",")), ft_atof(strtok(NULL, ","))};
-	light->ratio = ft_atof((char *)tmp->next->data);
-	str = (char *)tmp->next->next->data;
-	light->color = color_int(ft_atoi(ft_strtok(str, ",")),
-			ft_atoi(ft_strtok(NULL, ",")), ft_atoi(ft_strtok(NULL, ",")));
+	if (!tmp->next)
+		free_and_exit_error(arena, "Invalid light parameters");
+	tmp = tmp->next;
+	str = str_is_float(arena, (char *)tmp->data, "Invalid light ratio");
+	light->ratio = ft_atof(str);
+	if (!float_in_range(light->ratio, 0, 1))
+		free_and_exit_error(arena, "Invalid light ratio");
+	if (!tmp->next)
+		free_and_exit_error(arena, "Invalid light parameters");
+	str = (char *)tmp->next->data;
+	if (!is_rgb(str))
+		free_and_exit_error(arena, "Invalid light color");
+	t_vec3 color = extract_rgb(arena, str, "Invalid light color");
+	light->color = color_int(color.x, color.y, color.z);
 	return (light);
 }

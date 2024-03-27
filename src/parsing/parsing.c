@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:42:56 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/27 15:02:05 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/27 20:01:33 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_list	*parsing_to_list(t_arena *arena, char *file)
 	tmp = list;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		return (NULL);
+		free_and_exit_error(arena, "Error: file not found");
 	line = get_next_line(arena, fd);
 	while (line)
 	{

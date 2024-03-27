@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 19:18:42 by vmalassi          #+#    #+#             */
-/*   Updated: 2024/03/27 19:18:59 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/27 20:31:15 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ int is_coordinates(char *str)
 			comma++;
 		if (str[i] == '.')
 			dot++;
-		if (dot > 1 || comma > 2 || (str[i] != ',' && str[i] != '.' && (str[i] < '0' || str[i] > '9')))
+		if (dot > 1 || comma > 2 || (str[i] != ',' && str[i] != '-' && str[i] != '.' && (str[i] < '0' || str[i] > '9')))
+			return (0);
+		if (str[i] == '-' && str[i - 1] != ',' && (i != 0 && str[i - 1]!= ' '))
 			return (0);
 		i++;
 	}
