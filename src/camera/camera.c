@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/27 20:38:15 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/27 20:41:03 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,22 +262,22 @@ t_vec3	calc_cylinders(t_render *rd, int i, int j)
 		}
 		object = object->next;
 	}
-	if (final_color.x == 0 && final_color.y == 0 && final_color.z == 0)
-		return (final_color);
-	ray.origin = hit_point;
-	ray.direction = light_direction;
-	object = objects->cylinders;
-	for (int s = 0; s < objects->cy_count; s++)
-	{
-		cylinder = *(t_cylinder *)object->data;
-		distance = cylinder.hit_dist(&cylinder, ray);
-		if (distance > 0.0f && distance < distance_to_light)
-		{
-			final_color = vec3_mul(final_color, objects->ambient->ratio / (diff));
-			break;
-		}
-		object = object->next;
-	}
+	// if (final_color.x == 0 && final_color.y == 0 && final_color.z == 0)
+	// 	return (final_color);
+	// ray.origin = hit_point;
+	// ray.direction = light_direction;
+	// object = objects->cylinders;
+	// for (int s = 0; s < objects->cy_count; s++)
+	// {
+	// 	cylinder = *(t_cylinder *)object->data;
+	// 	distance = cylinder.hit_dist(&cylinder, ray);
+	// 	if (distance > 0.0f && distance < distance_to_light)
+	// 	{
+	// 		final_color = vec3_mul(final_color, objects->ambient->ratio / (diff));
+	// 		break;
+	// 	}
+	// 	object = object->next;
+	// }
 	return (final_color);
 }
 
