@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_cylinders.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 17:49:50 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/26 15:06:42 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/27 17:05:32 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_list	*find_cylinders(t_arena *arena, t_list *list_params)
 				cylinders = ft_lstnew(arena, cylinder);
 			else
 				ft_lstadd_back(&cylinders, ft_lstnew(arena, cylinder));
+			cylinder->bounce = NULL;
 		}
 		tmp = tmp->next;
 	}

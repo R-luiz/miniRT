@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_planes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 17:44:55 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/26 17:00:07 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/27 17:06:17 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	parse_plane_params(char *str, t_list *tmp2, t_plane *plane)
 	plane->color = color_int(ft_atoi(ft_strtok(str, delimiter)),
 			ft_atoi(ft_strtok(NULL, delimiter)),
 			ft_atoi(ft_strtok(NULL, delimiter)));
+	plane->bounce = NULL;
+	plane->hit_dist = &hit_plane_distance;
 }
 
 t_plane	*create_plane(t_arena *arena, t_list *tmp2, char *str)

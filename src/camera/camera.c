@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/26 17:36:52 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/27 17:10:29 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 		}
 		object = object->next;
 	}
+	if (final_color.x == 0 && final_color.y == 0 && final_color.z == 0)
+		return (final_color);
 	ray.origin = hit_point;
 	ray.direction = light_direction;
 	object = objects->spheres;
