@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/27 20:10:49 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/27 20:38:15 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,7 +256,7 @@ t_vec3	calc_cylinders(t_render *rd, int i, int j)
 					light_power);
 			light_direction = vec3_normalize(vec3_sub(objects->light->origin,
 						hit_point));
-			diff = fmax(pow(vec3_dot(normal, light_direction), 2), objects->ambient->ratio);
+			diff = fmax(pow(vec3_dot(normal, light_direction), 1), objects->ambient->ratio);
 			final_color = vec3_mul(final_color, diff);
 			final_color = vec3_coloradddue(final_color, light_color);
 		}
