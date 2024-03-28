@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:05:14 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/28 17:37:33 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/28 20:48:53 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ float hit_cylinder_distance(t_object *cylinder, t_lightray ray) {
     // Compute A and B vectors perpendicular to the cylinder axis
     t_vec3 A_perp = vec3_sub(D, vec3_mul(A, vec3_dot(D, A)));
     t_vec3 B_perp = vec3_sub(CO, vec3_mul(A, vec3_dot(CO, A)));
+    t_plane topcap;
+    t_plane botcap;
 
     // Quadratic coefficients for intersection with cylindrical surface
     float a = vec3_dot(A_perp, A_perp);
@@ -86,20 +88,37 @@ float hit_cylinder_distance(t_object *cylinder, t_lightray ray) {
             has_surface_intersection = 1;
         }
     }
-
-    // Intersection with the cap planes
-    for (int i = 0; i < 2; i++) {
-        float cap_coord = (i == 0) ? 0 : cy->height; // 0 for bottom cap, cy->height for top cap
-        float denom = vec3_dot(D, A); // cos(angle between ray direction and cylinder axis)
-        if (fabs(denom) > 1e-6) { // Check if ray is not parallel to the cap
-            t_cap = (vec3_dot(vec3_sub(vec3_add(cy->center, vec3_mul(A, cap_coord)), ray.origin), A)) / denom;
-            t_vec3 P = vec3_add(ray.origin, vec3_mul(D, t_cap)); // Point of intersection with cap
-            if (vec3_length(vec3_sub(P, vec3_add(cy->center, vec3_mul(A, cap_coord)))) <= cy->diameter / 2 && t_cap > 0) {
-                // Inside cap bounds
+    topcap.apoint = vec3_add(cy->center, vec3_mul(A, cy->height));
+    topcap.normal = A;
+    botcap.apoint = cy->center;
+    botcap.normal = vec3_mul(A, -1);
+    float denom = vec3_dot(D, topcap.normal);
+    if (fabs(denom) > 0.0001)
+    {
+        t_cap = vec3_dot(vec3_sub(topcap.apoint, ray.origin), topcap.normal) / denom;
+        if (t_cap >= 0)
+        {
+            t_vec3 P = vec3_add(ray.origin, vec3_mul(D, t_cap));
+            if (vec3_length(vec3_sub(P, topcap.apoint)) <= cy->diameter / 2)
+            {
                 t_min = fmin(t_min, t_cap);
             }
         }
     }
-
-    return (t_min == INFINITY) ? -1 : t_min; // If no intersection, return -1
+    denom = vec3_dot(D, botcap.normal);
+    if (fabs(denom) > 0.0001)
+    {
+        t_cap = vec3_dot(vec3_sub(botcap.apoint, ray.origin), botcap.normal) / denom;
+        if (t_cap >= 0)
+        {
+            t_vec3 P = vec3_add(ray.origin, vec3_mul(D, t_cap));
+            if (vec3_length(vec3_sub(P, botcap.apoint)) <= cy->diameter / 2)
+            {
+                t_min = fmin(t_min, t_cap);
+            }
+        }
+    }
+    if (t_min == INFINITY)
+        return -1;
+    return (t_min);
 }
