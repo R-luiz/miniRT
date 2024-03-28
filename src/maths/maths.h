@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   maths.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:00:27 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/26 08:44:41 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/28 12:24:06 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_vec3			vec3_mean(t_vec3 v, t_vec3 w);
 t_vec3			vec3_coloradddue(t_vec3 color1, t_vec3 color2);
 t_vec3			vec3_coloraddmax(t_vec3 color1, t_vec3 color2);
 t_vec3			vec3_coloradddueamb(t_vec3 color1, t_vec3 color2);
+t_vec3	vec3_coloradddue3(t_vec3 color1, t_vec3 colorlight, t_vec3 coloramb);
 t_vec3			vec3_reflect(t_vec3 v, t_vec3 n);
 /* Misc
 ================================================================================
