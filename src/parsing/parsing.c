@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:42:56 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/26 09:30:32 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/28 15:40:15 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,82 @@ t_list	*parsing_to_list(t_arena *arena, char *file)
 	return (list);
 }
 
+t_object *convert_sph_to_obj(t_arena *arena, t_sphere *sphere)
+{
+	t_object *object;
+
+	object = (t_object *)arena_alloc(arena, sizeof(t_object));
+	object->type = 1;
+	object->hit_dist = &hit_sphere_distance;
+	object->bounce = NULL;
+	object->center = sphere->center;
+	object->normal = (t_vec3){0, 0, 0};
+	object->diameter = sphere->diameter;
+	object->height = 0;
+	object->color = sphere->color;
+	return (object);
+}
+
+t_object *convert_pln_to_obj(t_arena *arena, t_plane *plane)
+{
+	t_object *object;
+
+	object = (t_object *)arena_alloc(arena, sizeof(t_object));
+	object->type = 3;
+	object->hit_dist = &hit_plane_distance;
+	object->bounce = NULL;
+	object->center = plane->apoint;
+	object->normal = plane->normal;
+	object->diameter = 0;
+	object->height = 0;
+	object->color = plane->color;
+	return (object);
+}
+
+t_object *convert_cyl_to_obj(t_arena *arena, t_cylinder *cylinder)
+{
+	t_object *object;
+
+	object = (t_object *)arena_alloc(arena, sizeof(t_object));
+	object->type = 2;
+	object->hit_dist = &hit_cylinder_distance;
+	object->bounce = NULL;
+	object->center = cylinder->center;
+	object->normal = cylinder->normal;
+	object->diameter = cylinder->diameter;
+	object->height = cylinder->height;
+	object->color = cylinder->color;
+	return (object);
+}
+
+t_list	*list_all(t_list *spheres, t_list *planes, t_list *cylinders, t_arena *arena)
+{
+	t_list	*all;
+	t_object	*object;
+
+	all = NULL;
+	while (spheres)
+	{
+		object = convert_sph_to_obj(arena, (t_sphere *)spheres->data);
+		if (!all)
+			all = ft_lstnew(arena, object);
+		else
+			ft_lstadd_back(&all, ft_lstnew(arena, object));
+		spheres = spheres->next;
+	}
+	while (cylinders)
+	{
+		ft_lstadd_back(&all, ft_lstnew(arena, convert_cyl_to_obj(arena, (t_cylinder *)cylinders->data)));
+		cylinders = cylinders->next;
+	}
+	while (planes)
+	{
+		ft_lstadd_back(&all, ft_lstnew(arena, convert_pln_to_obj(arena, (t_plane *)planes->data)));
+		planes = planes->next;
+	}
+	return (all);
+}
+
 t_objects	*init_objects(t_arena *arena, char *argv[])
 {
 	t_objects	*objects;
@@ -75,5 +151,7 @@ t_objects	*init_objects(t_arena *arena, char *argv[])
 	objects->sp_count = ft_lstsize(objects->spheres);
 	objects->pl_count = ft_lstsize(objects->planes);
 	objects->cy_count = ft_lstsize(objects->cylinders);
+	objects->ob_count = objects->sp_count + objects->pl_count + objects->cy_count;
+	objects->all = list_all(objects->spheres, objects->planes, objects->cylinders, arena);
 	return (objects);
 }

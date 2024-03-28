@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 17:49:50 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/27 17:22:23 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/28 14:40:44 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_list	*find_cylinders(t_arena *arena, t_list *list_params)
 			cylinder->color = color_vec3((t_vec3){ft_atof(ft_strtok(str, delimiter)),
 				ft_atof(ft_strtok(NULL, delimiter)),
 				ft_atof(ft_strtok(NULL, delimiter))});
+			cylinder->type = 2;
 			if (!cylinders)
 				cylinders = ft_lstnew(arena, cylinder);
 			else

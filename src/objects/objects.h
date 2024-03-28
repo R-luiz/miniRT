@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:05:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/27 17:46:50 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/28 14:46:26 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_sphere
 	t_color		color;
 	t_lightray	(*bounce)(void *obj, t_lightray ray);
 	float		(*hit_dist)(void *obj, t_lightray ray);
+	int			type;
 }				t_sphere;
 
 typedef struct s_plane
@@ -45,6 +46,7 @@ typedef struct s_plane
 	t_color		color;
 	t_lightray	(*bounce)(void *obj, t_lightray ray);
 	float		(*hit_dist)(void *obj, t_lightray ray);
+	int			type;
 }				t_plane;
 
 typedef struct s_cylinder
@@ -56,7 +58,20 @@ typedef struct s_cylinder
 	t_color		color;
 	t_lightray	(*bounce)(void *obj, t_lightray ray);
 	float		(*hit_dist)(void *obj, t_lightray ray);
+	int			type;
 }				t_cylinder;
+
+typedef struct s_object
+{
+	t_point3	center;
+	t_vec3		normal;
+	float		diameter;
+	float		height;
+	t_color		color;
+	t_lightray	(*bounce)(void *obj, t_lightray ray);
+	float		(*hit_dist)(void *obj, t_lightray ray);
+	int			type;
+}				t_object;
 
 float	hit_sphere_distance(void *sphere, t_lightray ray);
 float	hit_plane_distance(void *plane, t_lightray ray);

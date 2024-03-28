@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/28 12:47:57 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/28 15:39:28 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_camera	*camera_create(t_point3 center, t_vec3 direction, float hfov,
 	return (cam);
 }
 
-t_vec3	calc_spheres(t_render *rd, int i, int j)
+t_vec3	calc_spheres(t_render *rd, int i, int j, float *min_distance)
 {
 	t_camera	*camera;
 	t_canvas	*canvas;
@@ -70,7 +70,6 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 	t_vec3		ray_direction;
 	t_lightray		ray;
 	t_list		*object;
-	float		min_distance;
 	t_vec3		final_color;
 	t_sphere	sphere;
 	float		distance;
@@ -91,8 +90,6 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 				vec3_mul(camera->vp->pixel_dv, (float)j)));
 	ray_direction = vec3_normalize(vec3_sub(pixel_center, camera->center));
 	ray = (t_lightray){.origin = camera->center, .direction = ray_direction};
-	min_distance = INFINITY;
-	final_color = (t_vec3){0, 0, 0};
 	ambient_color = color_to_vec3(objects->ambient->color);
 	ambient_color = vec3_mul(ambient_color, objects->ambient->ratio);
 	object = objects->spheres;
@@ -100,9 +97,9 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 	{
 		sphere = *(t_sphere *)object->data;
 		distance = sphere.hit_dist(&sphere, ray);
-		if (distance > 0.0f && distance < min_distance)
+		if (distance > 0.0f && distance < *min_distance)
 		{
-			min_distance = distance;
+			*min_distance = distance;
 			hit_point = vec3_add(ray.origin, vec3_mul(ray.direction, distance));
 			normal = vec3_normalize(vec3_sub(hit_point, sphere.center));
 			final_color = color_to_vec3(sphere.color);
@@ -125,6 +122,7 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 		return (final_color);
 	ray.origin = hit_point;
 	ray.direction = light_direction;
+	ray.color = color_vec3(final_color);
 	object = objects->spheres;
 	for (int s = 0; s < objects->sp_count; s++)
 	{
@@ -132,15 +130,14 @@ t_vec3	calc_spheres(t_render *rd, int i, int j)
 		distance = sphere.hit_dist(&sphere, ray);
 		if (distance > 0.0f && distance < distance_to_light)
 		{
-			final_color = vec3_mul(final_color, objects->ambient->ratio / (diff));
-			break;
+			final_color = vec3_mul(color_to_vec3(ray.color), objects->ambient->ratio / (diff));
 		}
 		object = object->next;
 	}
 	return (final_color);
 }
 
-t_vec3	calc_plane(t_render *rd, int i, int j)
+t_vec3	calc_plane(t_render *rd, int i, int j, float *min_distance)
 {
 	t_camera	*camera;
 	t_canvas	*canvas;
@@ -149,7 +146,6 @@ t_vec3	calc_plane(t_render *rd, int i, int j)
 	t_vec3		ray_direction;
 	t_lightray		ray;
 	t_list		*object;
-	float		min_distance;
 	t_vec3		final_color;
 	t_plane		plane;
 	float		distance;
@@ -171,8 +167,6 @@ t_vec3	calc_plane(t_render *rd, int i, int j)
 				vec3_mul(camera->vp->pixel_dv, (float)j)));
 	ray_direction = vec3_normalize(vec3_sub(pixel_center, camera->center));
 	ray = (t_lightray){.origin = camera->center, .direction = ray_direction};
-	min_distance = INFINITY;
-	final_color = (t_vec3){0, 0, 0};
 	ambient_color = color_to_vec3(objects->ambient->color);
 	ambient_color = vec3_mul(ambient_color, objects->ambient->ratio);
 	object = objects->planes;
@@ -180,9 +174,9 @@ t_vec3	calc_plane(t_render *rd, int i, int j)
 	{
 		plane = *(t_plane *)object->data;
 		distance = plane.hit_dist(&plane, ray);
-		if (distance > 0.0f && distance < min_distance)
+		if (distance > 0.0f && distance < *min_distance)
 		{
-			min_distance = distance;
+			*min_distance = distance;
 			hit_point = vec3_add(ray.origin, vec3_mul(ray.direction, distance));
 			normal = vec3_normalize(plane.normal);
 			final_color = color_to_vec3(plane.color);
@@ -234,7 +228,7 @@ t_vec3 cylinder_surface_normal(void *cylinder, t_vec3 hit_point, t_vec3 ray_dire
     return normal;
 }
 
-t_vec3	calc_cylinders(t_render *rd, int i, int j)
+t_vec3	calc_cylinders(t_render *rd, int i, int j, float *min_distance)
 {
 	t_camera	*camera;
 	t_canvas	*canvas;
@@ -243,7 +237,6 @@ t_vec3	calc_cylinders(t_render *rd, int i, int j)
 	t_vec3		ray_direction;
 	t_lightray		ray;
 	t_list		*object;
-	float		min_distance;
 	t_vec3		final_color;
 	t_cylinder	cylinder;
 	float		distance;
@@ -264,8 +257,6 @@ t_vec3	calc_cylinders(t_render *rd, int i, int j)
 				vec3_mul(camera->vp->pixel_dv, (float)j)));
 	ray_direction = vec3_normalize(vec3_sub(pixel_center, camera->center));
 	ray = (t_lightray){.origin = camera->center, .direction = ray_direction};
-	min_distance = INFINITY;
-	final_color = (t_vec3){0, 0, 0};
 	ambient_color = color_to_vec3(objects->ambient->color);
 	ambient_color = vec3_mul(ambient_color, objects->ambient->ratio);
 	object = objects->cylinders;
@@ -273,9 +264,9 @@ t_vec3	calc_cylinders(t_render *rd, int i, int j)
 	{
 		cylinder = *(t_cylinder *)object->data;
 		distance = cylinder.hit_dist(&cylinder, ray);
-		if (distance > 0.00001f && distance < min_distance)
+		if (distance > 0.00001f && distance < *min_distance)
 		{
-			min_distance = distance;
+			*min_distance = distance;
 			hit_point = vec3_add(ray.origin, vec3_mul(ray.direction, distance));
 			normal = cylinder_surface_normal(&cylinder, hit_point, ray_direction);
 			final_color = color_to_vec3(cylinder.color);
@@ -304,9 +295,8 @@ t_vec3	calc_cylinders(t_render *rd, int i, int j)
 	{
 		cylinder = *(t_cylinder *)object->data;
 		distance = cylinder.hit_dist(&cylinder, ray);
-		if (distance > 0.00001f && distance < min_distance)
+		if (distance > 0.00001f && distance < distance_to_light)
 		{
-			min_distance = distance;
 			hit_point = vec3_add(ray.origin, vec3_mul(ray.direction, distance));
 			normal = cylinder_surface_normal(&cylinder, hit_point, ray_direction);
 			diff = fmax(pow(vec3_dot(normal, light_direction), 2), 0);
@@ -315,6 +305,121 @@ t_vec3	calc_cylinders(t_render *rd, int i, int j)
 		}
 		object = object->next;
 	}
+	return (final_color);
+}
+
+t_vec3 calc_object(t_render *rd, int i, int j, float *min_distance)
+{
+	t_camera	*camera;
+	t_canvas	*canvas;
+	t_objects	*objects;
+	t_point3	pixel_center;
+	t_vec3		ray_direction;
+	t_lightray		ray;
+	t_list		*object;
+	t_vec3		final_color;
+	t_object	obj;
+	float		distance;
+	t_vec3		hit_point;
+	t_vec3		normal;
+	float		distance_to_light;
+	t_vec3		light_color;
+	t_vec3		ambient_color;
+	float		light_power;
+	t_vec3		light_direction;
+	float		diff;
+
+	camera = rd->camera;
+	canvas = rd->canvas;
+	objects = rd->objects;
+	pixel_center = vec3_add(camera->vp->pixel_00,
+			vec3_add(vec3_mul(camera->vp->pixel_du, (float)i),
+				vec3_mul(camera->vp->pixel_dv, (float)j)));
+	ray_direction = vec3_normalize(vec3_sub(pixel_center, camera->center));
+	ray = (t_lightray){.origin = camera->center, .direction = ray_direction};
+	ambient_color = color_to_vec3(objects->ambient->color);
+	ambient_color = vec3_mul(ambient_color, objects->ambient->ratio);
+	object = objects->all;
+	for (int s = 0; s < objects->ob_count; s++)
+	{
+		obj = *(t_object *)object->data;
+		distance = obj.hit_dist(&obj, ray);
+		if (i == canvas->width / 2 && j == canvas->height / 2) {
+			printf("Type of the object: %d\n", obj.type);
+		}
+		if (distance > 1e-6 && distance < *min_distance)
+		{
+			*min_distance = distance;
+			hit_point = vec3_add(ray.origin, vec3_mul(ray.direction, distance));
+			if (obj.type == 1)
+				normal = vec3_normalize(obj.normal);
+			else if (obj.type == 2)
+				normal = cylinder_surface_normal(&obj, hit_point, ray_direction);
+			else
+				normal = vec3_normalize(vec3_sub(hit_point, obj.center));
+			if (i == canvas->width / 2 && j == canvas->height / 2) {
+				printf("Type of the object: %d\n", obj.type);
+			}
+			final_color = color_to_vec3(obj.color);
+			ray.color = color_vec3(final_color);
+			distance_to_light = vec3_length(vec3_sub(hit_point,
+						objects->light->origin));
+			light_power = objects->light->ratio / (4.0f * M_PI
+					* distance_to_light * distance_to_light);
+			light_color = vec3_mul(color_to_vec3(objects->light->color),
+					light_power);
+			light_direction = vec3_normalize(vec3_sub(hit_point,
+						objects->light->origin));
+			diff = fmax(pow(vec3_dot(normal, light_direction), 2), objects->ambient->ratio);
+			final_color = vec3_mul(final_color, diff);
+			final_color = vec3_coloradddue(final_color, light_color);
+		}
+		object = object->next;
+	}
+	return (final_color);
+}
+
+t_vec3 calc_objects(t_render *rd, int i, int j)
+{
+	t_vec3 final_color;
+	t_object *obj;
+	t_list *objects;
+	float *min_distance;
+	int s;
+
+	s = 0;
+	objects = rd->objects->all;
+	min_distance = arena_temp_alloc(rd->arena, sizeof(*min_distance));
+	*min_distance = 1e6;
+	while (s < rd->objects->sp_count)
+	{
+		obj = objects->data;
+		final_color = calc_object(rd, i, j, min_distance);
+		s++;
+		objects = objects->next;
+	}
+	if (*min_distance == 1e6)
+		return ((t_vec3){0, 0, 0});
+	return (final_color);
+}
+	
+
+t_vec3	add_all_objects(t_render *rd, int i, int j)
+{
+	t_vec3 final_color;
+	t_objects *objects;
+	t_list *object;
+	float *min_distance;
+	int s;
+
+	s = 0;
+	objects = rd->objects;
+	object = objects->spheres;
+	min_distance = arena_alloc(rd->arena, sizeof(*min_distance));
+	*min_distance = 1e6;
+	final_color = calc_spheres(rd, i, j, min_distance);
+	final_color = calc_cylinders(rd, i, j, min_distance);
+	final_color = calc_plane(rd, i, j, min_distance);
 	return (final_color);
 }
 
@@ -331,9 +436,8 @@ void	*camera_render(void *vargp)
 	{
 		for (i = 0; i < rd->canvas->width; i++)
 		{
-			// final_color = calc_plane(rd, i, j);
-			// final_color = calc_spheres(rd, i, j);
-			final_color = calc_cylinders(rd, i, j);
+			final_color = calc_objects(rd, i, j);
+			arena_memset_temp(rd->arena);
 			color = color_vec3(final_color);
 			canvas_draw(rd->canvas, i, j, color);
 		}

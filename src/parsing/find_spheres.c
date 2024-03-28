@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:27:36 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/26 15:33:49 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/28 14:40:09 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_sphere	*create_sphere(t_arena *arena, char **params)
 			);
 	sphere->bounce = NULL;
 	sphere->hit_dist = &hit_sphere_distance;
+	sphere->type = 1;
 	return (sphere);
 }
 
