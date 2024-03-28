@@ -6,13 +6,13 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:05:14 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/28 11:04:04 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/28 17:37:33 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "objects.h"
 
-float	hit_sphere_distance(void *sphere, t_lightray ray)
+float	hit_sphere_distance(t_object *sphere, t_lightray ray)
 {
 	t_vec3	oc;
 	float	a;
@@ -20,17 +20,17 @@ float	hit_sphere_distance(void *sphere, t_lightray ray)
 	float	c;
 	float	discriminant;
 
-	oc = vec3_sub(ray.origin, ((t_sphere *)sphere)->center);
+	oc = vec3_sub(ray.origin, sphere->center);
 	a = vec3_dot(ray.direction, ray.direction);
 	b = 2 * vec3_dot(oc, ray.direction);
-	c = vec3_dot(oc, oc) - pow(((t_sphere *)sphere)->diameter / 2, 2);
+	c = vec3_dot(oc, oc) - pow(sphere->diameter / 2, 2);
 	discriminant = pow(b, 2) - 4 * a * c;
 	if (discriminant <= 0 || a == 0)
 		return (-1);
 	return ((-b - sqrtf(discriminant)) / (2 * a));
 }
 
-float	hit_plane_distance(void *plane, t_lightray ray)
+float	hit_plane_distance(t_object *plane, t_lightray ray)
 {
 	float	denom;
 	float	t;
@@ -49,7 +49,7 @@ float	hit_plane_distance(void *plane, t_lightray ray)
 	return (-1);
 }
 
-float hit_cylinder_distance(void *cylinder, t_lightray ray) {
+float hit_cylinder_distance(t_object *cylinder, t_lightray ray) {
     t_cylinder *cy = (t_cylinder *)cylinder;
     t_vec3 CO = vec3_sub(ray.origin, cy->center); // Vector from cylinder center to ray origin
     t_vec3 D = ray.direction; // Ray direction vector

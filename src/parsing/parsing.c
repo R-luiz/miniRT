@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:42:56 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/28 15:40:15 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/28 17:33:24 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_object *convert_sph_to_obj(t_arena *arena, t_sphere *sphere)
 
 	object = (t_object *)arena_alloc(arena, sizeof(t_object));
 	object->type = 1;
-	object->hit_dist = &hit_sphere_distance;
+	object->hit_dist = sphere->hit_dist;
 	object->bounce = NULL;
 	object->center = sphere->center;
 	object->normal = (t_vec3){0, 0, 0};
@@ -81,7 +81,7 @@ t_object *convert_pln_to_obj(t_arena *arena, t_plane *plane)
 
 	object = (t_object *)arena_alloc(arena, sizeof(t_object));
 	object->type = 3;
-	object->hit_dist = &hit_plane_distance;
+	object->hit_dist = plane->hit_dist;
 	object->bounce = NULL;
 	object->center = plane->apoint;
 	object->normal = plane->normal;
@@ -97,7 +97,7 @@ t_object *convert_cyl_to_obj(t_arena *arena, t_cylinder *cylinder)
 
 	object = (t_object *)arena_alloc(arena, sizeof(t_object));
 	object->type = 2;
-	object->hit_dist = &hit_cylinder_distance;
+	object->hit_dist = cylinder->hit_dist;
 	object->bounce = NULL;
 	object->center = cylinder->center;
 	object->normal = cylinder->normal;
