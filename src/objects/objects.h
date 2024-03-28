@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:05:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/26 15:38:25 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/28 19:39:00 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ typedef struct s_cylinder
 }				t_cylinder;
 
 float	hit_sphere_distance(void *sphere, t_lightray ray);
-float	hit_plane_distance(t_plane *plane, t_lightray ray);
+float	hit_plane_distance(void *plane, t_lightray ray);
 
 #endif // !OBJECTS_H

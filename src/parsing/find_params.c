@@ -6,21 +6,21 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:47:05 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/27 20:32:48 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/28 14:20:46 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "camera/camera.h"
 
-t_list *find_temp(t_list *list, char *str)
+t_list *find_id_line(t_list *list, char *id)
 {
 	t_list	*tmp;
 
 	tmp = list->next;
 	while (tmp)
 	{
-		if (ft_strcmp(((t_list *)tmp->data)->data, str) == 0)
+		if (ft_strcmp(((t_list *)tmp->data)->data, id) == 0)
 		{
 			tmp = tmp->data;
 			break ;
@@ -35,7 +35,7 @@ t_camera	*find_camera(t_arena *arena, t_list *list, char *str)
 	t_list		*tmp;
 	t_camera	*camera;
 
-	tmp = find_temp(list, "C");
+	tmp = find_id_line(list, "C");
 	if (!tmp)
 		free_and_exit_error(arena, "No camera found");
 	camera = (t_camera *)arena_alloc(arena, sizeof(t_camera));
@@ -65,7 +65,7 @@ t_ambient	*find_ambient(t_arena *arena, t_list *list, char *str)
 	t_vec3		vec;
 	t_ambient	*ambient;
 
-	tmp = find_temp(list, "A");
+	tmp = find_id_line(list, "A");
 	if (!tmp)
 		free_and_exit_error(arena, "No ambient light found");
 	ambient = (t_ambient *)arena_alloc(arena, sizeof(t_ambient));
@@ -89,7 +89,7 @@ t_light	*find_light(t_arena *arena, t_list *list, char *str)
 	t_list	*tmp;
 	t_light	*light;
 
-	tmp = find_temp(list, "L");
+	tmp = find_id_line(list, "L");
 	if (!tmp)
 		free_and_exit_error(arena, "No light found");
 	light = (t_light *)arena_alloc(arena, sizeof(t_light));

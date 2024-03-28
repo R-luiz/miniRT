@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/27 19:20:08 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/28 14:20:49 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_light			*find_light(t_arena *arena, t_list *list, char *str);
 t_list			*find_spheres(t_arena *arena, t_list *list_params);
 t_list			*find_planes(t_arena *arena, t_list *list_params);
 t_list			*find_cylinders(t_arena *arena, t_list *list_params);
+t_list			*find_id_line(t_list *list, char *str);
 
 /* UTILS FUNCTIONS */
 void			check_duplicated_capitals(t_arena *arena, t_list *params);
