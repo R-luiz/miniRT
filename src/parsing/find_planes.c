@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   find_planes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 17:44:55 by rluiz             #+#    #+#             */
 /*   Updated: 2024/03/29 08:03:27 by vmalassi         ###   ########.fr       */
@@ -38,6 +38,7 @@ t_plane	*create_plane(t_arena *arena, char **params)
 			);
 	plane->bounce = NULL;
 	plane->hit_dist = &hit_plane_distance;
+  plane->type = 3;
 	return (plane);
 }
 

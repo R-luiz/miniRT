@@ -29,13 +29,27 @@ typedef struct s_lightray
 	t_color		color;
 }				t_lightray;
 
+typedef struct s_object t_object;
+typedef struct s_object
+{
+	t_point3	center;
+	t_vec3		normal;
+	float		diameter;
+	float		height;
+	t_color		color;
+	t_lightray	(*bounce)(t_object *obj, t_lightray ray);
+	float		(*hit_dist)(t_object *obj, t_lightray ray);
+	int			type;
+}				t_object;
+
 typedef struct s_sphere
 {
 	t_point3	center;
 	float		diameter;
 	t_color		color;
-	t_lightray	(*bounce)(void *obj, t_lightray ray);
-	float		(*hit_dist)(void *obj, t_lightray ray);
+	t_lightray	(*bounce)(t_object *obj, t_lightray ray);
+	float		(*hit_dist)(t_object *obj, t_lightray ray);
+	int			type;
 }				t_sphere;
 
 typedef struct s_plane
@@ -43,8 +57,9 @@ typedef struct s_plane
 	t_point3	apoint;
 	t_vec3		normal;
 	t_color		color;
-	t_lightray	(*bounce)(void *obj, t_lightray ray);
-	float		(*hit_dist)(void *obj, t_lightray ray);
+	t_lightray	(*bounce)(t_object *obj, t_lightray ray);
+	float		(*hit_dist)(t_object *obj, t_lightray ray);
+	int			type;
 }				t_plane;
 
 typedef struct s_cylinder
@@ -54,11 +69,13 @@ typedef struct s_cylinder
 	float		diameter;
 	float		height;
 	t_color		color;
-	t_lightray	(*bounce)(void *obj, t_lightray ray);
-	float		(*hit_dist)(void *obj, t_lightray ray);
+	t_lightray	(*bounce)(t_object *obj, t_lightray ray);
+	float		(*hit_dist)(t_object *obj, t_lightray ray);
+	int			type;
 }				t_cylinder;
 
-float	hit_sphere_distance(void *sphere, t_lightray ray);
-float	hit_plane_distance(void *plane, t_lightray ray);
+float	hit_sphere_distance(t_object *sphere, t_lightray ray);
+float	hit_plane_distance(t_object *plane, t_lightray ray);
+float	hit_cylinder_distance(t_object *cylinder, t_lightray ray);
 
 #endif // !OBJECTS_H

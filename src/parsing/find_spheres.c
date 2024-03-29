@@ -33,6 +33,7 @@ t_sphere	*create_sphere(t_arena *arena, char **params)
 			);
 	sphere->bounce = NULL;
 	sphere->hit_dist = &hit_sphere_distance;
+	sphere->type = 1;
 	return (sphere);
 }
 
