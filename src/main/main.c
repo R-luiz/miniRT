@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:35:54 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/27 14:08:05 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/29 08:39:00 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(int argc, char *argv[])
 
 	if (argc != 2)
 		exit_error("\nusage: ./miniRT path/to/file.rt\n\n");
-	arena = arena_init((size_t)1e9);
+	arena = arena_init((size_t)1e8);
 	if (!arena)
 		exit_error("Error: insufficient memory\n");
 	options_init(&options);

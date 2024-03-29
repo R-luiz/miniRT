@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   distance_funcs.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:05:14 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/28 19:41:25 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/29 08:28:43 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ float hit_cylinder_distance(t_object *cylinder, t_lightray ray) {
     float c = vec3_dot(B_perp, B_perp) - pow(cy->diameter / 2, 2);
     float discriminant = b * b - 4 * a * c;
     float t0, t1, t_cap, t_min = INFINITY;
-    int has_surface_intersection = 0;
 
     if (discriminant >= 0 && a != 0) {
         // Cylinder surface intersections
@@ -81,11 +80,9 @@ float hit_cylinder_distance(t_object *cylinder, t_lightray ray) {
 
         if ((y0 >= 0 && y0 <= cy->height) && t0 > 0) {
             t_min = fmin(t_min, t0);
-            has_surface_intersection = 1;
         }
         if ((y1 >= 0 && y1 <= cy->height) && t1 > 0) {
             t_min = fmin(t_min, t1);
-            has_surface_intersection = 1;
         }
     }
     topcap.apoint = vec3_add(cy->center, vec3_mul(A, cy->height));

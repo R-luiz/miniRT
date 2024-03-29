@@ -12,7 +12,7 @@ CFLAGS	= -Wall -Wextra -Werror \
 	-O2
 #-fsanitize=address
 
-CLFLAGS	= -lXext -lX11 -lm
+CLFLAGS	= -lXext -lX11 -lm -lbsd
 
 ##############
 #

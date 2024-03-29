@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/27 19:05:10 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/29 08:27:55 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ t_vec3 calc_object(t_render *rd, int i, int j, t_object *obj, t_vec3 final_color
 	t_vec3		ray_direction;
 	t_lightray		ray;
 	float		distance;
-	float		distance2;
 	t_vec3		hit_point;
 	t_vec3		normal;
 	float		distance_to_light;
@@ -104,6 +103,8 @@ t_vec3 calc_object(t_render *rd, int i, int j, t_object *obj, t_vec3 final_color
 	t_object	*shadow_obj;
 	float		diff;
 
+	obj1 = NULL;
+	distance_to_light = 0;
 	pixel_center = vec3_add(rd->camera->vp->pixel_00,
 			vec3_add(vec3_mul(rd->camera->vp->pixel_du, (float)i),
 				vec3_mul(rd->camera->vp->pixel_dv, (float)j)));
