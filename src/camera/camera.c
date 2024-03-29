@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/29 08:27:55 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/29 08:59:05 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_vec3 calc_object(t_render *rd, int i, int j, t_object *obj, t_vec3 final_color
 	t_lightray		ray;
 	float		distance;
 	t_vec3		hit_point;
-	t_vec3		normal;
+	t_vec3		normal = {0, 0, 0};
 	float		distance_to_light;
 	t_list	*object;
 	t_vec3		light_color;
