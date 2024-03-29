@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec3_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:46:27 by vmalassi          #+#    #+#             */
-/*   Updated: 2024/03/28 19:21:09 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/29 11:37:24 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ t_vec3	vec3_coloradddue3(t_vec3 color1, t_vec3 colorlight, t_vec3 coloramb)
 		result.z = fmaxf(fmaxf(color1.z, colorlight.z), coloramb.z);
 	return (result);
 }
-	
 
 t_vec3	vec3_coloradddueamb(t_vec3 color1, t_vec3 color2)
 {

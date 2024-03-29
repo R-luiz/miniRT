@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:42:56 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/27 20:01:33 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/29 11:09:18 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ t_list	*parsing_to_list(t_arena *arena, char *file)
 	return (list);
 }
 
-t_object *convert_sph_to_obj(t_arena *arena, t_sphere *sphere)
+t_object	*convert_sph_to_obj(t_arena *arena, t_sphere *sphere)
 {
-	t_object *object;
+	t_object	*object;
 
 	object = (t_object *)arena_alloc(arena, sizeof(t_object));
 	object->type = 1;
@@ -75,9 +75,9 @@ t_object *convert_sph_to_obj(t_arena *arena, t_sphere *sphere)
 	return (object);
 }
 
-t_object *convert_pln_to_obj(t_arena *arena, t_plane *plane)
+t_object	*convert_pln_to_obj(t_arena *arena, t_plane *plane)
 {
-	t_object *object;
+	t_object	*object;
 
 	object = (t_object *)arena_alloc(arena, sizeof(t_object));
 	object->type = 3;
@@ -91,9 +91,9 @@ t_object *convert_pln_to_obj(t_arena *arena, t_plane *plane)
 	return (object);
 }
 
-t_object *convert_cyl_to_obj(t_arena *arena, t_cylinder *cylinder)
+t_object	*convert_cyl_to_obj(t_arena *arena, t_cylinder *cylinder)
 {
-	t_object *object;
+	t_object	*object;
 
 	object = (t_object *)arena_alloc(arena, sizeof(t_object));
 	object->type = 2;
@@ -107,30 +107,32 @@ t_object *convert_cyl_to_obj(t_arena *arena, t_cylinder *cylinder)
 	return (object);
 }
 
-t_list	*list_all(t_list *spheres, t_list *planes, t_list *cylinders, t_arena *arena)
+t_list	*list_all(t_list *sp, t_list *pl, t_list *cyl, t_arena *arena)
 {
-	t_list	*all;
+	t_list		*all;
 	t_object	*object;
 
 	all = NULL;
-	while (spheres)
+	while (sp)
 	{
-		object = convert_sph_to_obj(arena, (t_sphere *)spheres->data);
+		object = convert_sph_to_obj(arena, (t_sphere *)sp->data);
 		if (!all)
 			all = ft_lstnew(arena, object);
 		else
 			ft_lstadd_back(&all, ft_lstnew(arena, object));
-		spheres = spheres->next;
+		sp = sp->next;
 	}
-	while (cylinders)
+	while (cyl)
 	{
-		ft_lstadd_back(&all, ft_lstnew(arena, convert_cyl_to_obj(arena, (t_cylinder *)cylinders->data)));
-		cylinders = cylinders->next;
+		ft_lstadd_back(&all, ft_lstnew(arena,
+				convert_cyl_to_obj(arena, (t_cylinder *)cyl->data)));
+		cyl = cyl->next;
 	}
-	while (planes)
+	while (pl)
 	{
-		ft_lstadd_back(&all, ft_lstnew(arena, convert_pln_to_obj(arena, (t_plane *)planes->data)));
-		planes = planes->next;
+		ft_lstadd_back(&all, ft_lstnew(arena,
+				convert_pln_to_obj(arena, (t_plane *)pl->data)));
+		pl = pl->next;
 	}
 	return (all);
 }
@@ -152,7 +154,9 @@ t_objects	*init_objects(t_arena *arena, char *argv[])
 	objects->sp_count = ft_lstsize(objects->spheres);
 	objects->pl_count = ft_lstsize(objects->planes);
 	objects->cy_count = ft_lstsize(objects->cylinders);
-	objects->ob_count = objects->sp_count + objects->pl_count + objects->cy_count;
-	objects->all = list_all(objects->spheres, objects->planes, objects->cylinders, arena);
+	objects->ob_count = objects->sp_count + objects->pl_count
+		+ objects->cy_count;
+	objects->all = list_all(objects->spheres, objects->planes,
+			objects->cylinders, arena);
 	return (objects);
 }

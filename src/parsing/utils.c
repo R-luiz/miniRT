@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:01:52 by vmalassi          #+#    #+#             */
-/*   Updated: 2024/03/27 19:18:55 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/29 11:05:15 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,14 @@ char	*str_is_float(t_arena *arena, char *str, char *msg)
 	return (str);
 }
 
-int float_in_range(float value, float min, float max)
+int	float_in_range(float value, float min, float max)
 {
 	if (value >= min && value <= max)
 		return (1);
 	return (0);
 }
 
-int is_rgb(char *str)
+int	is_rgb(char *str)
 {
 	int	i;
 	int	comma;
@@ -79,7 +79,7 @@ int is_rgb(char *str)
 	comma = 0;
 	while (str[i])
 	{
-		if(str[i] == '\n')
+		if (str[i] == '\n')
 			break ;
 		if (str[i] == ',')
 			comma++;
@@ -87,12 +87,12 @@ int is_rgb(char *str)
 			return (0);
 		i++;
 	}
-	if(comma != 2)
+	if (comma != 2 || str[i - 1] == ',')
 		return (0);
 	return (1);
 }
 
-t_vec3 extract_rgb(t_arena *arena, char *str, char* msg)
+t_vec3	extract_rgb(t_arena *arena, char *str, char *msg)
 {
 	t_vec3	vec;
 	char	*token;

@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/28 14:20:49 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/29 11:05:30 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,6 @@ void			check_duplicated_capitals(t_arena *arena, t_list *params);
 char			*str_is_float(t_arena *arena, char *str, char *msg);
 int				float_in_range(float value, float min, float max);
 int				is_rgb(char *str);
-t_vec3			extract_rgb(t_arena *arena, char *str, char* msg);
+t_vec3			extract_rgb(t_arena *arena, char *str, char *msg);
 int				is_coordinates(char *str);
 #endif // !PARSING_H
