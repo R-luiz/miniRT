@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/29 19:03:24 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/29 21:16:48 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ t_camera	*camera_create(t_point3 center, t_vec3 direction, float hfov,
 	return (cam);
 }
 
+
 t_vec3 cylinder_surface_normal(t_object *cy, t_vec3 hit_point, t_vec3 ray_direction)
 {
     t_vec3 normal;
     float hit_height;
     t_vec3 c0;
-
 	c0 = vec3_sub(hit_point, cy->center);
     hit_height = vec3_dot(c0, cy->normal);
     if (fabs(hit_height - cy->height) < 1e-5)
@@ -73,7 +73,7 @@ t_vec3 cylinder_surface_normal(t_object *cy, t_vec3 hit_point, t_vec3 ray_direct
         t_vec3 closest_point_on_axis = vec3_add(cy->center, vec3_mul(cy->normal, hit_height));
         normal = vec3_normalize(vec3_sub(hit_point, closest_point_on_axis));
 	}
-    if (vec3_dot(normal, ray_direction) < 0)
+    if (vec3_dot(normal, ray_direction) > 0)
         normal = vec3_mul(normal, -1);
     return normal;
 }
@@ -123,15 +123,15 @@ t_vec3 calc_object(t_render *rd, int i, int j, t_object *obj, t_vec3 final_color
 			normal = vec3_normalize(vec3_sub(hit_point, obj->center));
 		final_color = color_to_vec3(obj->color);
 		ray.color = color_vec3(final_color);
+		light_direction = vec3_normalize(vec3_sub(hit_point,
+					objects->light->origin));
 		distance_to_light = vec3_length(vec3_sub(hit_point,
 					objects->light->origin));
 		light_power = objects->light->ratio / (4.0f * M_PI
 				* distance_to_light * distance_to_light);
 		light_color = vec3_mul(color_to_vec3(objects->light->color),
 				light_power);
-		light_direction = vec3_normalize(vec3_sub(hit_point,
-					objects->light->origin));
-		diff = fmax(pow(vec3_dot(normal, light_direction), 2), 0);
+		diff = pow(fminf(vec3_dot(normal, light_direction),0), 2);
 		final_color = vec3_mul(final_color, diff);
 		final_color = vec3_coloradddue3(final_color, light_color, ambient_color);
 	}
