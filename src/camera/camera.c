@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/29 08:59:05 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/29 19:03:24 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,26 @@
 
 #define M_PI 3.14159265358979323846
 
-void	camera_init_viewport(t_camera *cam, int canvas_width, int canvas_height,
-		void *arena)
-{
-	float		focal_length;
-	t_vec3		cam_u;
-	t_vec3		cam_v;
-	t_vec3		cam_w;
-	t_vp_helper	vp;
+void camera_init_viewport(t_camera *cam, int canvas_width, int canvas_height, void *arena) {
+    float focal_length;
+    t_vec3 cam_u;
+    t_vec3 cam_v;
+    t_vec3 cam_w;
+    t_vp_helper vp;
 
-	cam->vp = arena_alloc(arena, sizeof(*cam->vp));
-	focal_length = vec3_length(vec3_sub(cam->look_at, cam->center));
-	vp.width = 2 * focal_length * tanf(to_rad(cam->hfov) / 2);
-	vp.height = vp.width * ((float)canvas_height / canvas_width);
-	cam_w = vec3_normalize(vec3_add(cam->center, cam->look_at));
-	cam_u = vec3_normalize(vec3_cross((t_vec3){0, 1, 0}, cam_w));
-	cam_v = vec3_cross(cam_w, cam_u);
-	vp.u = vec3_mul(cam_u, vp.width);
-	vp.v = vec3_mul(cam_v, -vp.height);
-	cam->vp->pixel_du = vec3_div(vp.u, canvas_width);
-	cam->vp->pixel_dv = vec3_div(vp.v, canvas_height);
-	vp.upper_left = vec3_add(cam->center, vec3_mul(cam_w, focal_length));
-	vp.upper_left = vec3_sub(vp.upper_left, vec3_div(vp.u, 2));
-	vp.upper_left = vec3_sub(vp.upper_left, vec3_div(vp.v, 2));
-	cam->vp->pixel_00 = vec3_add(vp.upper_left,
-			vec3_mul(vec3_add(cam->vp->pixel_du, cam->vp->pixel_dv), 0.5f));
+    cam->vp = arena_alloc(arena, sizeof(*cam->vp));
+    focal_length = vec3_length(vec3_sub(cam->look_at, cam->center));
+    vp.width = 2 * focal_length * tanf(to_rad(cam->hfov) / 2);
+    vp.height = vp.width * ((float)canvas_height / canvas_width);
+    cam_w = vec3_normalize(vec3_sub(cam->look_at, cam->center));
+    cam_u = vec3_normalize(vec3_cross((t_vec3){0, 1, 0}, cam_w));
+    cam_v = vec3_cross(cam_w, cam_u);
+    vp.u = vec3_mul(cam_u, vp.width);
+    vp.v = vec3_mul(cam_v, -vp.height);
+    cam->vp->pixel_du = vec3_div(vp.u, canvas_width);
+    cam->vp->pixel_dv = vec3_div(vp.v, canvas_height);
+    vp.upper_left = vec3_sub(vec3_add(cam->center, vec3_mul(cam_w, focal_length)), vec3_add(vec3_div(vp.u, 2), vec3_div(vp.v, 2))); // More readable calculation
+    cam->vp->pixel_00 = vec3_add(vp.upper_left, vec3_mul(vec3_add(cam->vp->pixel_du, cam->vp->pixel_dv), 0.5f));
 }
 
 t_camera	*camera_create(t_point3 center, t_vec3 direction, float hfov,
@@ -78,11 +73,10 @@ t_vec3 cylinder_surface_normal(t_object *cy, t_vec3 hit_point, t_vec3 ray_direct
         t_vec3 closest_point_on_axis = vec3_add(cy->center, vec3_mul(cy->normal, hit_height));
         normal = vec3_normalize(vec3_sub(hit_point, closest_point_on_axis));
 	}
-    if (vec3_dot(normal, ray_direction) > 0)
+    if (vec3_dot(normal, ray_direction) < 0)
         normal = vec3_mul(normal, -1);
     return normal;
 }
-
 
 t_vec3 calc_object(t_render *rd, int i, int j, t_object *obj, t_vec3 final_color, float *min_distance)
 {
