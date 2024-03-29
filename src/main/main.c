@@ -6,13 +6,14 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:35:54 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/28 14:24:40 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/27 14:08:05 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "engine/engine.h"
 #include "canvas/canvas.h"
 #include "camera/camera.h"
+#include "errors/errors.h"
 #include "./options.h"
 #include "libft.h"
 #include "parsing/parsing.h"
@@ -24,12 +25,6 @@ void	options_init(t_options *opt)
 	opt->window_width = WIN_WIDTH;
 	opt->window_aspect = WIN_ASPECT;
 	opt->fps = FPS;
-}
-
-void	exit_error(char *msg)
-{
-	printf("Error: %s\n", msg);
-	exit(EXIT_FAILURE);
 }
 
 void	run(t_render *rd)

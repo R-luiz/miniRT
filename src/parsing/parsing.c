@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:42:56 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/28 17:33:24 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/27 20:01:33 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_list	*parsing_to_list(t_arena *arena, char *file)
 	tmp = list;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		return (NULL);
+		free_and_exit_error(arena, "Error: file not found");
 	line = get_next_line(arena, fd);
 	while (line)
 	{
@@ -141,6 +141,7 @@ t_objects	*init_objects(t_arena *arena, char *argv[])
 	t_list		*params;
 
 	params = parsing_to_list(arena, argv[1]);
+	check_duplicated_capitals(arena, params);
 	objects = arena_alloc(arena, sizeof(*objects));
 	objects->camera = find_camera(arena, params, NULL);
 	objects->ambient = find_ambient(arena, params, NULL);

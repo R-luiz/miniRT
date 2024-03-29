@@ -46,7 +46,10 @@ SRC	= color/color.c \
 	parsing/find_spheres.c \
 	parsing/find_planes.c \
 	parsing/find_cylinders.c \
-	objects/distance_funcs.c
+	parsing/utils.c \
+	parsing/utils2.c \
+	objects/distance_funcs.c \
+	errors/errors.c \
 
 ##############
 #
