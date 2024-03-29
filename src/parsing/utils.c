@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:01:52 by vmalassi          #+#    #+#             */
-/*   Updated: 2024/03/29 11:05:15 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/29 19:14:57 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,15 +97,15 @@ t_vec3	extract_rgb(t_arena *arena, char *str, char *msg)
 	t_vec3	vec;
 	char	*token;
 
-	token = strtok(str, ",");
+	token = ft_strtok(str, ",");
 	if (!float_in_range(ft_atof(token), 0, 255))
 		free_and_exit_error(arena, msg);
 	vec.x = ft_atof(token) / 255;
-	token = strtok(NULL, ",");
+	token = ft_strtok(NULL, ",");
 	if (!float_in_range(ft_atof(token), 0, 255))
 		free_and_exit_error(arena, msg);
 	vec.y = ft_atof(token) / 255;
-	token = strtok(NULL, ",");
+	token = ft_strtok(NULL, ",");
 	if (!float_in_range(ft_atof(token), 0, 255))
 		free_and_exit_error(arena, msg);
 	vec.z = ft_atof(token) / 255;

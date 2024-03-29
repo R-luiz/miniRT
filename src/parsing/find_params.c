@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:47:05 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/29 11:15:03 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/29 19:14:56 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ t_camera	*find_camera(t_arena *arena, t_list *list, char *str)
 	str = (char *)tmp->data;
 	if (!is_coordinates(str))
 		free_and_exit_error(arena, "Invalid camera coordinates");
-	camera->center = (t_vec3){ft_atof(strtok(str, ",")),
-		ft_atof(strtok(NULL, ",")), ft_atof(strtok(NULL, ","))};
+	camera->center = (t_vec3){ft_atof(ft_strtok(str, ",")),
+		ft_atof(ft_strtok(NULL, ",")), ft_atof(ft_strtok(NULL, ","))};
 	if (!tmp->next)
 		free_and_exit_error(arena, "Invalid camera parameters");
 	str = (char *)tmp->next->data;
-	camera->look_at = (t_vec3){ft_atof(strtok(str, ",")),
-		ft_atof(strtok(NULL, ",")), ft_atof(strtok(NULL, ","))};
+	camera->look_at = (t_vec3){ft_atof(ft_strtok(str, ",")),
+		ft_atof(ft_strtok(NULL, ",")), ft_atof(ft_strtok(NULL, ","))};
 	if (!tmp->next || !tmp->next->next)
 		free_and_exit_error(arena, "Invalid camera parameters");
 	str = str_is_float(arena, (char *)tmp->next->next->data, "Invalid FOV");
@@ -100,8 +100,8 @@ t_light	*find_light(t_arena *arena, t_list *list, char *str)
 	str = (char *)tmp->data;
 	if (!is_coordinates(str))
 		free_and_exit_error(arena, "Invalid light coordinates");
-	light->origin = (t_vec3){ft_atof(strtok(str, ",")),
-		ft_atof(strtok(NULL, ",")), ft_atof(strtok(NULL, ","))};
+	light->origin = (t_vec3){ft_atof(ft_strtok(str, ",")),
+		ft_atof(ft_strtok(NULL, ",")), ft_atof(ft_strtok(NULL, ","))};
 	if (!tmp->next)
 		free_and_exit_error(arena, "Invalid light parameters");
 	tmp = tmp->next;
