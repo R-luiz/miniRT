@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_planes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 17:44:55 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/29 08:03:27 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/29 11:13:01 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_plane	*create_plane(t_arena *arena, char **params)
 {
 	char		*delimiter;
-	t_plane	*plane;
+	t_plane		*plane;
 
 	delimiter = ",";
 	plane = (t_plane *)arena_alloc(arena, sizeof(t_plane));
@@ -28,8 +28,8 @@ t_plane	*create_plane(t_arena *arena, char **params)
 		ft_atof(ft_strtok(NULL, delimiter)),
 		ft_atof(ft_strtok(NULL, delimiter))};
 	if (plane->normal.x < -1 || plane->normal.x > 1
-			|| plane->normal.y < -1 || plane->normal.y > 1
-			|| plane->normal.z < -1 || plane->normal.z > 1)
+		|| plane->normal.y < -1 || plane->normal.y > 1
+		|| plane->normal.z < -1 || plane->normal.z > 1)
 		free_and_exit_error(arena, "Invalid plane normal vector");
 	plane->color = color_int(
 			ft_atoi(ft_strtok(params[2], delimiter)),
@@ -38,26 +38,26 @@ t_plane	*create_plane(t_arena *arena, char **params)
 			);
 	plane->bounce = NULL;
 	plane->hit_dist = &hit_plane_distance;
-  plane->type = 3;
+	plane->type = 3;
 	return (plane);
 }
 
-t_list *get_plane_params(t_arena *arena, t_list *tmp, t_list *planes)
+t_list	*get_plane_params(t_arena *arena, t_list *tmp, t_list *planes)
 {
 	t_plane		*plane;
 	char		*params[3];
 
-	if (!tmp->data || !((t_list *)tmp->data)->next || 
-	!((t_list *)((t_list *)tmp->data)->next)->next || 
-	!((t_list *)((t_list *)((t_list *)tmp->data)->next)->next)->next)
+	if (!tmp->data || !((t_list *)tmp->data)->next
+		|| !((t_list *)((t_list *)tmp->data)->next)->next
+		|| !((t_list *)((t_list *)((t_list *)tmp->data)->next)->next)->next)
 		free_and_exit_error(arena, "Invalid plane parameters");
 	tmp = ((t_list *)tmp->data)->next;
 	params[0] = (char *)tmp->data;
-	if(!is_coordinates(params[0]))
+	if (!is_coordinates(params[0]))
 		free_and_exit_error(arena, "Invalid plane coordinates");
 	tmp = tmp->next;
 	params[1] = (char *)tmp->data;
-	if(!is_coordinates(params[0]))
+	if (!is_coordinates(params[0]))
 		free_and_exit_error(arena, "Invalid plane normal vector");
 	tmp = tmp->next;
 	params[2] = (char *)tmp->data;

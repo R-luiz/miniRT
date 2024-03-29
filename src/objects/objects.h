@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:05:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/28 19:39:00 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/29 11:19:42 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_lightray
 	t_color		color;
 }				t_lightray;
 
-typedef struct s_object t_object;
+typedef struct s_object	t_object;
 typedef struct s_object
 {
 	t_point3	center;
@@ -37,7 +37,7 @@ typedef struct s_object
 	float		diameter;
 	float		height;
 	t_color		color;
-	t_lightray	(*bounce)(t_object *obj, t_lightray ray);
+	t_lightray	(*bounce)(t_object * obj, t_lightray ray);
 	float		(*hit_dist)(t_object *obj, t_lightray ray);
 	int			type;
 }				t_object;
@@ -47,7 +47,7 @@ typedef struct s_sphere
 	t_point3	center;
 	float		diameter;
 	t_color		color;
-	t_lightray	(*bounce)(t_object *obj, t_lightray ray);
+	t_lightray	(*bounce)(t_object * obj, t_lightray ray);
 	float		(*hit_dist)(t_object *obj, t_lightray ray);
 	int			type;
 }				t_sphere;
@@ -57,7 +57,7 @@ typedef struct s_plane
 	t_point3	apoint;
 	t_vec3		normal;
 	t_color		color;
-	t_lightray	(*bounce)(t_object *obj, t_lightray ray);
+	t_lightray	(*bounce)(t_object * obj, t_lightray ray);
 	float		(*hit_dist)(t_object *obj, t_lightray ray);
 	int			type;
 }				t_plane;
@@ -69,7 +69,7 @@ typedef struct s_cylinder
 	float		diameter;
 	float		height;
 	t_color		color;
-	t_lightray	(*bounce)(t_object *obj, t_lightray ray);
+	t_lightray	(*bounce)(t_object * obj, t_lightray ray);
 	float		(*hit_dist)(t_object *obj, t_lightray ray);
 	int			type;
 }				t_cylinder;

@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:27:36 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/28 17:39:45 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/29 11:10:38 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_sphere	*create_sphere(t_arena *arena, char **params)
 	return (sphere);
 }
 
-t_list *get_sphere_params(t_arena *arena, t_list *tmp, t_list *spheres)
+t_list	*get_sphere_params(t_arena *arena, t_list *tmp, t_list *spheres)
 {
 	t_sphere	*sphere;
 	char		*params[3];
@@ -46,10 +46,11 @@ t_list *get_sphere_params(t_arena *arena, t_list *tmp, t_list *spheres)
 		free_and_exit_error(arena, "Invalid sphere parameters");
 	tmp = ((t_list *)tmp->data)->next;
 	params[0] = (char *)tmp->data;
-	if(!is_coordinates(params[0]))
+	if (!is_coordinates(params[0]))
 		free_and_exit_error(arena, "Invalid sphere coordinates");
 	tmp = tmp->next;
-	params[1] = str_is_float(arena, (char *)tmp->data, "Invalid sphere diameter");
+	params[1] = str_is_float(arena, (char *)tmp->data,
+			"Invalid sphere diameter");
 	if (!float_in_range(ft_atof(params[1]), 0, __FLT_MAX__))
 		free_and_exit_error(arena, "Invalid sphere diameter");
 	tmp = tmp->next;
