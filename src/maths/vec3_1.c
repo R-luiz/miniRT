@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:39:00 by liguyon           #+#    #+#             */
-/*   Updated: 2024/02/23 15:06:28 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/30 13:41:51 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 float	vec3_length(t_vec3 v)
 {
-	return ((float)sqrt(vec3_length_squared(v)));
+	return (sqrtf(vec3_length_squared(v)));
 }
 
 t_vec3	vec3_normalize(t_vec3 v)

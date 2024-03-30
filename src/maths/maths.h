@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   maths.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:00:27 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/29 11:37:59 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/30 14:08:46 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,7 @@ t_vec3	vec3_reflect(t_vec3 v, t_vec3 n);
 */
 // Converts degrees to radians.
 float	to_rad(float deg);
+// Converts radians to degrees.
+float	to_deg(float rad);
 
 #endif
