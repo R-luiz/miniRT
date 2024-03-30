@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   distance_funcs.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:05:14 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/30 11:01:25 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/30 16:59:57 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,90 +49,43 @@ float	hit_plane_distance(t_object *plane, t_lightray ray)
 	return (-1);
 }
 
-float	hit_cylinder_distance(t_object *cylinder, t_lightray ray)
+// t_vec3 vecs[3] = t_vec3 a_vec, t_vec3 d, t_vec3 co
+float	get_discriminant(float values[5], t_vec3 vecs[3], t_cylinder *cy)
 {
-	t_cylinder	*cy;
-	t_vec3		co;
-	t_vec3		d;
-	t_vec3		a_vec;
 	t_vec3		a_perp;
 	t_vec3		b_perp;
-	t_plane		topcap;
-	t_plane		botcap;
-	t_vec3		p;
-	float		denom;
-	float		y0;
-	float		y1;
-	float		sqrt_discriminant;
-	float		a;
-	float		b;
-	float		c;
-	float		discriminant;
-	float		t0;
-	float		t1;
-	float		t_cap;
+
+	a_perp = vec3_sub(vecs[1], vec3_mul(vecs[0], vec3_dot(vecs[1], vecs[0])));
+	b_perp = vec3_sub(vecs[2], vec3_mul(vecs[0], vec3_dot(vecs[2], vecs[0])));
+	values[0] = vec3_dot(a_perp, a_perp);
+	values[1] = 2 * vec3_dot(a_perp, b_perp);
+	values[2] = vec3_dot(b_perp, b_perp) - pow(cy->diameter / 2, 2);
+	return (values[1] * values[1] - 4 * values[0] * values[2]);
+}
+
+//0 a, 1 b, 2 c, 3 discminant, 4 sqrt_discriminant
+//temps 0 : t0, 1 : t1, 2 : y0, 3 : y1
+float	get_t_min(t_vec3 a_vec, t_vec3 d, t_vec3 co, t_cylinder *cy)
+{
+	float		values[5];
 	float		t_min;
+	float		temps[4];
 
-	cy = (t_cylinder *)cylinder;
-	co = vec3_sub(ray.origin, cy->center); // Vector from cylinder center to ray origin
-	d = ray.direction; // Ray direction vector
-	a_vec = vec3_normalize(cy->normal); // Cylinder axis direction
-
-	a_perp = vec3_sub(d, vec3_mul(a_vec, vec3_dot(d, a_vec)));
-	b_perp = vec3_sub(co, vec3_mul(a_vec, vec3_dot(co, a_vec)));
-
-	// Quadratic coefficients for intersection with cylindrical surface
-	a = vec3_dot(a_perp, a_perp);
-	b = 2 * vec3_dot(a_perp, b_perp);
-	c = vec3_dot(b_perp, b_perp) - pow(cy->diameter / 2, 2);
-	discriminant = b * b - 4 * a * c;
-	t0 = INFINITY;
-	t1 = INFINITY;
-	t_cap = INFINITY;
+	temps[0] = INFINITY;
+	temps[1] = INFINITY;
 	t_min = INFINITY;
-	if (discriminant >= 0 && a != 0)
+	values[3] = get_discriminant(values, (t_vec3[3]){a_vec, d, co}, cy);
+	if (values[3] >= 0 && values[0] != 0)
 	{
-		// Cylinder surface intersections
-		sqrt_discriminant = sqrtf(discriminant);
-		t0 = (-b - sqrt_discriminant) / (2 * a);
-		t1 = (-b + sqrt_discriminant) / (2 * a);
-		// Check if the intersections are within the height bounds of the cylinder
-		y0 = vec3_dot(vec3_add(co, vec3_mul(d, t0)), a_vec);
-		y1 = vec3_dot(vec3_add(co, vec3_mul(d, t1)), a_vec);
-		if ((y0 >= 0 && y0 <= cy->height) && t0 > 0)
-			t_min = fmin(t_min, t0);
-		if ((y1 >= 0 && y1 <= cy->height) && t1 > 0)
-			t_min = fmin(t_min, t1);
+		values[4] = sqrtf(values[3]);
+		temps[0] = (-values[1] - values[4]) / (2 * values[0]);
+		temps[1] = (-values[1] + values[4]) / (2 * values[0]);
+		temps[2] = vec3_dot(vec3_add(co, vec3_mul(d, temps[0])), a_vec);
+		temps[3] = vec3_dot(vec3_add(co, vec3_mul(d, temps[1])), a_vec);
+		if ((temps[2] >= 0 && temps[2] <= cy->height) && temps[0] > 0)
+			t_min = fmin(t_min, temps[0]);
+		if ((temps[3] >= 0 && temps[3] <= cy->height) && temps[1] > 0)
+			t_min = fmin(t_min, temps[1]);
 	}
-	topcap.apoint = vec3_add(cy->center, vec3_mul(a_vec, cy->height));
-	topcap.normal = a_vec;
-	botcap.apoint = cy->center;
-	botcap.normal = vec3_mul(a_vec, -1);
-	denom = vec3_dot(d, topcap.normal);
-	if (fabs(denom) > 0.0001)
-	{
-		t_cap = vec3_dot(vec3_sub(topcap.apoint, ray.origin),
-				topcap.normal) / denom;
-		if (t_cap >= 0)
-		{
-			p = vec3_add(ray.origin, vec3_mul(d, t_cap));
-			if (vec3_length(vec3_sub(p, topcap.apoint)) <= cy->diameter / 2)
-				t_min = fmin(t_min, t_cap);
-		}
-	}
-	denom = vec3_dot(d, botcap.normal);
-	if (fabs(denom) > 0.0001)
-	{
-		t_cap = vec3_dot(vec3_sub(botcap.apoint, ray.origin),
-				botcap.normal) / denom;
-		if (t_cap >= 0)
-		{
-			p = vec3_add(ray.origin, vec3_mul(d, t_cap));
-			if (vec3_length(vec3_sub(p, botcap.apoint)) <= cy->diameter / 2)
-				t_min = fmin(t_min, t_cap);
-		}
-	}
-	if (t_min == INFINITY)
-		return (-1);
 	return (t_min);
 }

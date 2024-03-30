@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:05:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/29 11:19:42 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/30 16:42:40 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,6 @@ typedef struct s_cylinder
 float	hit_sphere_distance(t_object *sphere, t_lightray ray);
 float	hit_plane_distance(t_object *plane, t_lightray ray);
 float	hit_cylinder_distance(t_object *cylinder, t_lightray ray);
+float	get_t_min(t_vec3 a_vec, t_vec3 d, t_vec3 co, t_cylinder *cy);
 
 #endif // !OBJECTS_H

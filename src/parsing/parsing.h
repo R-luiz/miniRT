@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/29 11:05:30 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/30 14:32:08 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ t_list			*find_spheres(t_arena *arena, t_list *list_params);
 t_list			*find_planes(t_arena *arena, t_list *list_params);
 t_list			*find_cylinders(t_arena *arena, t_list *list_params);
 t_list			*find_id_line(t_list *list, char *str);
-
+t_list			*list_all(t_list *sp, t_list *pl, t_list *cyl, t_arena *arena);
+t_object		*convert_cyl_to_obj(t_arena *arena, t_cylinder *cylinder);
+t_object		*convert_pln_to_obj(t_arena *arena, t_plane *plane);
+t_object		*convert_sph_to_obj(t_arena *arena, t_sphere *sphere);
 /* UTILS FUNCTIONS */
 void			check_duplicated_capitals(t_arena *arena, t_list *params);
 char			*str_is_float(t_arena *arena, char *str, char *msg);

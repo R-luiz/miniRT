@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_planes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 17:44:55 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/30 10:20:32 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/30 12:31:39 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,10 @@ t_plane	*create_plane(t_arena *arena, char **params)
 		ft_atof(ft_strtok(NULL, delimiter)),
 		ft_atof(ft_strtok(NULL, delimiter))};
 	plane->normal = vec3_normalize(plane->normal);
-	if (plane->normal.x < -1 || plane->normal.x > 1
-		|| plane->normal.y < -1 || plane->normal.y > 1
-		|| plane->normal.z < -1 || plane->normal.z > 1)
+	if (!float_in_range(plane->normal.x, -1, 1) || !float_in_range(
+			plane->normal.y, -1, 1) || !float_in_range(plane->normal.z, -1, 1))
 		free_and_exit_error(arena, "Invalid plane normal vector");
-	plane->color = color_int(
-			ft_atoi(ft_strtok(params[2], delimiter)),
+	plane->color = color_int(ft_atoi(ft_strtok(params[2], delimiter)),
 			ft_atoi(ft_strtok(NULL, delimiter)),
 			ft_atoi(ft_strtok(NULL, delimiter))
 			);

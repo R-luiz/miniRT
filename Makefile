@@ -39,6 +39,7 @@ SRC	= color/color.c \
 	canvas/canvas.c \
 	camera/camera.c \
 	parsing/parsing.c \
+	parsing/parsing2.c \
 	parsing/list.c \
 	parsing/get_next_line.c \
 	parsing/get_next_line_utils.c \
@@ -49,6 +50,7 @@ SRC	= color/color.c \
 	parsing/utils.c \
 	parsing/utils2.c \
 	objects/distance_funcs.c \
+	objects/distance_funcs2.c \
 	errors/errors.c \
 
 ##############
