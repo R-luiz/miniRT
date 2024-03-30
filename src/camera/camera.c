@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/30 15:28:21 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/30 15:29:40 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,6 @@ t_vec3 calc_object(t_render *rd, int i, int j, t_object *obj, t_vec3 final_color
 			distance = shadow_obj->hit_dist(shadow_obj, ray);
 			if (distance > 1e-6f && distance < distance_to_light)
 			{
-				light_power = distance;
 				final_color = color_to_vec3(ray.color);
 				final_color = vec3_coloradddue(final_color, ambient_color);
 				break;
