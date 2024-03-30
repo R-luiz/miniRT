@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   distance_funcs.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:05:14 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/29 19:00:12 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/30 11:01:25 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,7 @@ float	hit_cylinder_distance(t_object *cylinder, t_lightray ray)
 		{
 			p = vec3_add(ray.origin, vec3_mul(d, t_cap));
 			if (vec3_length(vec3_sub(p, topcap.apoint)) <= cy->diameter / 2)
-			{
 				t_min = fmin(t_min, t_cap);
-			}
 		}
 	}
 	denom = vec3_dot(d, botcap.normal);
@@ -131,9 +129,7 @@ float	hit_cylinder_distance(t_object *cylinder, t_lightray ray)
 		{
 			p = vec3_add(ray.origin, vec3_mul(d, t_cap));
 			if (vec3_length(vec3_sub(p, botcap.apoint)) <= cy->diameter / 2)
-			{
 				t_min = fmin(t_min, t_cap);
-			}
 		}
 	}
 	if (t_min == INFINITY)

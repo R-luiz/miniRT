@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_planes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
+/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 17:44:55 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/29 11:13:01 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/30 10:20:32 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_plane	*create_plane(t_arena *arena, char **params)
 	plane->normal = (t_vec3){ft_atof(ft_strtok(params[1], delimiter)),
 		ft_atof(ft_strtok(NULL, delimiter)),
 		ft_atof(ft_strtok(NULL, delimiter))};
+	plane->normal = vec3_normalize(plane->normal);
 	if (plane->normal.x < -1 || plane->normal.x > 1
 		|| plane->normal.y < -1 || plane->normal.y > 1
 		|| plane->normal.z < -1 || plane->normal.z > 1)
