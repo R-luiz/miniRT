@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/30 12:17:25 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/30 12:24:37 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,10 @@ t_vec3 calc_object(t_render *rd, int i, int j, t_object *obj, t_vec3 final_color
 				* distance_to_light * distance_to_light);
 		light_color = vec3_mul(color_to_vec3(objects->light->color),
 				light_power);
-		// diff = fmax(pow(vec3_dot(normal, light_direction) / (vec3_length(normal) * vec3_length(light_direction)), 2), 0);
-		diff = pow(acosf(vec3_dot(normal, light_direction)/ (vec3_length(normal) * vec3_length(light_direction))) / ( M_PI), 2);
+		if (obj->type == 3)
+			diff = fmax(pow(vec3_dot(normal, light_direction) / (vec3_length(normal) * vec3_length(light_direction)), 2), 0);
+		else
+			diff = pow(acosf(vec3_dot(normal, light_direction)/ (vec3_length(normal) * vec3_length(light_direction))) / ( M_PI), 2);
 		final_color = vec3_mul(final_color, diff);
 		final_color = vec3_coloradddue3(final_color, light_color, ambient_color);
 	}
