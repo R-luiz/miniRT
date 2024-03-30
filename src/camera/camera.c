@@ -6,7 +6,7 @@
 /*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/30 15:29:40 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/03/30 16:47:10 by rluiz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,9 @@ t_vec3 calc_object(t_render *rd, int i, int j, t_object *obj, t_vec3 final_color
 	t_vec3		ambient_color;
 	float		light_power;
 	t_vec3		light_direction;
-	t_object	*obj1;
 	t_object	*shadow_obj;
 	float		diff;
 
-	obj1 = NULL;
 	distance_to_light = 0;
 	pixel_center = vec3_add(rd->camera->vp->pixel_00,
 			vec3_add(vec3_mul(rd->camera->vp->pixel_du, (float)i),
@@ -108,10 +106,7 @@ t_vec3 calc_object(t_render *rd, int i, int j, t_object *obj, t_vec3 final_color
 	ambient_color = color_to_vec3(objects->ambient->color);
 	ambient_color = vec3_mul(ambient_color, objects->ambient->ratio);
 	light_direction = vec3_normalize(vec3_sub(objects->light->origin, ray.origin));
-	hit_point = vec3_add(ray.origin, vec3_mul(ray.direction, *min_distance));
 	distance = obj->hit_dist(obj, ray);
-	obj1 = obj;
-	ray.color = color_vec3(final_color);
 	if (distance > 1e-6 && distance < *min_distance)
 	{
 		*min_distance= distance;
@@ -123,6 +118,7 @@ t_vec3 calc_object(t_render *rd, int i, int j, t_object *obj, t_vec3 final_color
 		else
 			normal = vec3_normalize(vec3_sub(hit_point, obj->center));
 		final_color = color_to_vec3(obj->color);
+		ray.color = color_vec3(final_color);
 		light_direction = vec3_normalize(vec3_sub(hit_point,
 					objects->light->origin));
 		distance_to_light = vec3_length(vec3_sub(hit_point,
@@ -136,25 +132,25 @@ t_vec3 calc_object(t_render *rd, int i, int j, t_object *obj, t_vec3 final_color
 		else
 			diff = acosf(vec3_dot(normal, light_direction)) / M_PI;
 		final_color = vec3_mul(final_color, pow(diff, 3));
-		final_color = vec3_coloradddue3(final_color, light_color, ambient_color);
-	}
-	ray.origin = vec3_add(hit_point, vec3_mul(normal, 1e-6f));
-	ray.direction = vec3_normalize(vec3_sub(objects->light->origin, hit_point));
-	object = rd->objects->all;
-	while (object)
-	{
-		shadow_obj = (t_object *)object->data;
-		if (shadow_obj != obj1 && (vec3_dot(ray_direction, light_direction) > 0) && shadow_obj->type != 3)
+		final_color = vec3_coloradddue3(final_color, light_color, ambient_color);	
+		ray.origin = vec3_add(hit_point, vec3_mul(normal, 1e-6f));
+		ray.direction = vec3_normalize(vec3_sub(objects->light->origin, hit_point));
+		object = rd->objects->all;
+		while (object)
 		{
-			distance = shadow_obj->hit_dist(shadow_obj, ray);
-			if (distance > 1e-6f && distance < distance_to_light)
+			shadow_obj = (t_object *)object->data;
+			if (shadow_obj != obj && shadow_obj->type != 3)
 			{
-				final_color = color_to_vec3(ray.color);
-				final_color = vec3_coloradddue(final_color, ambient_color);
-				break;
+				distance = shadow_obj->hit_dist(shadow_obj, ray);
+				if (distance > 1e-6f && distance < distance_to_light)
+				{
+					final_color = color_to_vec3(ray.color);
+					final_color = vec3_coloradddue(final_color, ambient_color);
+					break;
+				}
 			}
+			object = object->next;
 		}
-		object = object->next;
 	}
 	return (final_color);
 }
