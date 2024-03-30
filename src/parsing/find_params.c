@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:47:05 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/29 19:14:56 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/03/30 12:44:48 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,29 @@ t_ambient	*find_ambient(t_arena *arena, t_list *list, char *str)
 	return (ambient);
 }
 
+t_light	*find_light2(t_arena *arena, t_list	*tmp, t_light *light)
+{
+	t_vec3	color;
+	char	*str;
+
+	str = str_is_float(arena, (char *)tmp->data, "Invalid light ratio");
+	light->ratio = ft_atof(str);
+	if (!float_in_range(light->ratio, 0, 1))
+		free_and_exit_error(arena, "Invalid light ratio");
+	if (!tmp->next)
+		free_and_exit_error(arena, "Invalid light parameters");
+	str = (char *)tmp->next->data;
+	if (!is_rgb(str))
+		free_and_exit_error(arena, "Invalid light color");
+	color = extract_rgb(arena, str, "Invalid light color");
+	light->color = color_int(color.x, color.y, color.z);
+	return (light);
+}
+
 t_light	*find_light(t_arena *arena, t_list *list, char *str)
 {
 	t_list	*tmp;
 	t_light	*light;
-	t_vec3	color;
 
 	tmp = find_id_line(list, "L");
 	if (!tmp)
@@ -105,16 +123,5 @@ t_light	*find_light(t_arena *arena, t_list *list, char *str)
 	if (!tmp->next)
 		free_and_exit_error(arena, "Invalid light parameters");
 	tmp = tmp->next;
-	str = str_is_float(arena, (char *)tmp->data, "Invalid light ratio");
-	light->ratio = ft_atof(str);
-	if (!float_in_range(light->ratio, 0, 1))
-		free_and_exit_error(arena, "Invalid light ratio");
-	if (!tmp->next)
-		free_and_exit_error(arena, "Invalid light parameters");
-	str = (char *)tmp->next->data;
-	if (!is_rgb(str))
-		free_and_exit_error(arena, "Invalid light color");
-	color = extract_rgb(arena, str, "Invalid light color");
-	light->color = color_int(color.x, color.y, color.z);
-	return (light);
+	return (find_light2(arena, tmp, light));
 }
