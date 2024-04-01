@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:01:52 by vmalassi          #+#    #+#             */
-/*   Updated: 2024/04/01 17:06:19 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/04/01 17:17:50 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	is_rgb(char *str)
 
 	i = 0;
 	comma = 0;
+	if (str[0] == '.' || str[0] == ',')
+		return (0);
 	while (str[i])
 	{
 		if (str[i] == '\n')
