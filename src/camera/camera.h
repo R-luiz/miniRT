@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:07:00 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/28 14:36:34 by rluiz            ###   ########.fr       */
+/*   Updated: 2024/04/01 10:50:47 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 The viewport is orthogonal to the camera direction, its center is placed where
 the camera is looking at.
 */
+
+# define M_PI 3.14159265358979323846
 
 typedef struct s_camera
 {
@@ -84,5 +86,11 @@ typedef struct s_render
 	t_objects			*objects;
 	t_arena				*arena;
 }						t_render;
+
 t_objects				*init_objects(t_arena *arena, char *argv[]);
+t_point3				get_pixel_center(t_camera *cam, int i, int j);
+t_vec3					cylinder_surface_normal(t_object *cy, t_vec3 hit_point,
+							t_vec3 ray_direction);
+t_vec3					iter_objects(void *params[5], t_vec3 final_color);
+t_vec3					calc_objects(t_render *rd, int i, int j);
 #endif

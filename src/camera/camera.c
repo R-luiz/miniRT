@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/30 17:55:59 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/04/01 10:43:41 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 #include <math.h>
 #include <stddef.h>
 #include <stdio.h>
-
-#define M_PI 3.14159265358979323846
 
 void	camera_init_viewport(t_camera *cam, int canvas_width,
 		int canvas_height, void *arena)
@@ -96,121 +94,29 @@ t_point3	get_pixel_center(t_camera *cam, int i, int j)
 	return (pixel_center);
 }
 
-t_vec3 calc_object(t_render *rd, int i, int j, t_object *obj, t_vec3 final_color, float *min_distance)
+t_vec3	iter_objects(void *params[5], t_vec3 final_color)
 {
-	t_objects	*objects;
-	t_vec3		ray_direction;
-	t_lightray	ray;
-	float		distance;
-	t_vec3		hit_point;
-	t_vec3		normal = {0, 0, 0};
-	float		distance_to_light;
 	t_list		*object;
-	t_vec3		light_color;
-	t_vec3		ambient_color;
-	float		light_power;
-	t_vec3		light_direction;
 	t_object	*shadow_obj;
-	float		diff;
+	float		distance;
 
-	distance_to_light = 0;
-	
-	ray_direction = vec3_normalize(vec3_sub(get_pixel_center(rd->camera, i, j), rd->camera->center));
-	ray = (t_lightray){.origin = rd->camera->center, .direction = ray_direction};
-	objects = rd->objects;
-	ambient_color = color_to_vec3(objects->ambient->color);
-	ambient_color = vec3_mul(ambient_color, objects->ambient->ratio);
-	light_direction = vec3_normalize(vec3_sub(objects->light->origin, ray.origin));
-	distance = obj->hit_dist(obj, ray);
-	if (distance > 1e-6 && distance < *min_distance)
+	object = ((t_render *)params[0])->objects->all;
+	while (object)
 	{
-		*min_distance= distance;
-		hit_point = vec3_add(ray.origin, vec3_mul(ray.direction, distance));
-		if (obj->type == 2)
-			normal = cylinder_surface_normal(obj, hit_point, ray_direction);
-		else if (obj->type == 3)
-			normal = vec3_normalize(obj->normal);
-		else
-			normal = vec3_normalize(vec3_sub(hit_point, obj->center));
-		final_color = color_to_vec3(obj->color);
-		ray.color = color_vec3(final_color);
-		light_direction = vec3_normalize(vec3_sub(hit_point,
-					objects->light->origin));
-		distance_to_light = vec3_length(vec3_sub(hit_point,
-					objects->light->origin));
-		light_power = objects->light->ratio / (4.0f * M_PI
-				* distance_to_light * distance_to_light);
-		light_color = vec3_mul(color_to_vec3(objects->light->color),
-				light_power);
-		if (obj->type == 3)
-			diff = fmax(vec3_dot(normal, light_direction), 0);
-		else
-			diff = acosf(vec3_dot(normal, light_direction)) / M_PI;
-		final_color = vec3_mul(final_color, pow(diff, 3));
-		final_color = vec3_coloradddue3(final_color, light_color, ambient_color);	
-		ray.origin = vec3_add(hit_point, vec3_mul(normal, 1e-6f));
-		ray.direction = vec3_normalize(vec3_sub(objects->light->origin, hit_point));
-		object = rd->objects->all;
-		while (object)
+		shadow_obj = (t_object *)object->data;
+		if (shadow_obj != (t_object *)params[1] && shadow_obj->type != 3)
 		{
-			shadow_obj = (t_object *)object->data;
-			if (shadow_obj != obj && shadow_obj->type != 3)
+			distance = shadow_obj->hit_dist(shadow_obj,
+					*((t_lightray *)params[2]));
+			if (distance > 1e-6f && distance < *((float *) params[3]))
 			{
-				distance = shadow_obj->hit_dist(shadow_obj, ray);
-				if (distance > 1e-6f && distance < distance_to_light)
-				{
-					final_color = color_to_vec3(ray.color);
-					final_color = vec3_coloradddue(final_color, ambient_color);
-					break;
-				}
+				final_color = color_to_vec3(((t_lightray *) params[2])->color);
+				final_color = vec3_coloradddue(final_color,
+						*((t_vec3 *)params[4]));
+				break ;
 			}
-			object = object->next;
 		}
+		object = object->next;
 	}
 	return (final_color);
-}
-
-t_vec3	calc_objects(t_render *rd, int i, int j)
-{
-	t_vec3		final_color;
-	t_object	*obj;
-	t_list		*objects;
-	float		*min_distance;
-
-	objects = rd->objects->all;
-	min_distance = arena_alloc(rd->arena, sizeof(*min_distance));
-	*min_distance = INFINITY;
-	final_color = (t_vec3){0, 0, 0};
-	while (objects)
-	{
-		obj = (t_object *)objects->data;
-		final_color = calc_object(rd, i, j, obj, final_color, min_distance);
-		objects = objects->next;
-	}
-	return (final_color);
-}
-
-void	*camera_render(void *vargp)
-{
-	t_render	*rd;
-	t_color		color;
-	t_vec3		final_color;
-	int			i;
-	int			j;
-
-	rd = (t_render *)vargp;
-	j = 0;
-	while (j < rd->canvas->height)
-	{
-		i = 0;
-		while (i < rd->canvas->width)
-		{
-			final_color = calc_objects(rd, i, j);
-			color = color_vec3(final_color);
-			canvas_draw(rd->canvas, i, j, color);
-			i++;
-		}
-		j++;
-	}
-	return (NULL);
 }
