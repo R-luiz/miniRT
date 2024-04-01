@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 16:11:46 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 11:33:26 by liguyon          ###   ########.fr       */
+/*   Created: 2024/04/01 11:46:18 by vmalassi          #+#    #+#             */
+/*   Updated: 2024/04/01 11:46:19 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

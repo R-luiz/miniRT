@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arena_internal.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/23 00:08:18 by rluiz             #+#    #+#             */
-/*   Updated: 2023/12/23 10:42:01 by liguyon          ###   ########.fr       */
+/*   Created: 2024/04/01 11:45:05 by vmalassi          #+#    #+#             */
+/*   Updated: 2024/04/01 11:45:07 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

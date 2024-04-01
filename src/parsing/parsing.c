@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:42:56 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/30 14:36:33 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/04/01 12:05:59 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,13 @@ t_list	*parsing_to_list(t_arena *arena, char *file)
 
 	list = (t_list *)arena_alloc(arena, sizeof(t_list));
 	tmp = list;
+	if (!file)
+		free_and_exit_error(arena, "no file provided");
+	if (ft_strncmp(file + ft_strlen(file) - 3, ".rt", 3))
+		free_and_exit_error(arena, "file must be a .rt file");
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		free_and_exit_error(arena, "Error: file not found");
+		free_and_exit_error(arena, "file not found");
 	line = get_next_line(arena, fd);
 	while (line)
 	{

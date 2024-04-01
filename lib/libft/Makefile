@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rluiz <rluiz@student.42lehavre.fr>         +#+  +:+       +#+         #
+#    By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/04/11 11:03:52 by liguyon           #+#    #+#              #
-#    Updated: 2024/02/03 15:53:29 by rluiz            ###   ########.fr        #
+#    Created: 2023/04/11 11:03:52 by vmalassi          #+#    #+#              #
+#    Updated: 2024/04/01 11:44:57 by vmalassi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 

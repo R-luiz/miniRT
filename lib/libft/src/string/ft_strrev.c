@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrev.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/23 11:03:42 by liguyon           #+#    #+#             */
-/*   Updated: 2023/12/23 11:03:50 by liguyon          ###   ########.fr       */
+/*   Created: 2024/04/01 11:46:43 by vmalassi          #+#    #+#             */
+/*   Updated: 2024/04/01 11:46:44 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

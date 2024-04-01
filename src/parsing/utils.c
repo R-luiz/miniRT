@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:01:52 by vmalassi          #+#    #+#             */
-/*   Updated: 2024/03/29 19:14:57 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/04/01 12:01:11 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ void	check_duplicated_capitals(t_arena *arena, t_list *params)
 		tmp = tmp->next;
 	}
 	if (a_count > 1)
-		free_and_exit_error(arena, "Error: too many ambient lightning");
+		free_and_exit_error(arena, "too many ambient lightning");
 	if (c_count > 1)
-		free_and_exit_error(arena, "Error: too many cameras");
+		free_and_exit_error(arena, "too many cameras");
 	if (l_count > 1)
-		free_and_exit_error(arena, "Error: too many lights");
+		free_and_exit_error(arena, "too many lights");
 }
 
 char	*str_is_float(t_arena *arena, char *str, char *msg)

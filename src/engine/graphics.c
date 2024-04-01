@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graphics.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: liguyon <liguyon@student.42lehavre.fr>     +#+  +:+       +#+        */
+/*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/19 15:18:21 by liguyon           #+#    #+#             */
-/*   Updated: 2024/01/19 17:58:16 by liguyon          ###   ########.fr       */
+/*   Created: 2024/04/01 11:48:01 by vmalassi          #+#    #+#             */
+/*   Updated: 2024/04/01 11:48:02 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
