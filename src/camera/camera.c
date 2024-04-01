@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:18:03 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/31 20:30:08 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/04/01 10:43:41 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 #include <math.h>
 #include <stddef.h>
 #include <stdio.h>
-
-#define M_PI 3.14159265358979323846
 
 void	camera_init_viewport(t_camera *cam, int canvas_width,
 		int canvas_height, void *arena)

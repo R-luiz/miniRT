@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:07:00 by liguyon           #+#    #+#             */
-/*   Updated: 2024/03/31 20:31:12 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/04/01 10:50:47 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 The viewport is orthogonal to the camera direction, its center is placed where
 the camera is looking at.
 */
+
+# define M_PI 3.14159265358979323846
 
 typedef struct s_camera
 {
@@ -90,4 +92,5 @@ t_point3				get_pixel_center(t_camera *cam, int i, int j);
 t_vec3					cylinder_surface_normal(t_object *cy, t_vec3 hit_point,
 							t_vec3 ray_direction);
 t_vec3					iter_objects(void *params[5], t_vec3 final_color);
+t_vec3					calc_objects(t_render *rd, int i, int j);
 #endif
