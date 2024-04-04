@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:46:59 by vmalassi          #+#    #+#             */
-/*   Updated: 2024/04/01 11:47:00 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:57:35 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,25 +94,25 @@ t_point3	get_pixel_center(t_camera *cam, int i, int j)
 	return (pixel_center);
 }
 
-t_vec3	iter_objects(void *params[5], t_vec3 final_color)
+t_vec3	iter_objects(t_shade_iter_helper params, t_vec3 final_color)
 {
 	t_list		*object;
 	t_object	*shadow_obj;
 	float		distance;
 
-	object = ((t_render *)params[0])->objects->all;
+	object = params.rd->objects->all;
 	while (object)
 	{
 		shadow_obj = (t_object *)object->data;
-		if (shadow_obj != (t_object *)params[1] && shadow_obj->type != 3)
+		if (shadow_obj != params.obj && shadow_obj->type != 3)
 		{
 			distance = shadow_obj->hit_dist(shadow_obj,
-					*((t_lightray *)params[2]));
-			if (distance > 1e-6f && distance < *((float *) params[3]))
+					params.ray);
+			if (distance > 1e-6f && distance < params.distance_to_light)
 			{
-				final_color = color_to_vec3(((t_lightray *) params[2])->color);
+				final_color = color_to_vec3(params.ray.color);
 				final_color = vec3_coloradddue(final_color,
-						*((t_vec3 *)params[4]));
+						params.ambient_color);
 				break ;
 			}
 		}
