@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:47:07 by vmalassi          #+#    #+#             */
-/*   Updated: 2024/04/04 14:57:57 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:40:57 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ typedef struct s_shade_iter_helper
 	float		distance_to_light;
 	t_vec3		ambient_color;
 }			t_shade_iter_helper;
-
 
 t_objects				*init_objects(t_arena *arena, char *argv[]);
 t_point3				get_pixel_center(t_camera *cam, int i, int j);

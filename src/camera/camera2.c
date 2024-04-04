@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 17:37:38 by vmalassi          #+#    #+#             */
-/*   Updated: 2024/04/04 14:59:13 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:41:44 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_lightray ray, t_comp_shade_helper params)
 	final_color = compute_diffraction(params.obj, final_color, normal,
 			light_direction);
 	final_color = vec3_coloradddue3(final_color, vec3_mul(color_to_vec3(
-						params.objects->light->color), (
+					params.objects->light->color), (
 					params.objects->light->ratio) / (4.0f * M_PI
 					* distance_to_light * distance_to_light)),
 			params.ambient_color);
@@ -99,7 +99,8 @@ float *min_distance)
 		*min_distance = distance;
 		vecs[3] = vec3_add(ray.origin, vec3_mul(ray.direction, distance));
 		final_color = compute_lightning_shading(final_color, vecs[2], ray,
-				(t_comp_shade_helper){rd, obj, vecs[3], vecs[0], vecs[1], objects});
+				(t_comp_shade_helper){rd, obj, vecs[3], vecs[0],
+				vecs[1], objects});
 	}
 	return (final_color);
 }
