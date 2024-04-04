@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:47:07 by vmalassi          #+#    #+#             */
-/*   Updated: 2024/04/01 11:47:09 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:57:57 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,6 @@ t_camera				*find_camera(t_arena *arena, t_list *list, char *str);
 ================================================================================
 */
 
-// Because we are limited to 5 var declarations / function
-typedef struct s_vp_helper
-{
-	float				width;
-	float				height;
-	t_vec3				u;
-	t_vec3				v;
-	t_point3			upper_left;
-}						t_vp_helper;
-
 typedef struct t_objects
 {
 	t_list				*spheres;
@@ -74,7 +64,7 @@ typedef struct t_objects
 	int					cy_count;
 	int					ob_count;
 	t_list				*all;
-}						t_objects;
+}					t_objects;
 
 typedef struct s_engine	t_engine;
 typedef struct s_canvas	t_canvas;
@@ -87,10 +77,48 @@ typedef struct s_render
 	t_arena				*arena;
 }						t_render;
 
+// Because we are limited to 5 var declarations / function
+typedef struct s_vp_helper
+{
+	float				width;
+	float				height;
+	t_vec3				u;
+	t_vec3				v;
+	t_point3			upper_left;
+}						t_vp_helper;
+
+typedef struct s_calc_obj_helper
+{
+	t_vec3		final_color;
+	int			i;
+	int			j;
+}			t_calc_obj_helper;
+
+typedef struct s_comp_shade_helper
+{
+	t_render	*rd;
+	t_object	*obj;
+	t_vec3		hit_point;
+	t_vec3		ray_direction;
+	t_vec3		ambient_color;
+	t_objects	*objects;
+}			t_comp_shade_helper;
+
+typedef struct s_shade_iter_helper
+{
+	t_render	*rd;
+	t_object	*obj;
+	t_lightray	ray;
+	float		distance_to_light;
+	t_vec3		ambient_color;
+}			t_shade_iter_helper;
+
+
 t_objects				*init_objects(t_arena *arena, char *argv[]);
 t_point3				get_pixel_center(t_camera *cam, int i, int j);
 t_vec3					cylinder_surface_normal(t_object *cy, t_vec3 hit_point,
 							t_vec3 ray_direction);
-t_vec3					iter_objects(void *params[5], t_vec3 final_color);
+t_vec3					iter_objects(t_shade_iter_helper params,
+							t_vec3 final_color);
 t_vec3					calc_objects(t_render *rd, int i, int j);
 #endif
