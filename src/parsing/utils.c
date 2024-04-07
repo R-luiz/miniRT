@@ -85,13 +85,13 @@ int	is_rgb(char *str)
 			break ;
 		if (str[i] == ',')
 			comma++;
-		if (str[i] == ',' && str[i + 1] == ',')
+		if (str[i] == ',' && str[i + 1] && str[i + 1] == ',')
 			return (0);
 		if (comma > 2 || (str[i] != ',' && (str[i] < '0' || str[i] > '9')))
 			return (0);
 		i++;
 	}
-	if (comma != 2 || str[i - 1] == ',')
+	if (comma != 2 || (i > 0 && str[i - 1] == ','))
 		return (0);
 	return (1);
 }
@@ -102,16 +102,16 @@ t_vec3	extract_rgb(t_arena *arena, char *str, char *msg)
 	char	*token;
 
 	token = ft_strtok(str, ",");
-	if (!float_in_range(ft_atof(token), 0, 255))
+	if (!float_in_range(safe_atof(arena, token), 0, 255))
 		free_and_exit_error(arena, msg);
-	vec.x = ft_atof(token) / 255;
+	vec.x = safe_atof(arena, token) / 255;
 	token = ft_strtok(NULL, ",");
-	if (!float_in_range(ft_atof(token), 0, 255))
+	if (!float_in_range(safe_atof(arena, token), 0, 255))
 		free_and_exit_error(arena, msg);
-	vec.y = ft_atof(token) / 255;
+	vec.y = safe_atof(arena, token) / 255;
 	token = ft_strtok(NULL, ",");
-	if (!float_in_range(ft_atof(token), 0, 255))
+	if (!float_in_range(safe_atof(arena, token), 0, 255))
 		free_and_exit_error(arena, msg);
-	vec.z = ft_atof(token) / 255;
+	vec.z = safe_atof(arena, token) / 255;
 	return (vec);
 }

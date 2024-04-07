@@ -70,4 +70,6 @@ int				float_in_range(float value, float min, float max);
 int				is_rgb(char *str);
 t_vec3			extract_rgb(t_arena *arena, char *str, char *msg);
 int				is_coordinates(char *str);
+float			safe_atof(t_arena *arena, char *str);
+int				safe_atoi(t_arena *arena, const char *nptr);
 #endif // !PARSING_H

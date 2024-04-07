@@ -45,17 +45,19 @@ t_camera	*find_camera(t_arena *arena, t_list *list, char *str)
 	str = (char *)tmp->data;
 	if (!is_coordinates(str))
 		free_and_exit_error(arena, "Invalid camera coordinates");
-	camera->center = (t_vec3){ft_atof(ft_strtok(str, ",")),
-		ft_atof(ft_strtok(NULL, ",")), ft_atof(ft_strtok(NULL, ","))};
+	camera->center = (t_vec3){safe_atof(arena, ft_strtok(str, ",")),
+		safe_atof(arena, ft_strtok(NULL, ",")), safe_atof(arena, ft_strtok(NULL, ","))};
 	if (!tmp->next)
 		free_and_exit_error(arena, "Invalid camera parameters");
 	str = (char *)tmp->next->data;
-	camera->look_at = (t_vec3){ft_atof(ft_strtok(str, ",")),
-		ft_atof(ft_strtok(NULL, ",")), ft_atof(ft_strtok(NULL, ","))};
+	if (!is_coordinates(str))
+		free_and_exit_error(arena, "Invalid camera direction");
+	camera->look_at = (t_vec3){safe_atof(arena, ft_strtok(str, ",")),
+		safe_atof(arena, ft_strtok(NULL, ",")), safe_atof(arena, ft_strtok(NULL, ","))};
 	if (!tmp->next || !tmp->next->next)
 		free_and_exit_error(arena, "Invalid camera parameters");
 	str = str_is_float(arena, (char *)tmp->next->next->data, "Invalid FOV");
-	camera->hfov = ft_atof(str);
+	camera->hfov = safe_atof(arena, str);
 	return (camera);
 }
 
@@ -73,7 +75,7 @@ t_ambient	*find_ambient(t_arena *arena, t_list *list, char *str)
 	if (!tmp)
 		free_and_exit_error(arena, "Invalid ambient parameters");
 	str = str_is_float(arena, (char *)tmp->data, "Invalid ambient ratio");
-	ambient->ratio = ft_atof(str);
+	ambient->ratio = safe_atof(arena, str);
 	if (!float_in_range(ambient->ratio, 0, 1))
 		free_and_exit_error(arena, "Invalid ambient ratio");
 	str = (char *)tmp->next->data;
@@ -90,7 +92,7 @@ t_light	*find_light2(t_arena *arena, t_list	*tmp, t_light *light)
 	char	*str;
 
 	str = str_is_float(arena, (char *)tmp->data, "Invalid light ratio");
-	light->ratio = ft_atof(str);
+	light->ratio = safe_atof(arena, str);
 	if (!float_in_range(light->ratio, 0, 1))
 		free_and_exit_error(arena, "Invalid light ratio");
 	if (!tmp->next)
@@ -118,8 +120,8 @@ t_light	*find_light(t_arena *arena, t_list *list, char *str)
 	str = (char *)tmp->data;
 	if (!is_coordinates(str))
 		free_and_exit_error(arena, "Invalid light coordinates");
-	light->origin = (t_vec3){ft_atof(ft_strtok(str, ",")),
-		ft_atof(ft_strtok(NULL, ",")), ft_atof(ft_strtok(NULL, ","))};
+	light->origin = (t_vec3){safe_atof(arena, ft_strtok(str, ",")),
+		safe_atof(arena, ft_strtok(NULL, ",")), safe_atof(arena, ft_strtok(NULL, ","))};
 	if (!tmp->next)
 		free_and_exit_error(arena, "Invalid light parameters");
 	tmp = tmp->next;

@@ -20,20 +20,20 @@ t_plane	*create_plane(t_arena *arena, char **params)
 	delimiter = ",";
 	plane = (t_plane *)arena_alloc(arena, sizeof(t_plane));
 	plane->apoint = (t_point3){
-		ft_atof(ft_strtok(params[0], delimiter)),
-		ft_atof(ft_strtok(NULL, delimiter)),
-		ft_atof(ft_strtok(NULL, delimiter))
+		safe_atof(arena, ft_strtok(params[0], delimiter)),
+		safe_atof(arena, ft_strtok(NULL, delimiter)),
+		safe_atof(arena, ft_strtok(NULL, delimiter))
 	};
-	plane->normal = (t_vec3){ft_atof(ft_strtok(params[1], delimiter)),
-		ft_atof(ft_strtok(NULL, delimiter)),
-		ft_atof(ft_strtok(NULL, delimiter))};
+	plane->normal = (t_vec3){safe_atof(arena, ft_strtok(params[1], delimiter)),
+		safe_atof(arena, ft_strtok(NULL, delimiter)),
+		safe_atof(arena, ft_strtok(NULL, delimiter))};
 	plane->normal = vec3_normalize(plane->normal);
 	if (!float_in_range(plane->normal.x, -1, 1) || !float_in_range(
 			plane->normal.y, -1, 1) || !float_in_range(plane->normal.z, -1, 1))
 		free_and_exit_error(arena, "Invalid plane normal vector");
-	plane->color = color_int(ft_atoi(ft_strtok(params[2], delimiter)),
-			ft_atoi(ft_strtok(NULL, delimiter)),
-			ft_atoi(ft_strtok(NULL, delimiter))
+	plane->color = color_int(safe_atoi(arena, ft_strtok(params[2], delimiter)),
+			safe_atoi(arena, ft_strtok(NULL, delimiter)),
+			safe_atoi(arena, ft_strtok(NULL, delimiter))
 			);
 	plane->bounce = NULL;
 	plane->hit_dist = &hit_plane_distance;

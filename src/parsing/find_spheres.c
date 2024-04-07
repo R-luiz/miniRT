@@ -21,15 +21,15 @@ t_sphere	*create_sphere(t_arena *arena, char **params)
 	delimiter = ",";
 	sphere = (t_sphere *)arena_alloc(arena, sizeof(t_sphere));
 	sphere->center = (t_point3){
-		ft_atof(ft_strtok(params[0], delimiter)),
-		ft_atof(ft_strtok(NULL, delimiter)),
-		ft_atof(ft_strtok(NULL, delimiter))
+		safe_atof(arena, ft_strtok(params[0], delimiter)),
+		safe_atof(arena, ft_strtok(NULL, delimiter)),
+		safe_atof(arena, ft_strtok(NULL, delimiter))
 	};
-	sphere->diameter = ft_atof(params[1]);
+	sphere->diameter = safe_atof(arena, params[1]);
 	sphere->color = color_int(
-			ft_atoi(ft_strtok(params[2], delimiter)),
-			ft_atoi(ft_strtok(NULL, delimiter)),
-			ft_atoi(ft_strtok(NULL, delimiter))
+			safe_atoi(arena, ft_strtok(params[2], delimiter)),
+			safe_atoi(arena, ft_strtok(NULL, delimiter)),
+			safe_atoi(arena, ft_strtok(NULL, delimiter))
 			);
 	sphere->bounce = NULL;
 	sphere->hit_dist = &hit_sphere_distance;
@@ -51,7 +51,7 @@ t_list	*get_sphere_params(t_arena *arena, t_list *tmp, t_list *spheres)
 	tmp = tmp->next;
 	params[1] = str_is_float(arena, (char *)tmp->data,
 			"Invalid sphere diameter");
-	if (!float_in_range(ft_atof(params[1]), 0, __FLT_MAX__))
+	if (!float_in_range(safe_atof(arena, params[1]), 0, __FLT_MAX__))
 		free_and_exit_error(arena, "Invalid sphere diameter");
 	tmp = tmp->next;
 	params[2] = (char *)tmp->data;

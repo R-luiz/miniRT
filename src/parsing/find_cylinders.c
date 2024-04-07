@@ -12,14 +12,14 @@
 
 #include "parsing.h"
 
-t_cylinder	*create_cy2(t_cylinder *cylinder, char *delimiter, char **params)
+t_cylinder	*create_cy2(t_arena *arena, t_cylinder *cylinder, char *delimiter, char **params)
 {
-	cylinder->diameter = ft_atof(params[2]);
-	cylinder->height = ft_atof(params[3]);
+	cylinder->diameter = safe_atof(arena, params[2]);
+	cylinder->height = safe_atof(arena, params[3]);
 	cylinder->color = color_int(
-			ft_atoi(ft_strtok(params[4], delimiter)),
-			ft_atoi(ft_strtok(NULL, delimiter)),
-			ft_atoi(ft_strtok(NULL, delimiter))
+			safe_atoi(arena, ft_strtok(params[4], delimiter)),
+			safe_atoi(arena, ft_strtok(NULL, delimiter)),
+			safe_atoi(arena, ft_strtok(NULL, delimiter))
 			);
 	cylinder->bounce = NULL;
 	cylinder->hit_dist = &hit_cylinder_distance;
@@ -35,32 +35,32 @@ t_cylinder	*create_cylinder(t_arena *arena, char **params)
 	delimiter = ",";
 	cylinder = (t_cylinder *)arena_alloc(arena, sizeof(t_cylinder));
 	cylinder->center = (t_point3){
-		ft_atof(ft_strtok(params[0], delimiter)),
-		ft_atof(ft_strtok(NULL, delimiter)),
-		ft_atof(ft_strtok(NULL, delimiter))
+		safe_atof(arena, ft_strtok(params[0], delimiter)),
+		safe_atof(arena, ft_strtok(NULL, delimiter)),
+		safe_atof(arena, ft_strtok(NULL, delimiter))
 	};
 	cylinder->normal = (t_vec3){
-		ft_atof(ft_strtok(params[1], delimiter)),
-		ft_atof(ft_strtok(NULL, delimiter)),
-		ft_atof(ft_strtok(NULL, delimiter))
+		safe_atof(arena, ft_strtok(params[1], delimiter)),
+		safe_atof(arena, ft_strtok(NULL, delimiter)),
+		safe_atof(arena, ft_strtok(NULL, delimiter))
 	};
 	if (cylinder->normal.x < -1 || cylinder->normal.x > 1
 		|| cylinder->normal.y < -1 || cylinder->normal.y > 1
 		|| cylinder->normal.z < -1 || cylinder->normal.z > 1)
 		free_and_exit_error(arena, "Invalid cylinder normal vector");
-	return (create_cy2(cylinder, delimiter, params));
+	return (create_cy2(arena, cylinder, delimiter, params));
 }
 
 t_list	*get_cy_params2(t_arena *ar, t_list *tmp, t_list *cyl, char **params)
 {
 	t_cylinder	*cylinder;
 
-	if (!float_in_range(ft_atof(params[2]), 0, __FLT_MAX__))
+	if (!float_in_range(safe_atof(ar, params[2]), 0, __FLT_MAX__))
 		free_and_exit_error(ar, "Invalid cylinder diameter");
 	tmp = tmp->next;
 	params[3] = str_is_float(ar, (char *)tmp->data,
 			"Invalid cylinder height");
-	if (!float_in_range(ft_atof(params[3]), 0, __FLT_MAX__))
+	if (!float_in_range(safe_atof(ar, params[3]), 0, __FLT_MAX__))
 		free_and_exit_error(ar, "Invalid cylinder height");
 	tmp = tmp->next;
 	params[4] = (char *)tmp->data;

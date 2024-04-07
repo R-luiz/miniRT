@@ -18,13 +18,13 @@ int	basic_check(char *str, int i, int *comma, int *dot)
 		*(comma) += 1;
 	if (str[i] == '.')
 		*(dot) += 1;
-	if (str[i] == ',' && str[i + 1] == ',')
+	if (str[i] == ',' && str[i + 1] && str[i + 1] == ',')
 		return (0);
-	if (str[i] == '.' && str[i + 1] == '.')
+	if (str[i] == '.' && str[i + 1] && str[i + 1] == '.')
 		return (0);
-	if (str[i] == '.' && str[i + 1] == ',')
+	if (str[i] == '.' && str[i + 1] && str[i + 1] == ',')
 		return (0);
-	if (str[i] == ',' && str[i + 1] == '.')
+	if (str[i] == ',' && str[i + 1] && str[i + 1] == '.')
 		return (0);
 	return (1);
 }
@@ -49,11 +49,25 @@ int	is_coordinates(char *str)
 		if (dot > 3 || comma > 2 || (str[i] != ',' && str[i] != '-'
 				&& str[i] != '.' && (str[i] < '0' || str[i] > '9')))
 			return (0);
-		if (str[i] == '-' && str[i - 1] != ',' && (i != 0 && str[i - 1] != ' '))
+		if (i > 0 && str[i - 1] != ' ' && str[i] == '-' && str[i - 1] != ',')
 			return (0);
 		i++;
 	}
-	if (comma != 2 || dot > 3 || str[i - 1] == ',')
+	if (comma != 2 || dot > 3 || (i > 0 && str[i - 1] == ','))
 		return (0);
 	return (1);
+}
+
+float	safe_atof(t_arena *arena, char *str)
+{
+	if (!str)
+		free_and_exit_error(arena, "Invalid input");
+	return (ft_atof(str));
+}
+
+int	safe_atoi(t_arena *arena, const char *nptr)
+{
+	if (!nptr)
+		free_and_exit_error(arena, "Invalid input");
+	return (ft_atoi(nptr));
 }
