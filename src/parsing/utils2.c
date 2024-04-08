@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 19:18:42 by vmalassi          #+#    #+#             */
-/*   Updated: 2024/04/01 17:17:09 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:04:30 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,21 @@ int	safe_atoi(t_arena *arena, const char *nptr)
 	if (!nptr)
 		free_and_exit_error(arena, "Invalid input");
 	return (ft_atoi(nptr));
+}
+
+t_list	*find_id_line(t_list *list, char *id)
+{
+	t_list	*tmp;
+
+	tmp = list->next;
+	while (tmp)
+	{
+		if (ft_strcmp(((t_list *)tmp->data)->data, id) == 0)
+		{
+			tmp = tmp->data;
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	return (tmp);
 }

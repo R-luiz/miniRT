@@ -6,7 +6,7 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:23 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/30 14:32:08 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:04:17 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,5 @@ t_vec3			extract_rgb(t_arena *arena, char *str, char *msg);
 int				is_coordinates(char *str);
 float			safe_atof(t_arena *arena, char *str);
 int				safe_atoi(t_arena *arena, const char *nptr);
+t_list			*find_id_line(t_list *list, char *id);
 #endif // !PARSING_H

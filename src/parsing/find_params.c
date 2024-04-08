@@ -6,28 +6,29 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:47:05 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/30 12:44:48 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:03:54 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "camera/camera.h"
 
-t_list	*find_id_line(t_list *list, char *id)
+t_camera	*find_camera2(t_arena *arena, t_list *tmp, char *str,
+t_camera *camera)
 {
-	t_list	*tmp;
-
-	tmp = list->next;
-	while (tmp)
-	{
-		if (ft_strcmp(((t_list *)tmp->data)->data, id) == 0)
-		{
-			tmp = tmp->data;
-			break ;
-		}
-		tmp = tmp->next;
-	}
-	return (tmp);
+	if (!tmp->next)
+		free_and_exit_error(arena, "Invalid camera parameters");
+	str = (char *)tmp->next->data;
+	if (!is_coordinates(str))
+		free_and_exit_error(arena, "Invalid camera direction");
+	camera->look_at = (t_vec3){safe_atof(arena, ft_strtok(str, ",")),
+		safe_atof(arena, ft_strtok(NULL, ",")),
+		safe_atof(arena, ft_strtok(NULL, ","))};
+	if (!tmp->next || !tmp->next->next)
+		free_and_exit_error(arena, "Invalid camera parameters");
+	str = str_is_float(arena, (char *)tmp->next->next->data, "Invalid FOV");
+	camera->hfov = safe_atof(arena, str);
+	return (camera);
 }
 
 t_camera	*find_camera(t_arena *arena, t_list *list, char *str)
@@ -46,19 +47,9 @@ t_camera	*find_camera(t_arena *arena, t_list *list, char *str)
 	if (!is_coordinates(str))
 		free_and_exit_error(arena, "Invalid camera coordinates");
 	camera->center = (t_vec3){safe_atof(arena, ft_strtok(str, ",")),
-		safe_atof(arena, ft_strtok(NULL, ",")), safe_atof(arena, ft_strtok(NULL, ","))};
-	if (!tmp->next)
-		free_and_exit_error(arena, "Invalid camera parameters");
-	str = (char *)tmp->next->data;
-	if (!is_coordinates(str))
-		free_and_exit_error(arena, "Invalid camera direction");
-	camera->look_at = (t_vec3){safe_atof(arena, ft_strtok(str, ",")),
-		safe_atof(arena, ft_strtok(NULL, ",")), safe_atof(arena, ft_strtok(NULL, ","))};
-	if (!tmp->next || !tmp->next->next)
-		free_and_exit_error(arena, "Invalid camera parameters");
-	str = str_is_float(arena, (char *)tmp->next->next->data, "Invalid FOV");
-	camera->hfov = safe_atof(arena, str);
-	return (camera);
+		safe_atof(arena, ft_strtok(NULL, ",")),
+		safe_atof(arena, ft_strtok(NULL, ","))};
+	return (find_camera2(arena, tmp, str, camera));
 }
 
 t_ambient	*find_ambient(t_arena *arena, t_list *list, char *str)
@@ -121,7 +112,8 @@ t_light	*find_light(t_arena *arena, t_list *list, char *str)
 	if (!is_coordinates(str))
 		free_and_exit_error(arena, "Invalid light coordinates");
 	light->origin = (t_vec3){safe_atof(arena, ft_strtok(str, ",")),
-		safe_atof(arena, ft_strtok(NULL, ",")), safe_atof(arena, ft_strtok(NULL, ","))};
+		safe_atof(arena, ft_strtok(NULL, ",")),
+		safe_atof(arena, ft_strtok(NULL, ","))};
 	if (!tmp->next)
 		free_and_exit_error(arena, "Invalid light parameters");
 	tmp = tmp->next;

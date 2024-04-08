@@ -6,13 +6,14 @@
 /*   By: vmalassi <vmalassi@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 17:49:50 by rluiz             #+#    #+#             */
-/*   Updated: 2024/03/30 14:10:14 by vmalassi         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:00:10 by vmalassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-t_cylinder	*create_cy2(t_arena *arena, t_cylinder *cylinder, char *delimiter, char **params)
+t_cylinder	*create_cy2(t_arena *arena, t_cylinder *cylinder, char *delimiter,
+char **params)
 {
 	cylinder->diameter = safe_atof(arena, params[2]);
 	cylinder->height = safe_atof(arena, params[3]);
